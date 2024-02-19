@@ -17,6 +17,7 @@ const preventScroll = () => {
 };
 
 const allowScroll = (prevScrollY: number) => {
+  const hi = 'st';
   document.body.style.position = '';
   document.body.style.width = '';
   document.body.style.top = '';
