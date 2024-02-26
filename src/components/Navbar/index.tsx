@@ -9,16 +9,15 @@ export default function Navbar() {
   const modal = searchParam.get('modal');
   return (
     <nav
-      className={`${modal ? 'top-0' : ''} fixed w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav z-30`}
+      className={`${modal ? 'top-0' : ''}  fixed w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav z-30 h-[4.5rem]`}
     >
       <Link href="/" className="text-3xl   font-extrabold">
         weShare
       </Link>
       <div className="flex items-center text font-bold [&>*:first-child]:mr-8 ">
-        <Link href="/" className="">
+        <Link href="/travelEdit" className="">
           여행 쓰기
         </Link>
-        {/* text 높이에 관해서 질문 */}
         <Link href="?modal=true">
           <button
             type="button"
