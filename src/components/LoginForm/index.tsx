@@ -8,7 +8,7 @@ export default function LoginForm() {
   const [showSignUp, setShowSignUp] = useState<boolean>(false);
 
   return (
-    <div className=" bg-white rounded-[4rem] border-2 border-solid">
+    <div className="  bg-white rounded-[4rem]">
       {showSignUp ? (
         <SignUp setShowSignUp={setShowSignUp} />
       ) : (
