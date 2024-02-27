@@ -18,7 +18,6 @@ export default function TravelEdit() {
         />
         <TravelEditList />
       </form> */}
-      l
       <TravelEditListItemForm />
     </div>
   );

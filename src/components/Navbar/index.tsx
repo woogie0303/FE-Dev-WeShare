@@ -9,7 +9,7 @@ export default function Navbar() {
   const modal = searchParam.get('modal');
   return (
     <nav
-      className={`${modal ? 'top-0' : ''}  fixed w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav z-30 h-[4.5rem]`}
+      className={`${modal ? 'top-0' : ''}   w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav z-30 h-[4.5rem]`}
     >
       <Link href="/" className="text-3xl   font-extrabold">
         weShare

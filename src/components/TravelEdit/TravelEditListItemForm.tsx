@@ -1,12 +1,10 @@
 import React from 'react';
+import TravelPlaceSearch from './TravelPlaceSearch';
 
 export default function TravelEditListItemForm() {
   return (
-    <form className="bg-third flex flex-col px-10 h-full p-4 font-bold ">
-      <label htmlFor="location" className="mb-2">
-        장소
-      </label>
-      <input className="p-2  mb-4 font-normal rounded-lg" id="location" />
+    <form className="bg-third flex flex-col px-10 h-full p-4 font-bold">
+      <TravelPlaceSearch />
       <label htmlFor="hour" className="mb-2">
         시간
       </label>

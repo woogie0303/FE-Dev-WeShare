@@ -22,7 +22,7 @@ export default function RootLayout({
           <Script
             type="text/javascript"
             strategy="beforeInteractive"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=031ced09342b5f52a08232da53f03338&autoload=false"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=031ced09342b5f52a08232da53f03338&autoload=false&libraries=services"
           />
           <Navbar />
           {/* Layout UI */}
