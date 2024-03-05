@@ -49,3 +49,18 @@ interface SearchPlace {
   x: string;
   y: string;
 }
+
+interface SelectedPlaceType {
+  title: string;
+  longitude: string;
+  latitude: string;
+}
+
+interface EditListItem {
+  title: string;
+  time: string;
+  memo: string;
+  expense: number;
+  latitude: string;
+  longitude: string;
+}
