@@ -64,3 +64,8 @@ interface EditListItem {
   latitude: string;
   longitude: string;
 }
+
+interface VisitDatesType<T> {
+  travelDate: string;
+  visitPlaces: T[] | undefined;
+}
