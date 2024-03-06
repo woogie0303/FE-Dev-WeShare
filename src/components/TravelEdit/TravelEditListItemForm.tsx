@@ -1,16 +1,26 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import { TimePicker } from 'antd';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
 type Prop = {
-  setEditListItem: React.Dispatch<React.SetStateAction<EditListItem>>;
+  visitDatesArr: VisitDatesType<EditListItem>[];
+  activeVisitDate: string;
+  setVisitDatesArr: React.Dispatch<
+    React.SetStateAction<VisitDatesType<EditListItem>[] | undefined>
+  >;
+  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function TravelEditListItemForm({ setEditListItem }: Prop) {
-  const [time, setTime] = useState<Dayjs | null>(null);
+export default function TravelEditListItemForm({
+  visitDatesArr,
+  setVisitDatesArr,
+  activeVisitDate,
+  setShowEditForm,
+}: Prop) {
+  const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
     SelectedPlaceType | undefined
   >();
@@ -18,38 +28,63 @@ export default function TravelEditListItemForm({ setEditListItem }: Prop) {
   const memoRef = useRef<string>();
   const sendTravelEditListItem = () => {
     if (selectedPlace && time && costRef.current && memoRef.current) {
-      setEditListItem({
+      const copyVisitDatesArr = visitDatesArr;
+      const findTravelDateIndex = visitDatesArr.findIndex(
+        (visitDate) => visitDate.travelDate === activeVisitDate,
+      );
+      const editItemList: EditListItem = {
         title: selectedPlace.title,
-        time: `${time.hour()}:${time.minute()}`,
+        time,
         memo: memoRef.current,
         expense: Number(costRef.current),
         latitude: selectedPlace.latitude,
         longitude: selectedPlace.longitude,
+      };
+
+      copyVisitDatesArr[findTravelDateIndex].visitPlaces.push(editItemList);
+      copyVisitDatesArr[findTravelDateIndex].visitPlaces.sort((a, b) => {
+        const timeRegex = /(\d+):(\d+)\s*(AM|PM)/;
+        const preMatch = a.time.match(timeRegex);
+        const curMatch = b.time.match(timeRegex);
+
+        const [, preHoursStr, preMinutesStr] = preMatch as RegExpMatchArray;
+        const [, curHoursStr, curMinutesStr] = curMatch as RegExpMatchArray;
+
+        const totalPreMin = Number(preHoursStr) * 60 + Number(preMinutesStr);
+        const totalCurMin = Number(curHoursStr) * 60 + Number(curMinutesStr);
+
+        return totalPreMin - totalCurMin;
       });
+
+      setVisitDatesArr(copyVisitDatesArr);
     }
+    setShowEditForm(false);
   };
 
   return (
-    <form className="bg-third flex flex-col px-10 h-full p-4 font-bold">
+    <form className="bg-third flex flex-col px-10 basis-1/2 h-full p-4 font-bold">
       <TravelPlaceSearch
         selectedPlace={selectedPlace}
         setSelectedPlace={setSelectedPlace}
       />
-      <label htmlFor="hour" className="mb-2">
-        시간
-      </label>
-      <DesktopTimePicker
-        sx={{
-          width: '10rem',
-          marginBottom: '1rem',
+      <p className="mb-2">시간</p>
+      <TimePicker
+        onChange={(newValue) => {
+          if (newValue) {
+            const timeFormat = newValue.format('HH:mm A');
+            setTime(timeFormat);
+          }
         }}
-        onChange={(newValue) => setTime(newValue)}
-        defaultValue={dayjs('2022-04-17T15:30')}
+        defaultValue={dayjs('00:00', 'HH:mm')}
+        format="HH:mm"
+        className="mb-2 w-[10rem]"
+        size="large"
       />
       <label htmlFor="cost" className="mb-2">
         비용
       </label>
       <input
+        id="cost"
         type="number"
         onChange={(e) => {
           costRef.current = e.target.value;
@@ -78,7 +113,11 @@ export default function TravelEditListItemForm({ setEditListItem }: Prop) {
         >
           추가하기
         </button>
-        <button type="button" className="bg-primary p-2 rounded-lg text-white">
+        <button
+          onClick={() => setShowEditForm(false)}
+          type="button"
+          className="bg-primary p-2 rounded-lg text-white"
+        >
           취소
         </button>
       </div>

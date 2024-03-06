@@ -1,9 +1,13 @@
 import Image from 'next/image';
 import React from 'react';
 
-export default function TravelEditListItem() {
+type Props = {
+  activeVisitPlace: EditListItem;
+};
+
+export default function TravelEditListItem({ activeVisitPlace }: Props) {
   return (
-    <div className=" flex mx-8 p-4 gap-4  shadow-travelEditItem items-center rounded-lg">
+    <div className=" flex mx-8 p-4 gap-4 mb-6  shadow-travelEditItem items-center rounded-lg">
       {/* image */}
       <div className="relative w-[6rem] h-[5rem] ">
         <Image
@@ -16,11 +20,11 @@ export default function TravelEditListItem() {
       {/* Detail */}
       <div className="w-full font-bold">
         <div className="flex justify-between mb-4">
-          <p>충청도 들판</p>
-          <p>9:00 AM</p>
+          <p>{activeVisitPlace.title}</p>
+          <p>{activeVisitPlace.time}</p>
         </div>
         <div className="flex justify-between items-center">
-          <p>2000원</p>
+          <p>{activeVisitPlace.expense}원</p>
           <div className="">
             <button
               type="button"

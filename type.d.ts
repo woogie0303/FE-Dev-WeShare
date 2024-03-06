@@ -67,5 +67,5 @@ interface EditListItem {
 
 interface VisitDatesType<T> {
   travelDate: string;
-  visitPlaces: T[] | undefined;
+  visitPlaces: T[];
 }

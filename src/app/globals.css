@@ -42,3 +42,6 @@ input:focus {
 textarea:focus {
   outline: none;
 }
+.ant-btn-primary {
+  color: gray;
+}

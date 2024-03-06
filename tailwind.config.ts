@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable global-require */
 /* cSpell:ignore tailwindcss */
 
 /** @type {import('tailwindcss').Config} */
@@ -25,5 +27,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };
