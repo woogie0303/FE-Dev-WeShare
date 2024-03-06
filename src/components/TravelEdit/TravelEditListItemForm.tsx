@@ -62,7 +62,7 @@ export default function TravelEditListItemForm({
   };
 
   return (
-    <form className="bg-third flex flex-col px-10 basis-1/2 h-full p-4 font-bold">
+    <form className="bg-third flex flex-col py-4 px-10 basis-1/2 h-full  font-bold">
       <TravelPlaceSearch
         selectedPlace={selectedPlace}
         setSelectedPlace={setSelectedPlace}

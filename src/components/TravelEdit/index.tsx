@@ -76,9 +76,13 @@ export default function TravelEdit() {
             <div className="flex justify-between items-center px-2 text-lg mb-8 font-bold">
               <ul className=" w-[20rem] flex text-center space-x-4 whitespace-nowrap overflow-x-auto  scrollbar-hide">
                 {visitDatesArr.map((visitDate, i) => (
+                  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
                   <li
                     key={visitDate.travelDate}
                     className={`${activeVisitDate === visitDate.travelDate ? 'text-[#508AFF] border-b-[6px]  border-[#508AFF]' : 'text-third'} cursor-pointer basis-full py-1`}
+                    onClick={() => {
+                      setActiveVisitDate(visitDate.travelDate);
+                    }}
                   >
                     {i + 1}일차
                   </li>
