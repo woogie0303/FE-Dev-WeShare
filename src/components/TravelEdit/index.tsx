@@ -6,6 +6,7 @@ import {
   TrashIcon,
   PaperAirplaneIcon,
   BookmarkSquareIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { DateRangeType, RangePicker, dayjs } from '@/utils/dayjs';
 import TravelEditListItem from './TravelEditListItem';
@@ -16,21 +17,24 @@ export default function TravelEdit() {
     useState<VisitDatesType<EditListItem>[]>();
   const [activeVisitDate, setActiveVisitDate] = useState<string>();
   const [activeVisitPlaces, setActiveVisitPlaces] = useState<EditListItem[]>();
-  const [showEditForm, setShowEditForm] = useState<boolean>(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(true);
 
   const handleDateRange = (values: DateRangeType) => {
     const startDate = dayjs(values[0]);
     const endDate = dayjs(values[1]);
-
-    let currentDate = startDate;
     const dateInRange = [];
+    let currentDate = startDate;
+
     while (currentDate.isSameOrBefore(endDate)) {
       const dateToString = currentDate.format('YYYY-MM-DD');
       dateInRange.push({ travelDate: dateToString, visitPlaces: [] });
       currentDate = currentDate.add(1, 'day');
     }
+
     setVisitDatesArr(dateInRange);
     setActiveVisitDate(dateInRange[0].travelDate);
+    setShowCalendar(false);
   };
 
   useEffect(() => {
@@ -60,15 +64,31 @@ export default function TravelEdit() {
           className="border-secondary border-b-2 text-2xl  mb-5 py-1 placeholder:text-third "
           placeholder="여행 제목을 입력해주세요"
         />
-        <RangePicker
-          placeholder={['출발', '도착']}
-          size="middle"
-          className="w-[20rem]"
-          onChange={(values) => {
-            handleDateRange(values);
-          }}
-        />
-
+        {showCalendar ? (
+          <RangePicker
+            placeholder={['출발', '도착']}
+            size="middle"
+            className="w-[20rem]"
+            onChange={(values) => {
+              handleDateRange(values);
+            }}
+          />
+        ) : (
+          <div className="flex text-[#508AFF] font-bold items-center justify-center bg-third w-max gap-2  px-4 py-1 rounded-xl cursor-default ">
+            <p>{visitDatesArr && visitDatesArr[0].travelDate}</p>
+            <p className="">~</p>
+            <p>
+              {visitDatesArr &&
+                visitDatesArr[visitDatesArr.length - 1].travelDate}
+            </p>
+            <XMarkIcon
+              className="w-5 cursor-pointer"
+              onClick={() => {
+                setShowCalendar(true);
+              }}
+            />
+          </div>
+        )}
         {/* Day Travel Edit List */}
         {visitDatesArr && activeVisitDate && (
           <div className="border-third border-2 mt-4 px-2 py-4  h-full">
@@ -79,7 +99,7 @@ export default function TravelEdit() {
                   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
                   <li
                     key={visitDate.travelDate}
-                    className={`${activeVisitDate === visitDate.travelDate ? 'text-[#508AFF] border-b-[6px]  border-[#508AFF]' : 'text-third'} cursor-pointer basis-full py-1`}
+                    className={`${activeVisitDate === visitDate.travelDate ? 'text-[#508AFF] border-b-[6px]  border-[#508AFF]' : 'text-third'} cursor-pointer py-1 w-10`}
                     onClick={() => {
                       setActiveVisitDate(visitDate.travelDate);
                     }}

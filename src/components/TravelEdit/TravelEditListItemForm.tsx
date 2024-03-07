@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { TimePicker } from 'antd';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
-type Prop = {
+type Props = {
   visitDatesArr: VisitDatesType<EditListItem>[];
   activeVisitDate: string;
   setVisitDatesArr: React.Dispatch<
@@ -19,7 +19,7 @@ export default function TravelEditListItemForm({
   setVisitDatesArr,
   activeVisitDate,
   setShowEditForm,
-}: Prop) {
+}: Props) {
   const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
     SelectedPlaceType | undefined
@@ -62,7 +62,7 @@ export default function TravelEditListItemForm({
   };
 
   return (
-    <form className="bg-third flex flex-col py-4 px-10 basis-1/2 h-full  font-bold">
+    <form className="bg-third flex flex-col py-4 px-10 basis-1/2 h-full font-bold">
       <TravelPlaceSearch
         selectedPlace={selectedPlace}
         setSelectedPlace={setSelectedPlace}
