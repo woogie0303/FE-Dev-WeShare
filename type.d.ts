@@ -6,7 +6,7 @@ interface AuthState {
 interface LoginForm {
   email: string;
   password: string;
-  birth?: string;
+  birthDate?: string;
 }
 
 interface OauthLogin {
@@ -68,4 +68,9 @@ interface EditListItem {
 interface VisitDatesType<T> {
   travelDate: string;
   visitPlaces: T[];
+}
+
+interface MapMarkerType {
+  latitude: string;
+  longitude: string;
 }

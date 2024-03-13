@@ -7,7 +7,7 @@ import type { RootState } from '../store';
 import { logout, setCredentials } from '../auth/auth.slice';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: ' http://localhost:5174',
+  baseUrl: 'https://uhanuu.site',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const { token } = (getState() as RootState).auth;
@@ -15,6 +15,7 @@ const baseQuery = fetchBaseQuery({
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }
+
     return headers;
   },
 });

@@ -24,7 +24,7 @@
       "@/components/*": ["src/components/*"]
     },
 
-    "types": ["jest", "node"]
+    "types": ["jest", "node", "kakao.maps.d.ts"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

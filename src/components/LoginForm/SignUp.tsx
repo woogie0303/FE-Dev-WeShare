@@ -8,11 +8,7 @@ import {
   useState,
 } from 'react';
 import ErrorMessage from '@/Error/ErrorMessage';
-import { isFetchBaseQueryError } from '@/Error/helpers';
-import {
-  useCheckEmailMutation,
-  useSignUpMutation,
-} from '@/store/auth/authApi.slice';
+import { useSignUpMutation } from '@/store/auth/authApi.slice';
 
 interface Props {
   setShowSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,7 +27,6 @@ function SignUp({ setShowSignUp }: Props) {
   const birthInput = useInput('birth');
 
   const [signUp, { isSuccess }] = useSignUpMutation();
-  const [checkEmail] = useCheckEmailMutation();
 
   const handleDuplicateBtn: MouseEventHandler = async () => {
     try {
@@ -41,15 +36,19 @@ function SignUp({ setShowSignUp }: Props) {
         return;
       }
 
-      await checkEmail({ emailInput: emailInput.inputValue }).unwrap();
+      const hi = await fetch(
+        `https://uhanuu.site/api/v1/auth/signup/duplicate-email?email=${emailInput.inputValue}`,
+      );
+
+      if (!hi.ok) {
+        throw new Error('에러입니다');
+      }
 
       setEmailDoubleCheck(true);
       setEmailErrorMsg('');
     } catch (err) {
-      if (isFetchBaseQueryError(err)) {
-        setEmailDoubleCheck(false);
-        setEmailErrorMsg('중복된 이메일 입니다.');
-      }
+      setEmailDoubleCheck(false);
+      setEmailErrorMsg('중복된 이메일 입니다.');
     }
   };
 
@@ -60,7 +59,7 @@ function SignUp({ setShowSignUp }: Props) {
       await signUp({
         email: emailInput.inputValue,
         password: passwordInput.inputValue,
-        birth: birthInput.inputValue,
+        birthDate: birthInput.inputValue,
       });
     } catch (err) {
       throw new Error('lksdjf');
@@ -87,7 +86,7 @@ function SignUp({ setShowSignUp }: Props) {
       setEmailDoubleCheck(false);
       setEmailErrorMsg('다시 중복 확인 해주세요');
     }
-  }, [emailDoubleCheck, emailInput.inputValue]);
+  }, [emailInput.inputValue]);
 
   return isSuccess ? (
     <div className="flex w-[25rem] mx-auto flex-col items-center justify-evenly">

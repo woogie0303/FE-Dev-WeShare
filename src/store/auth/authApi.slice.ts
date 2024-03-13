@@ -4,27 +4,26 @@ const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation<ResponseLogin, LoginForm | OauthLogin>({
       query: (credential) => ({
-        url: '/auth/signin',
+        url: '/api/v1/auth/signin',
         method: 'POST',
         body: { ...credential },
       }),
     }),
     signUp: builder.mutation<void, LoginForm>({
       query: (credential) => ({
-        url: '/auth/signup',
+        url: '/api/v1/auth/signup',
         method: 'POST',
         body: { ...credential },
       }),
     }),
-    checkEmail: builder.mutation<void, EmailInput>({
+    checkEmail: builder.query<void, EmailInput>({
       query: (credential) => ({
-        url: '/auth/check',
-        method: 'POST',
-        body: { ...credential },
+        url: `/api/v1/auth/signup/duplicate-email?email=${credential}`,
+        method: 'GET',
       }),
     }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation, useCheckEmailMutation } =
+export const { useSignInMutation, useSignUpMutation, useCheckEmailQuery } =
   authApiSlice;
