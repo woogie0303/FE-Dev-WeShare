@@ -1,10 +1,9 @@
-import { setMarkerLocation } from '@/store/Travel/TravelMap.slice';
+import { setPreviewMarkerLocation } from '@/store/Travel/TravelMap.slice';
 import { useAppDispatch } from '@/store/hook';
 import React from 'react';
 
 type Props = {
-  autoList: SearchPlace;
-  setShowAutoCompleteList: React.Dispatch<React.SetStateAction<boolean>>;
+  autoList: kakao.maps.services.PlacesSearchResultItem;
   setSelectedPlace: React.Dispatch<
     React.SetStateAction<SelectedPlaceType | undefined>
   >;
@@ -12,17 +11,20 @@ type Props = {
 
 export default function TravelPlaceAutoItem({
   autoList,
-  setShowAutoCompleteList,
+
   setSelectedPlace,
 }: Props) {
   const dispatch = useAppDispatch();
-  const sendMapMarkerLocation = (autoItem: SearchPlace): void => {
+  const sendMapMarkerLocation = (
+    autoItem: kakao.maps.services.PlacesSearchResultItem,
+  ): void => {
     const { x, y } = autoItem;
 
-    dispatch(setMarkerLocation({ longitude: x, latitude: y }));
+    dispatch(setPreviewMarkerLocation({ longitude: x, latitude: y }));
   };
-  const handleSelectedQuery = (autoItem: SearchPlace): void => {
-    setShowAutoCompleteList(false);
+  const handleSelectedQuery = (
+    autoItem: kakao.maps.services.PlacesSearchResultItem,
+  ): void => {
     setSelectedPlace({
       title: autoItem.place_name,
       longitude: autoItem.x,
@@ -35,7 +37,12 @@ export default function TravelPlaceAutoItem({
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
     <li
       className="p-5 group cursor-pointer  hover:bg-[#6785ff] hover:text-white flex justify-between items-center"
-      onClick={() => handleSelectedQuery(autoList)}
+      onMouseDown={(e) => {
+        e.preventDefault();
+      }}
+      onClick={() => {
+        handleSelectedQuery(autoList);
+      }}
     >
       <div className="">
         <p className="mb-2">{autoList.place_name}</p>
@@ -47,7 +54,6 @@ export default function TravelPlaceAutoItem({
         onClick={(e) => {
           e.stopPropagation();
           sendMapMarkerLocation(autoList);
-          setSelectedPlace(undefined);
         }}
       >
         미리보기

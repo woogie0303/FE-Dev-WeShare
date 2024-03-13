@@ -3,33 +3,29 @@
 import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { TimePicker } from 'antd';
+import { useAppDispatch } from '@/store/hook';
+import { resetMarkerLocation } from '@/store/Travel/TravelMap.slice';
+import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
-type Props = {
-  visitDatesArr: VisitDatesType<EditListItem>[];
-  activeVisitDate: string;
-  setVisitDatesArr: React.Dispatch<
-    React.SetStateAction<VisitDatesType<EditListItem>[] | undefined>
-  >;
-  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function TravelEditListItemForm({
-  visitDatesArr,
-  setVisitDatesArr,
-  activeVisitDate,
-  setShowEditForm,
-}: Props) {
+export default function TravelEditListItemForm() {
+  const {
+    travelScheduleArr,
+    setTravelScheduleArr,
+    activeVisitDate,
+    setShowEditForm,
+  } = useTravelScheduleContext();
   const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
     SelectedPlaceType | undefined
   >();
   const costRef = useRef<string>();
   const memoRef = useRef<string>();
+  const dispatch = useAppDispatch();
   const sendTravelEditListItem = () => {
     if (selectedPlace && time && costRef.current && memoRef.current) {
-      const copyVisitDatesArr = visitDatesArr;
-      const findTravelDateIndex = visitDatesArr.findIndex(
+      const copyVisitDatesArr = [...travelScheduleArr];
+      const findTravelDateIndex = copyVisitDatesArr.findIndex(
         (visitDate) => visitDate.travelDate === activeVisitDate,
       );
       const editItemList: EditListItem = {
@@ -56,9 +52,10 @@ export default function TravelEditListItemForm({
         return totalPreMin - totalCurMin;
       });
 
-      setVisitDatesArr(copyVisitDatesArr);
+      setTravelScheduleArr(copyVisitDatesArr);
     }
     setShowEditForm(false);
+    dispatch(resetMarkerLocation());
   };
 
   return (
@@ -104,7 +101,7 @@ export default function TravelEditListItemForm({
       />
       <div className="self-end mt-4">
         <button
-          type="submit"
+          type="button"
           className="mr-2 bg-primary p-2 rounded-lg text-white"
           onClick={(e) => {
             e.preventDefault();

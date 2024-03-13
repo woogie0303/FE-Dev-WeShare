@@ -21,22 +21,20 @@ export default function TravelPlaceSearch({
   selectedPlace,
   setSelectedPlace,
 }: Props) {
-  const [autoCompleteLists, setAutoCompleteLists] = useState<SearchPlace[]>([]);
+  const [autoCompleteLists, setAutoCompleteLists] =
+    useState<kakao.maps.services.PlacesSearchResult>();
   const [searchQuery, setSearchQuery] = useState<string>();
-  const [showAutoCompleteList, setShowAutoCompleteList] = useState(false);
   const previewMarkerLocation = useAppSelector(selectPreviewMarker);
   const dispatch = useAppDispatch();
   const debounceQuery = useDebounceSearchQuery(searchQuery, 500);
 
   useEffect(() => {
     if (debounceQuery) {
-      const ps = new window.kakao.maps.services.Places();
-      const placeSearchDB = (data: SearchPlace[]) => {
-        setAutoCompleteLists(data);
-        setShowAutoCompleteList(true);
-      };
+      const ps = new kakao.maps.services.Places();
 
-      ps.keywordSearch(debounceQuery, placeSearchDB);
+      ps.keywordSearch(debounceQuery, (data) => {
+        setAutoCompleteLists(data);
+      });
     }
   }, [debounceQuery]);
 
@@ -55,6 +53,7 @@ export default function TravelPlaceSearch({
               className="w-5  inline cursor-pointer"
               onClick={() => {
                 dispatch(resetMarkerLocation());
+                setSelectedPlace(undefined);
               }}
             />
           </div>
@@ -67,13 +66,16 @@ export default function TravelPlaceSearch({
             autoComplete="off"
             onChange={(e) => {
               setSearchQuery(e.target.value);
-              setShowAutoCompleteList(false);
+            }}
+            onBlur={(e) => {
+              if (!e.relatedTarget) {
+                setAutoCompleteLists(undefined);
+              }
             }}
           />
-          {showAutoCompleteList && (
+          {autoCompleteLists && (
             <TravelPlaceAutoList
               autoCompleteLists={autoCompleteLists}
-              setShowAutoCompleteList={setShowAutoCompleteList}
               setSelectedPlace={setSelectedPlace}
             />
           )}

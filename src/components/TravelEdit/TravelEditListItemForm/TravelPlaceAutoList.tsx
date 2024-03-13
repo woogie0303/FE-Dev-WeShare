@@ -2,8 +2,7 @@ import React from 'react';
 import TravelPlaceAutoItem from './TravelPlaceAutoItem';
 
 type Props = {
-  autoCompleteLists: SearchPlace[];
-  setShowAutoCompleteList: React.Dispatch<React.SetStateAction<boolean>>;
+  autoCompleteLists: kakao.maps.services.PlacesSearchResult;
   setSelectedPlace: React.Dispatch<
     React.SetStateAction<SelectedPlaceType | undefined>
   >;
@@ -11,7 +10,6 @@ type Props = {
 
 export default function TravelPlaceAutoList({
   autoCompleteLists,
-  setShowAutoCompleteList,
   setSelectedPlace,
 }: Props) {
   return (
@@ -20,7 +18,6 @@ export default function TravelPlaceAutoList({
         <TravelPlaceAutoItem
           key={autoList.id}
           autoList={autoList}
-          setShowAutoCompleteList={setShowAutoCompleteList}
           setSelectedPlace={setSelectedPlace}
         />
       ))}

@@ -1,21 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
 import { isEqual } from 'lodash';
 import Image from 'next/image';
 import React from 'react';
 
 type Props = {
-  activeVisitDate: string;
   activeVisitPlace: EditListItem;
-  setVisitDatesArr: React.Dispatch<
-    React.SetStateAction<VisitDatesType<EditListItem>[]>
-  >;
 };
 
-export default function TravelEditListItem({
-  activeVisitDate,
-  activeVisitPlace,
-  setVisitDatesArr,
-}: Props) {
+export default function TravelEditListItem({ activeVisitPlace }: Props) {
+  const { activeVisitDate, setTravelScheduleArr } = useTravelScheduleContext();
+
   return (
     <div className=" flex mx-8 p-4 gap-4 mb-6  shadow-travelEditItem items-center rounded-lg">
       {/* image */}
@@ -46,8 +41,8 @@ export default function TravelEditListItem({
               type="button"
               className="px-2 py-1 bg-gray-300 rounded-md"
               onClick={() => {
-                setVisitDatesArr((pre) => {
-                  const copyVisitDatesArr = [...pre];
+                setTravelScheduleArr((preTravelSchedule) => {
+                  const copyVisitDatesArr = [...preTravelSchedule];
                   const activePlacesIndex = copyVisitDatesArr.findIndex(
                     (visitArr) => visitArr.travelDate === activeVisitDate,
                   );
