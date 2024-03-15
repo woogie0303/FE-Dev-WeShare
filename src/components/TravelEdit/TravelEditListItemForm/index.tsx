@@ -6,6 +6,11 @@ import { TimePicker } from 'antd';
 import { useAppDispatch } from '@/store/hook';
 import { resetMarkerLocation } from '@/store/Travel/TravelMap.slice';
 import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
+import {
+  EditListItem,
+  SelectedPlaceType,
+  VisitDatesType,
+} from '@/types/TravelType';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
 export default function TravelEditListItemForm() {
@@ -24,7 +29,9 @@ export default function TravelEditListItemForm() {
   const dispatch = useAppDispatch();
   const sendTravelEditListItem = () => {
     if (selectedPlace && time && costRef.current && memoRef.current) {
-      const copyVisitDatesArr = [...travelScheduleArr];
+      const copyVisitDatesArr: VisitDatesType<EditListItem>[] = [
+        ...travelScheduleArr,
+      ];
       const findTravelDateIndex = copyVisitDatesArr.findIndex(
         (visitDate) => visitDate.travelDate === activeVisitDate,
       );

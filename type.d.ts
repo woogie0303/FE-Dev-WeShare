@@ -52,8 +52,8 @@ interface SearchPlace {
 
 interface SelectedPlaceType {
   title: string;
-  longitude: string;
-  latitude: string;
+  longitude: number;
+  latitude: number;
 }
 
 interface EditListItem {
@@ -61,8 +61,8 @@ interface EditListItem {
   time: string;
   memo: string;
   expense: number;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface VisitDatesType<T> {
@@ -71,6 +71,6 @@ interface VisitDatesType<T> {
 }
 
 interface MapMarkerType {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }

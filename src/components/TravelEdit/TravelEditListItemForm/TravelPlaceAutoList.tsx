@@ -1,4 +1,5 @@
 import React from 'react';
+import { SelectedPlaceType } from '@/types/TravelType';
 import TravelPlaceAutoItem from './TravelPlaceAutoItem';
 
 type Props = {

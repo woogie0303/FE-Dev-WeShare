@@ -3,6 +3,7 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
+import { ResponseLogin } from '@/types/LoginType';
 import type { RootState } from '../store';
 import { logout, setCredentials } from '../auth/auth.slice';
 

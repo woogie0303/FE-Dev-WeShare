@@ -1,3 +1,9 @@
+import {
+  EmailInput,
+  LoginForm,
+  OauthLogin,
+  ResponseLogin,
+} from '@/types/LoginType';
 import { apiSlice } from '../api/apiSlice';
 
 const authApiSlice = apiSlice.injectEndpoints({

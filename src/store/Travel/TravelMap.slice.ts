@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { MapMarkerType } from '@/types/TravelType';
 import type { RootState } from '../store';
 
 interface InitialStateType {

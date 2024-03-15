@@ -6,13 +6,14 @@ import {
 import { useAppSelector } from '@/store/hook';
 import Svg from '@/assets/Mapmarker.svg';
 import React, { useEffect, useState } from 'react';
+import { MapMarkerType } from '@/types/TravelType';
 
 const makeMarker = (
   previewMarkerLocation: MapMarkerType,
 ): kakao.maps.Marker => {
   const previewMarkerPosition = new kakao.maps.LatLng(
-    Number(previewMarkerLocation.latitude),
-    Number(previewMarkerLocation.longitude),
+    previewMarkerLocation.latitude,
+    previewMarkerLocation.longitude,
   );
 
   const markerSize = new kakao.maps.Size(50, 50);

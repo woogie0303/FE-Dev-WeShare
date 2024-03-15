@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '@/store/hook';
 import { setMarkersLocation } from '@/store/Travel/TravelMap.slice';
 import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
+import { EditListItem, MapMarkerType } from '@/types/TravelType';
 import TravelEditListItem from './TravelEditListItem';
 
 export default function TravelEditListContainer() {

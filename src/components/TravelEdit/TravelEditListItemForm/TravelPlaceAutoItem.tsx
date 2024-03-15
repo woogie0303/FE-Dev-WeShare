@@ -1,5 +1,6 @@
 import { setPreviewMarkerLocation } from '@/store/Travel/TravelMap.slice';
 import { useAppDispatch } from '@/store/hook';
+import { SelectedPlaceType } from '@/types/TravelType';
 import React from 'react';
 
 type Props = {
@@ -20,15 +21,17 @@ export default function TravelPlaceAutoItem({
   ): void => {
     const { x, y } = autoItem;
 
-    dispatch(setPreviewMarkerLocation({ longitude: x, latitude: y }));
+    dispatch(
+      setPreviewMarkerLocation({ longitude: Number(x), latitude: Number(y) }),
+    );
   };
   const handleSelectedQuery = (
     autoItem: kakao.maps.services.PlacesSearchResultItem,
   ): void => {
     setSelectedPlace({
       title: autoItem.place_name,
-      longitude: autoItem.x,
-      latitude: autoItem.y,
+      longitude: Number(autoItem.x),
+      latitude: Number(autoItem.y),
     });
     sendMapMarkerLocation(autoItem);
   };

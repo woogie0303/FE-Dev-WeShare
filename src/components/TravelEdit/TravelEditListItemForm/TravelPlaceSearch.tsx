@@ -8,6 +8,7 @@ import {
   selectPreviewMarker,
 } from '@/store/Travel/TravelMap.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
+import { SelectedPlaceType } from '@/types/TravelType';
 import TravelPlaceAutoList from './TravelPlaceAutoList';
 
 type Props = {

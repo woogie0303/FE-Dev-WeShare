@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
+import { EditListItem, VisitDatesType } from '@/types/TravelType';
 import { isEqual } from 'lodash';
 import Image from 'next/image';
 import React from 'react';
@@ -42,7 +43,9 @@ export default function TravelEditListItem({ activeVisitPlace }: Props) {
               className="px-2 py-1 bg-gray-300 rounded-md"
               onClick={() => {
                 setTravelScheduleArr((preTravelSchedule) => {
-                  const copyVisitDatesArr = [...preTravelSchedule];
+                  const copyVisitDatesArr: VisitDatesType<EditListItem>[] = [
+                    ...preTravelSchedule,
+                  ];
                   const activePlacesIndex = copyVisitDatesArr.findIndex(
                     (visitArr) => visitArr.travelDate === activeVisitDate,
                   );
