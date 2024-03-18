@@ -4,22 +4,16 @@ import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { TimePicker } from 'antd';
 import { useAppDispatch } from '@/store/hook';
-import { resetMarkerLocation } from '@/store/Travel/TravelMap.slice';
-import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
-import {
-  EditListItem,
-  SelectedPlaceType,
-  VisitDatesType,
-} from '@/types/TravelType';
+import { resetMarkerLocation } from '@/store/Travel/travelMap.slice';
+import { EditListItemType, SelectedPlaceType } from '@/types/TravelType';
+import { addActiveTravelItem } from '@/store/Travel/travelEdit.slice';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
-export default function TravelEditListItemForm() {
-  const {
-    travelScheduleArr,
-    setTravelScheduleArr,
-    activeVisitDate,
-    setShowEditForm,
-  } = useTravelScheduleContext();
+type Props = {
+  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function TravelEditListItemForm({ setShowEditForm }: Props) {
   const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
     SelectedPlaceType | undefined
@@ -29,13 +23,7 @@ export default function TravelEditListItemForm() {
   const dispatch = useAppDispatch();
   const sendTravelEditListItem = () => {
     if (selectedPlace && time && costRef.current && memoRef.current) {
-      const copyVisitDatesArr: VisitDatesType<EditListItem>[] = [
-        ...travelScheduleArr,
-      ];
-      const findTravelDateIndex = copyVisitDatesArr.findIndex(
-        (visitDate) => visitDate.travelDate === activeVisitDate,
-      );
-      const editItemList: EditListItem = {
+      const editItem: EditListItemType = {
         title: selectedPlace.title,
         time,
         memo: memoRef.current,
@@ -44,25 +32,10 @@ export default function TravelEditListItemForm() {
         longitude: selectedPlace.longitude,
       };
 
-      copyVisitDatesArr[findTravelDateIndex].visitPlaces.push(editItemList);
-      copyVisitDatesArr[findTravelDateIndex].visitPlaces.sort((a, b) => {
-        const timeRegex = /(\d+):(\d+)\s*(AM|PM)/;
-        const preMatch = a.time.match(timeRegex);
-        const curMatch = b.time.match(timeRegex);
-
-        const [, preHoursStr, preMinutesStr] = preMatch as RegExpMatchArray;
-        const [, curHoursStr, curMinutesStr] = curMatch as RegExpMatchArray;
-
-        const totalPreMin = Number(preHoursStr) * 60 + Number(preMinutesStr);
-        const totalCurMin = Number(curHoursStr) * 60 + Number(curMinutesStr);
-
-        return totalPreMin - totalCurMin;
-      });
-
-      setTravelScheduleArr(copyVisitDatesArr);
+      dispatch(addActiveTravelItem(editItem));
+      setShowEditForm(false);
+      dispatch(resetMarkerLocation());
     }
-    setShowEditForm(false);
-    dispatch(resetMarkerLocation());
   };
 
   return (

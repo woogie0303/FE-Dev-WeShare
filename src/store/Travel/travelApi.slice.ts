@@ -12,5 +12,4 @@ const travelApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-console.log('sdf');
 export const { useGetTravelPostQuery } = travelApiSlice;

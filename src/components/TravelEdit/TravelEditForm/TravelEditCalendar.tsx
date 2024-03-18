@@ -1,37 +1,43 @@
-import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
-import { DateRangeType, RangePicker, dayjs } from '@/utils/dayjs';
+import {
+  resetTravelSchedules,
+  selectTravelEditDateRange,
+  setActiveTravelSchedule,
+  setDateRange,
+  setTravelSchedules,
+} from '@/store/Travel/travelEdit.slice';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
+import { DateRangeType, RangePicker } from '@/utils/dayjs';
 import { XMarkIcon } from '@heroicons/react/16/solid';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export default function TravelEditCalendar() {
-  const { travelScheduleArr, setActiveVisitDate, setTravelScheduleArr } =
-    useTravelScheduleContext();
-  const [showCalendar, setShowCalendar] = useState(true);
+  const { startDate, endDate } = useAppSelector(selectTravelEditDateRange);
+  const dispatch = useAppDispatch();
 
   const handleDateRange = (values: DateRangeType) => {
-    const startDate = dayjs(values[0]);
-    const endDate = dayjs(values[1]);
-    const dateInRange = [];
-    let currentDate = startDate;
+    const startDateToString = values[0]!.format('YYYY-MM-DD');
+    const endDateToString = values[1]!.format('YYYY-MM-DD');
 
-    while (currentDate.isSameOrBefore(endDate)) {
-      const dateToString = currentDate.format('YYYY-MM-DD');
-      dateInRange.push({ travelDate: dateToString, visitPlaces: [] });
-      currentDate = currentDate.add(1, 'day');
-    }
-
-    setTravelScheduleArr(dateInRange);
-    setActiveVisitDate(dateInRange[0].travelDate);
-    setShowCalendar(false);
+    dispatch(setTravelSchedules(values));
+    dispatch(setActiveTravelSchedule(startDateToString));
+    dispatch(
+      setDateRange({ startDate: startDateToString, endDate: endDateToString }),
+    );
   };
 
-  useEffect(() => {
-    if (travelScheduleArr.length > 0) {
-      setShowCalendar(false);
-    }
-  }, [travelScheduleArr]);
-
-  return showCalendar ? (
+  return startDate.length && endDate.length ? (
+    <div className="flex text-[#508AFF] font-bold items-center justify-center bg-third w-max gap-2  px-4 py-1 rounded-xl cursor-default ">
+      <p>{startDate}</p>
+      <p className="">~</p>
+      <p>{endDate}</p>
+      <XMarkIcon
+        className="w-5 cursor-pointer"
+        onClick={() => {
+          dispatch(resetTravelSchedules());
+        }}
+      />
+    </div>
+  ) : (
     <RangePicker
       placeholder={['출발', '도착']}
       size="middle"
@@ -40,20 +46,5 @@ export default function TravelEditCalendar() {
         handleDateRange(values);
       }}
     />
-  ) : (
-    <div className="flex text-[#508AFF] font-bold items-center justify-center bg-third w-max gap-2  px-4 py-1 rounded-xl cursor-default ">
-      <p>{travelScheduleArr && travelScheduleArr[0].travelDate}</p>
-      <p className="">~</p>
-      <p>
-        {travelScheduleArr &&
-          travelScheduleArr[travelScheduleArr.length - 1].travelDate}
-      </p>
-      <XMarkIcon
-        className="w-5 cursor-pointer"
-        onClick={() => {
-          setShowCalendar(true);
-        }}
-      />
-    </div>
   );
 }

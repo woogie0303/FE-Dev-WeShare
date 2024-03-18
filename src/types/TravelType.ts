@@ -4,7 +4,7 @@ interface SelectedPlaceType {
   latitude: number;
 }
 
-interface EditListItem {
+interface EditListItemType {
   title: string;
   time: string;
   memo: string;
@@ -23,4 +23,15 @@ interface MapMarkerType {
   longitude: number;
 }
 
-export type { SelectedPlaceType, EditListItem, VisitDatesType, MapMarkerType };
+interface TravelDateRangeType {
+  startDate: string;
+  endDate: string;
+}
+
+export type {
+  SelectedPlaceType,
+  EditListItemType,
+  VisitDatesType,
+  MapMarkerType,
+  TravelDateRangeType,
+};

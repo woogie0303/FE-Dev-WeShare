@@ -15,7 +15,7 @@ const initialState: InitialStateType = {
 };
 
 const travelMapSlice = createSlice({
-  name: 'travelEdit',
+  name: 'travelMap',
   initialState,
   reducers: {
     setTravelMap: (state, action: PayloadAction<kakao.maps.Map>) => {
@@ -36,10 +36,13 @@ const travelMapSlice = createSlice({
   },
 });
 
-export const { setPreviewMarkerLocation } = travelMapSlice.actions;
-export const { resetMarkerLocation } = travelMapSlice.actions;
-export const { setTravelMap } = travelMapSlice.actions;
-export const { setMarkersLocation } = travelMapSlice.actions;
+export const {
+  resetMarkerLocation,
+  setPreviewMarkerLocation,
+  setTravelMap,
+  setMarkersLocation,
+} = travelMapSlice.actions;
+
 export const selectPreviewMarker = (state: RootState) =>
   state.travelMap.previewMapMarker;
 export const selectTravelKakaoMap = (state: RootState) =>

@@ -2,7 +2,7 @@
 import {
   selectMapMarker,
   selectTravelKakaoMap,
-} from '@/store/Travel/TravelMap.slice';
+} from '@/store/Travel/travelMap.slice';
 import { useAppSelector } from '@/store/hook';
 import Svg from '@/assets/Mapmarker.svg';
 import React, { useEffect, useState } from 'react';

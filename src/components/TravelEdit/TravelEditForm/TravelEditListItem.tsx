@@ -1,16 +1,20 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { useTravelScheduleContext } from '@/contexts/TravelScheduleContext';
-import { EditListItem, VisitDatesType } from '@/types/TravelType';
-import { isEqual } from 'lodash';
+import { removeActiveTravelItem } from '@/store/Travel/travelEdit.slice';
+import { useAppDispatch } from '@/store/hook';
+import { EditListItemType } from '@/types/TravelType';
 import Image from 'next/image';
 import React from 'react';
 
 type Props = {
-  activeVisitPlace: EditListItem;
+  visitPlace: EditListItemType;
+  activeDate: string;
 };
 
-export default function TravelEditListItem({ activeVisitPlace }: Props) {
-  const { activeVisitDate, setTravelScheduleArr } = useTravelScheduleContext();
+export default function TravelEditListItem({ visitPlace, activeDate }: Props) {
+  const dispatch = useAppDispatch();
+  const handleRemoveTravelEditItem = () => {
+    dispatch(removeActiveTravelItem({ activeDate, visitPlace }));
+  };
 
   return (
     <div className=" flex mx-8 p-4 gap-4 mb-6  shadow-travelEditItem items-center rounded-lg">
@@ -26,11 +30,11 @@ export default function TravelEditListItem({ activeVisitPlace }: Props) {
       {/* Detail */}
       <div className="w-full font-bold">
         <div className="flex justify-between mb-4">
-          <p>{activeVisitPlace.title}</p>
-          <p>{activeVisitPlace.time}</p>
+          <p>{visitPlace.title}</p>
+          <p>{visitPlace.time}</p>
         </div>
         <div className="flex justify-between items-center">
-          <p>{activeVisitPlace.expense}원</p>
+          <p>{visitPlace.expense}원</p>
           <div className="">
             <button
               type="button"
@@ -41,22 +45,7 @@ export default function TravelEditListItem({ activeVisitPlace }: Props) {
             <button
               type="button"
               className="px-2 py-1 bg-gray-300 rounded-md"
-              onClick={() => {
-                setTravelScheduleArr((preTravelSchedule) => {
-                  const copyVisitDatesArr: VisitDatesType<EditListItem>[] = [
-                    ...preTravelSchedule,
-                  ];
-                  const activePlacesIndex = copyVisitDatesArr.findIndex(
-                    (visitArr) => visitArr.travelDate === activeVisitDate,
-                  );
-                  copyVisitDatesArr[activePlacesIndex].visitPlaces =
-                    copyVisitDatesArr[activePlacesIndex].visitPlaces.filter(
-                      (visitPlace) => !isEqual(visitPlace, activeVisitPlace),
-                    );
-
-                  return copyVisitDatesArr;
-                });
-              }}
+              onClick={handleRemoveTravelEditItem}
             >
               삭제
             </button>

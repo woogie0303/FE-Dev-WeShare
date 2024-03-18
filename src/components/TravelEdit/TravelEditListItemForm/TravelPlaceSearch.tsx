@@ -6,7 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import {
   resetMarkerLocation,
   selectPreviewMarker,
-} from '@/store/Travel/TravelMap.slice';
+} from '@/store/Travel/travelMap.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { SelectedPlaceType } from '@/types/TravelType';
 import TravelPlaceAutoList from './TravelPlaceAutoList';
