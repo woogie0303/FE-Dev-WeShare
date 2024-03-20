@@ -30,6 +30,7 @@ export default function TravelEditHeader() {
 
   return (
     <div className="flex gap-8 justify-between items-center mb-5 ">
+      {/* Title */}
       <input
         value={travelTitle}
         type="text"
@@ -44,6 +45,7 @@ export default function TravelEditHeader() {
           }
         }}
       />
+      {/* Select Box */}
       <div
         className="relative h-full cursor-pointer"
         onClick={() => setSelectActive(true)}

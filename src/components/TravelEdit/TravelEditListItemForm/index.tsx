@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import dayjs from 'dayjs';
 import { TimePicker } from 'antd';
 import { useAppDispatch } from '@/store/hook';
 import { resetMarkerLocation } from '@/store/travel/travelMap.slice';
 import { EditListItemType, SelectedPlaceType } from '@/types/TravelType';
 import { addActiveTravelItem } from '@/store/travel/travelEdit.slice';
+import { timeDefault } from '@/utils/dayjs';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
 type Props = {
@@ -52,7 +52,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
             setTime(timeFormat);
           }
         }}
-        defaultValue={dayjs('00:00', 'HH:mm')}
+        defaultValue={timeDefault}
         format="HH:mm"
         className="mb-2 w-[10rem]"
         size="large"
@@ -91,7 +91,10 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
           추가하기
         </button>
         <button
-          onClick={() => setShowEditForm(false)}
+          onClick={() => {
+            setShowEditForm(false);
+            dispatch(resetMarkerLocation());
+          }}
           type="button"
           className="bg-primary p-2 rounded-lg text-white"
         >

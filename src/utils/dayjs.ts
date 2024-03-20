@@ -8,5 +8,6 @@ type DateRangeType = [start: Dayjs | null, end: Dayjs | null];
 const { RangePicker } = DatePicker;
 dayjs.extend(isSameOrBefore);
 
+export const timeDefault = dayjs('00:00', 'HH:mm');
 export { dayjs, RangePicker };
 export type { DateRangeType };
