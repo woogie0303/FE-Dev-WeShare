@@ -39,10 +39,10 @@ export default function TravelEditHeader() {
         onChange={(e) => {
           if (e.target.value.length > 0) {
             setTitleActive(true);
-            dispatch(setTravelTitle(e.target.value));
           } else {
             setTitleActive(false);
           }
+          dispatch(setTravelTitle(e.target.value));
         }}
       />
       {/* Select Box */}

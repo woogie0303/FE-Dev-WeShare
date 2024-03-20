@@ -13,12 +13,11 @@ const isNoEmptyArray = (array: TravelPostType[]) => {
 };
 
 export const useTravelInfinitePost = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const dispatch = useAppDispatch();
   const { data } = useGetTravelPostQuery(currentPage);
   const travelPostData = travelPostSelector.selectAll(store.getState());
   const observerElement = useRef<HTMLDivElement>(null);
-
   const fetchNextPage = () => {
     if (
       data &&
