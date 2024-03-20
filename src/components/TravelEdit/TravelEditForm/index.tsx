@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import TravelEditTitle from './TravelEditTitle';
+import TravelEditHeader from './TravelEditHeader';
 import TravelEditCalendar from './TravelEditCalendar';
 import TravelEditListContainer from './TravelEditListContainer';
 
@@ -12,7 +12,7 @@ type Props = {
 export default function TravelEditForm({ setShowEditForm }: Props) {
   return (
     <form className="basis-1/2 flex flex-col h-full ">
-      <TravelEditTitle />
+      <TravelEditHeader />
       <TravelEditCalendar />
       <TravelEditListContainer setShowEditForm={setShowEditForm} />
     </form>

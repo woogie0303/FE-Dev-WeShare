@@ -4,7 +4,7 @@ import {
   setActiveTravelSchedule,
   setDateRange,
   setTravelSchedules,
-} from '@/store/Travel/travelEdit.slice';
+} from '@/store/travel/travelEdit.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { DateRangeType, RangePicker } from '@/utils/dayjs';
 import { XMarkIcon } from '@heroicons/react/16/solid';

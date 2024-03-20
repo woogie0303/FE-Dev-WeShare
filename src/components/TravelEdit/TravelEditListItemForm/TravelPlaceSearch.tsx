@@ -6,7 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import {
   resetMarkerLocation,
   selectPreviewMarker,
-} from '@/store/Travel/travelMap.slice';
+} from '@/store/travel/travelMap.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { SelectedPlaceType } from '@/types/TravelType';
 import TravelPlaceAutoList from './TravelPlaceAutoList';
@@ -44,7 +44,7 @@ export default function TravelPlaceSearch({
       <label htmlFor="location" className="mb-2">
         장소
       </label>
-      {selectedPlace !== undefined && previewMarkerLocation ? (
+      {selectedPlace && previewMarkerLocation ? (
         <div className="mt-2">
           <div className="w-fit flex bg-[#eef1fe] text-[#626262] rounded-lg p-2">
             <span className=" mr-1 rounded-lg cursor-default ">

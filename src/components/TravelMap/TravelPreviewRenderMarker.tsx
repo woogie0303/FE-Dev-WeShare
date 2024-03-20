@@ -2,7 +2,7 @@
 import {
   selectPreviewMarker,
   selectTravelKakaoMap,
-} from '@/store/Travel/travelMap.slice';
+} from '@/store/travel/travelMap.slice';
 import { useAppSelector } from '@/store/hook';
 import React, { useEffect, useState } from 'react';
 import Svg from '@/assets/Mapmarker.svg';

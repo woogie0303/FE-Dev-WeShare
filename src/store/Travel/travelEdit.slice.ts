@@ -10,6 +10,8 @@ import { isEqual } from 'lodash';
 import type { RootState } from '../store';
 
 type TravelEditSliceState = {
+  title: string;
+  destination: string;
   travelDateRange: TravelDateRangeType;
   travelSchedules: VisitDatesType<EditListItemType>[];
   activeTravelSchedule: VisitDatesType<EditListItemType>;
@@ -21,6 +23,8 @@ type RemoveTravelItemType = {
 };
 
 const initialState: TravelEditSliceState = {
+  title: '',
+  destination: '',
   travelDateRange: { startDate: '', endDate: '' },
   travelSchedules: [],
   activeTravelSchedule: { travelDate: '', visitPlaces: [] },
@@ -102,6 +106,12 @@ const travelEditSlice = createSlice({
       state.travelSchedules[findActiveScheduleIndex] =
         state.activeTravelSchedule;
     },
+    setTravelTitle: (state, action: PayloadAction<string>) => {
+      state.title = action.payload;
+    },
+    setTravelDestination: (state, action: PayloadAction<string>) => {
+      state.destination = action.payload;
+    },
   },
 });
 
@@ -112,9 +122,18 @@ export const {
   removeActiveTravelItem,
   addActiveTravelItem,
   resetTravelSchedules,
+  setTravelTitle,
+  setTravelDestination,
 } = travelEditSlice.actions;
-export const selectTravelEditState = (state: RootState) => state.travelEdit;
+export const selectTravelActiveSchedule = (state: RootState) =>
+  state.travelEdit.activeTravelSchedule;
+export const selectTravelSchedules = (state: RootState) =>
+  state.travelEdit.travelSchedules;
 export const selectTravelEditDateRange = (state: RootState) =>
   state.travelEdit.travelDateRange;
+export const selectTravelEditTitle = (state: RootState) =>
+  state.travelEdit.title;
+export const selectTravelEditDestination = (state: RootState) =>
+  state.travelEdit.destination;
 
 export default travelEditSlice.reducer;

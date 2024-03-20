@@ -3,7 +3,7 @@
 
 'use client';
 
-import { setTravelMap } from '@/store/Travel/travelMap.slice';
+import { setTravelMap } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
 import React, { useEffect, useRef } from 'react';
 

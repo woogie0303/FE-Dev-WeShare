@@ -1,30 +1,63 @@
-import { useGetTravelPostQuery } from '@/store/Travel/travelApi.slice';
-import { useEffect, useState } from 'react';
+import { useAppDispatch } from '@/store/hook';
+import { store } from '@/store/store';
+import { useGetTravelPostQuery } from '@/store/travel/travelApi.slice';
+import {
+  addTravelPost,
+  travelPostSelector,
+} from '@/store/travel/travelPost.slice';
+import { TravelPostType } from '@/types/TravelType';
+import { useEffect, useRef, useState } from 'react';
 
-const isNoEmptyArray = (array: unknown[]) => {
+const isNoEmptyArray = (array: TravelPostType[]) => {
   return !!(array && array.length && array.length > 0);
 };
 
-const useTravelInfintiePost = () => {
+export const useTravelInfinitePost = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [combineData, setCombineData] = useState<unknown>([]);
+  const dispatch = useAppDispatch();
   const { data } = useGetTravelPostQuery(currentPage);
-
-  useEffect(() => {
-    if (isNoEmptyArray(data)) {
-      if (currentPage === 1) {
-        setCombineData(data);
-      }
-
-      if (currentPage === data.page) {
-        setCombineData((pre) => [...pre, ...data]);
-      }
-    }
-  }, [data]);
+  const travelPostData = travelPostSelector.selectAll(store.getState());
+  const observerElement = useRef<HTMLDivElement>(null);
 
   const fetchNextPage = () => {
-    if (currentPage < data.maxPage && currentPage === data.page) {
+    if (
+      data &&
+      currentPage <= data.totalPages &&
+      data.pageable.pageNumber === currentPage
+    ) {
       setCurrentPage((pre) => pre + 1);
     }
   };
+
+  useEffect(() => {
+    if (!data) return;
+    if (isNoEmptyArray(data.content)) {
+      dispatch(addTravelPost(data.content));
+    }
+  }, [data, dispatch]);
+
+  useEffect(() => {
+    const handleObserver: IntersectionObserverCallback = (entires) => {
+      const [target] = entires;
+
+      if (target.isIntersecting) {
+        fetchNextPage();
+      }
+    };
+
+    const curElem = observerElement.current;
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1,
+    });
+
+    if (curElem) observer.observe(curElem);
+
+    return () => {
+      if (curElem) observer.unobserve(curElem);
+    };
+  });
+
+  return { travelPostData, observerElement };
 };

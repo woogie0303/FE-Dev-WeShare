@@ -4,9 +4,9 @@ import React, { useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { TimePicker } from 'antd';
 import { useAppDispatch } from '@/store/hook';
-import { resetMarkerLocation } from '@/store/Travel/travelMap.slice';
+import { resetMarkerLocation } from '@/store/travel/travelMap.slice';
 import { EditListItemType, SelectedPlaceType } from '@/types/TravelType';
-import { addActiveTravelItem } from '@/store/Travel/travelEdit.slice';
+import { addActiveTravelItem } from '@/store/travel/travelEdit.slice';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
 type Props = {

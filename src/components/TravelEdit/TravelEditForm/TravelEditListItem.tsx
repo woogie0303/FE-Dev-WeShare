@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { removeActiveTravelItem } from '@/store/Travel/travelEdit.slice';
+import { removeActiveTravelItem } from '@/store/travel/travelEdit.slice';
 import { useAppDispatch } from '@/store/hook';
 import { EditListItemType } from '@/types/TravelType';
 import Image from 'next/image';

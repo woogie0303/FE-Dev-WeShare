@@ -9,12 +9,14 @@ import {
 } from '@heroicons/react/16/solid';
 import React, { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
-import { setMarkersLocation } from '@/store/Travel/travelMap.slice';
+import { setMarkersLocation } from '@/store/travel/travelMap.slice';
 import { EditListItemType, MapMarkerType } from '@/types/TravelType';
 import {
-  selectTravelEditState,
+  selectTravelActiveSchedule,
+  selectTravelSchedules,
   setActiveTravelSchedule,
-} from '@/store/Travel/travelEdit.slice';
+} from '@/store/travel/travelEdit.slice';
+import { useEditTravelPostMutation } from '@/store/travel/travelApi.slice';
 import TravelEditListItem from './TravelEditListItem';
 
 type Props = {
@@ -22,10 +24,9 @@ type Props = {
 };
 
 export default function TravelEditListContainer({ setShowEditForm }: Props) {
-  const { activeTravelSchedule, travelSchedules } = useAppSelector(
-    selectTravelEditState,
-  );
-
+  const activeTravelSchedule = useAppSelector(selectTravelActiveSchedule);
+  const travelSchedules = useAppSelector(selectTravelSchedules);
+  const [editTravelPost] = useEditTravelPostMutation();
   const dispatch = useAppDispatch();
   const makeActiveMarkersArr = useCallback(
     (activeVisitPlacesArr: EditListItemType[]) => {
@@ -74,7 +75,12 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
           />
           <TrashIcon className="cursor-pointer" />
           <BookmarkSquareIcon className="cursor-pointer" />
-          <PaperAirplaneIcon className="cursor-pointer" />
+          <PaperAirplaneIcon
+            className="cursor-pointer"
+            onClick={() => {
+              editTravelPost('POST').unwrap();
+            }}
+          />
         </div>
       </div>
       {/* Day Travel Edit ListItem */}

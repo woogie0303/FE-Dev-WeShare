@@ -1,4 +1,4 @@
-import { setPreviewMarkerLocation } from '@/store/Travel/travelMap.slice';
+import { setPreviewMarkerLocation } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
 import { SelectedPlaceType } from '@/types/TravelType';
 import React from 'react';
