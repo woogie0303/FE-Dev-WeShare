@@ -15,11 +15,7 @@ type TravelEditSliceState = {
   travelDateRange: TravelDateRangeType;
   travelSchedules: VisitDatesType<EditListItemType>[];
   activeTravelSchedule: VisitDatesType<EditListItemType>;
-};
-
-type RemoveTravelItemType = {
-  activeDate: string;
-  visitPlace: EditListItemType;
+  editListItem: EditListItemType | undefined;
 };
 
 const initialState: TravelEditSliceState = {
@@ -28,6 +24,7 @@ const initialState: TravelEditSliceState = {
   travelDateRange: { startDate: '', endDate: '' },
   travelSchedules: [],
   activeTravelSchedule: { travelDate: '', visitPlaces: [] },
+  editListItem: undefined,
 };
 
 const travelEditSlice = createSlice({
@@ -69,15 +66,15 @@ const travelEditSlice = createSlice({
     },
     removeActiveTravelItem: (
       state,
-      action: PayloadAction<RemoveTravelItemType>,
+      action: PayloadAction<EditListItemType>,
     ) => {
       const findActiveScheduleIndex = state.travelSchedules.findIndex(
         (travelSchedule) =>
-          travelSchedule.travelDate === action.payload.activeDate,
+          travelSchedule.travelDate === state.activeTravelSchedule.travelDate,
       );
       const removeActiveSchedule =
         state.activeTravelSchedule.visitPlaces.filter(
-          (visitPlace) => !isEqual(visitPlace, action.payload.visitPlace),
+          (visitPlace) => !isEqual(visitPlace, action.payload),
         );
 
       state.activeTravelSchedule.visitPlaces = removeActiveSchedule;
@@ -112,6 +109,12 @@ const travelEditSlice = createSlice({
     setTravelDestination: (state, action: PayloadAction<string>) => {
       state.destination = action.payload;
     },
+    changeEditListItem: (
+      state,
+      action: PayloadAction<EditListItemType | undefined>,
+    ) => {
+      state.editListItem = action.payload;
+    },
   },
 });
 
@@ -124,6 +127,7 @@ export const {
   resetTravelSchedules,
   setTravelTitle,
   setTravelDestination,
+  changeEditListItem,
 } = travelEditSlice.actions;
 export const selectTravelActiveSchedule = (state: RootState) =>
   state.travelEdit.activeTravelSchedule;
@@ -135,5 +139,7 @@ export const selectTravelEditTitle = (state: RootState) =>
   state.travelEdit.title;
 export const selectTravelEditDestination = (state: RootState) =>
   state.travelEdit.destination;
+export const selectEditListItem = (state: RootState) =>
+  state.travelEdit.editListItem;
 
 export default travelEditSlice.reducer;

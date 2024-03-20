@@ -3,11 +3,8 @@
 import { useDebounceSearchQuery } from '@/hooks/useDebounceSearchQuery';
 import React, { useEffect, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import {
-  resetMarkerLocation,
-  selectPreviewMarker,
-} from '@/store/travel/travelMap.slice';
-import { useAppDispatch, useAppSelector } from '@/store/hook';
+import { resetMarkerLocation } from '@/store/travel/travelMap.slice';
+import { useAppDispatch } from '@/store/hook';
 import { SelectedPlaceType } from '@/types/TravelType';
 import TravelPlaceAutoList from './TravelPlaceAutoList';
 
@@ -25,7 +22,6 @@ export default function TravelPlaceSearch({
   const [autoCompleteLists, setAutoCompleteLists] =
     useState<kakao.maps.services.PlacesSearchResult>();
   const [searchQuery, setSearchQuery] = useState<string>();
-  const previewMarkerLocation = useAppSelector(selectPreviewMarker);
   const dispatch = useAppDispatch();
   const debounceQuery = useDebounceSearchQuery(searchQuery, 500);
 
@@ -44,7 +40,7 @@ export default function TravelPlaceSearch({
       <label htmlFor="location" className="mb-2">
         장소
       </label>
-      {selectedPlace && previewMarkerLocation ? (
+      {selectedPlace ? (
         <div className="mt-2">
           <div className="w-fit flex bg-[#eef1fe] text-[#626262] rounded-lg p-2">
             <span className=" mr-1 rounded-lg cursor-default ">

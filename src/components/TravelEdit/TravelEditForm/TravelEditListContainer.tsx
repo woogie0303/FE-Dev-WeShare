@@ -90,7 +90,7 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
             <TravelEditListItem
               key={visitPlace.title}
               visitPlace={visitPlace}
-              activeDate={activeTravelSchedule.travelDate}
+              setShowEditForm={setShowEditForm}
             />
           ))}
       </div>

@@ -1,11 +1,16 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TimePicker } from 'antd';
-import { useAppDispatch } from '@/store/hook';
+import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { resetMarkerLocation } from '@/store/travel/travelMap.slice';
 import { EditListItemType, SelectedPlaceType } from '@/types/TravelType';
-import { addActiveTravelItem } from '@/store/travel/travelEdit.slice';
+import {
+  addActiveTravelItem,
+  changeEditListItem,
+  removeActiveTravelItem,
+  selectEditListItem,
+} from '@/store/travel/travelEdit.slice';
 import { timeDefault } from '@/utils/dayjs';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
@@ -14,29 +19,49 @@ type Props = {
 };
 
 export default function TravelEditListItemForm({ setShowEditForm }: Props) {
+  const editListItem = useAppSelector(selectEditListItem);
   const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
     SelectedPlaceType | undefined
   >();
-  const costRef = useRef<string>();
-  const memoRef = useRef<string>();
+
+  const [expense, setExpense] = useState<number>(0);
+  const [memo, setMemo] = useState('');
   const dispatch = useAppDispatch();
   const sendTravelEditListItem = () => {
-    if (selectedPlace && time && costRef.current && memoRef.current) {
+    if (selectedPlace && time && expense && memo) {
       const editItem: EditListItemType = {
         title: selectedPlace.title,
-        time,
-        memo: memoRef.current,
-        expense: Number(costRef.current),
         latitude: selectedPlace.latitude,
         longitude: selectedPlace.longitude,
+        time,
+        memo,
+        expense,
       };
 
       dispatch(addActiveTravelItem(editItem));
       setShowEditForm(false);
       dispatch(resetMarkerLocation());
     }
+
+    if (editListItem) {
+      dispatch(removeActiveTravelItem(editListItem));
+      dispatch(changeEditListItem(undefined));
+    }
   };
+
+  useEffect(() => {
+    if (editListItem) {
+      setSelectedPlace({
+        title: editListItem.title,
+        latitude: editListItem.latitude,
+        longitude: editListItem.longitude,
+      });
+      setTime(editListItem.time);
+      setExpense(editListItem.expense);
+      setMemo(editListItem.memo);
+    }
+  }, [editListItem]);
 
   return (
     <form className="bg-third flex flex-col py-4 px-10 basis-1/2 h-full font-bold">
@@ -62,9 +87,10 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
       </label>
       <input
         id="cost"
+        value={expense === 0 ? '' : expense}
         type="number"
         onChange={(e) => {
-          costRef.current = e.target.value;
+          setExpense(Number(e.target.value));
         }}
         className="p-2 font-normal rounded-lg w-40 mb-2"
       />
@@ -73,10 +99,11 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
       </label>
       <textarea
         id="memo"
+        value={memo}
         rows={5}
         className="p-2 mb-4 h-[10rem] rounded-lg font-normal"
         onChange={(e) => {
-          memoRef.current = e.target.value;
+          setMemo(e.target.value);
         }}
       />
       <div className="self-end mt-4">
@@ -94,6 +121,9 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
           onClick={() => {
             setShowEditForm(false);
             dispatch(resetMarkerLocation());
+            if (editListItem) {
+              dispatch(changeEditListItem(undefined));
+            }
           }}
           type="button"
           className="bg-primary p-2 rounded-lg text-white"

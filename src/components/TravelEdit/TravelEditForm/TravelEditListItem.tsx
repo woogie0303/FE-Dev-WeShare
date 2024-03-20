@@ -1,5 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { removeActiveTravelItem } from '@/store/travel/travelEdit.slice';
+import {
+  changeEditListItem,
+  removeActiveTravelItem,
+} from '@/store/travel/travelEdit.slice';
 import { useAppDispatch } from '@/store/hook';
 import { EditListItemType } from '@/types/TravelType';
 import Image from 'next/image';
@@ -7,13 +10,16 @@ import React from 'react';
 
 type Props = {
   visitPlace: EditListItemType;
-  activeDate: string;
+  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function TravelEditListItem({ visitPlace, activeDate }: Props) {
+export default function TravelEditListItem({
+  visitPlace,
+  setShowEditForm,
+}: Props) {
   const dispatch = useAppDispatch();
   const handleRemoveTravelEditItem = () => {
-    dispatch(removeActiveTravelItem({ activeDate, visitPlace }));
+    dispatch(removeActiveTravelItem(visitPlace));
   };
 
   return (
@@ -39,6 +45,10 @@ export default function TravelEditListItem({ visitPlace, activeDate }: Props) {
             <button
               type="button"
               className="px-2 py-1 bg-gray-300 rounded-md mr-2"
+              onClick={() => {
+                dispatch(changeEditListItem(visitPlace));
+                setShowEditForm(true);
+              }}
             >
               수정
             </button>
