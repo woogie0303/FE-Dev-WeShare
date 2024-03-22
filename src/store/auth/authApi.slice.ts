@@ -24,12 +24,20 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     checkEmail: builder.query<void, EmailInput>({
       query: (credential) => ({
-        url: `/api/v1/auth/signup/duplicate-email?email=${credential}`,
-        method: 'GET',
+        url: `/api/v1/auth/signup/duplicate-email?email=${credential.emailInput}`,
+      }),
+    }),
+    reissueToken: builder.query<string, void>({
+      query: () => ({
+        url: '/api/v1/auth/reissue-token',
       }),
     }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation, useCheckEmailQuery } =
-  authApiSlice;
+export const {
+  useSignInMutation,
+  useSignUpMutation,
+  useLazyCheckEmailQuery,
+  useLazyReissueTokenQuery,
+} = authApiSlice;

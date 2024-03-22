@@ -38,7 +38,6 @@ export const useTravelInfinitePost = () => {
   useEffect(() => {
     const handleObserver: IntersectionObserverCallback = (entires) => {
       const [target] = entires;
-
       if (target.isIntersecting) {
         fetchNextPage();
       }

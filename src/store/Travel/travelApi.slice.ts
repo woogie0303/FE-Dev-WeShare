@@ -14,7 +14,6 @@ const travelApiSlice = apiSlice.injectEndpoints({
     >({
       query: (page) => ({
         url: `/api/v1/trip/schedules?page=${page}&size=12`,
-        method: 'GET',
       }),
       transformResponse: (data: TravelPostResponseType<TravelPostType>) => {
         const { content, last, pageable, totalPages } = data;

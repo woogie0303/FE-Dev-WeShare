@@ -26,7 +26,7 @@ const baseQueryWithReauth: BaseQueryFn = async (arg, api, extraOption) => {
 
   if (result?.error && result?.error?.status === 403) {
     const refreshResult = await baseQuery(
-      '/auth/reissue-token',
+      '/api/v1/auth/reissue-token',
       api,
       extraOption,
     );

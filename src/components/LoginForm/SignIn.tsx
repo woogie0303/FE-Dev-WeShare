@@ -13,16 +13,11 @@ import { isFetchBaseQueryError } from '@/Error/helpers';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface Props {
-  setShowSignUp: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function SignIn({ setShowSignUp }: Props) {
+function SignIn() {
   const [activeSignInBtn, setActiveSignInBtn] = useState<boolean>(false);
-  const [userError, setUserError] = useState<boolean>(false);
   const emailInput = useInput('email');
   const passwordInput = useInput('password');
-  const [signIn] = useSignInMutation();
+  const [signIn, { isError }] = useSignInMutation();
   const dispatch = useAppDispatch();
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
@@ -32,7 +27,6 @@ function SignIn({ setShowSignUp }: Props) {
         email: emailInput.inputValue,
         password: passwordInput.inputValue,
       }).unwrap();
-      setUserError(false);
 
       dispatch(
         setCredentials({ user: emailInput.inputValue, token: res.accessToken }),
@@ -42,8 +36,6 @@ function SignIn({ setShowSignUp }: Props) {
         emailInput.setInputValue('');
         passwordInput.setInputValue('');
         emailInput.inputRef.current?.focus();
-
-        return err.status === 400 ? setUserError(true) : '';
       }
     }
 
@@ -64,7 +56,7 @@ function SignIn({ setShowSignUp }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-[25rem] mx-auto text-s flex flex-col items-center justify-evenly px-6 py-8"
+      className="w-[25rem] h-[40rem] rounded-[4rem] border-2 border-solid  bg-white mx-auto text-s flex flex-col items-center justify-evenly px-6 py-8"
     >
       <h1 className="mb-6 text-3xl font-bold">Login</h1>
       <h2 className="text-1xl mb-6 mt-3 font-semibold text-gray-400">
@@ -106,7 +98,7 @@ function SignIn({ setShowSignUp }: Props) {
           className={`w-[18rem] border-b-2 py-2 ${passwordInput.inputClass}`}
         />
       </div>
-      {userError ? (
+      {isError ? (
         <ErrorMessage
           errMessage="아이디 또는 비밀번호를 다시 확인해주세요"
           errClass="text-sm mt-5 font-semibold"
@@ -121,13 +113,15 @@ function SignIn({ setShowSignUp }: Props) {
       >
         Login
       </button>
-      <button
-        type="button"
-        className="cursor-pointer  text-gray-300 underline hover:text-black"
-        onClick={() => setShowSignUp(true)}
-      >
-        회원가입
-      </button>
+      <Link href="/login/signUp">
+        <button
+          type="button"
+          className="cursor-pointer  text-gray-300 underline hover:text-black"
+        >
+          회원가입
+        </button>
+      </Link>
+
       {/* Another Sign up */}
       <div className="my-8 w-[20rem] border-2" />
       <div className="flex w-[15rem] items-center justify-evenly">
