@@ -19,7 +19,7 @@ export default function Navbar() {
             <Link href="/travelEdit" className="">
               여행 쓰기
             </Link>
-            <Link href="/login/signIn">
+            <Link href="/login/signIn" scroll={false}>
               <button
                 type="button"
                 className="bg-blue-100 px-4  py-2  rounded align-bottom"
