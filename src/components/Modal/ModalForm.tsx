@@ -32,8 +32,7 @@ export default function ModalForm({ children }: Props) {
         role="presentation"
         className=" absolute w-full h-full bg-gray-400 opacity-[0.7] -z-10 "
         onClick={() => {
-          router.replace('/');
-          router.refresh();
+          router.back();
         }}
       />
       {children}

@@ -13,7 +13,11 @@ import { isFetchBaseQueryError } from '@/Error/helpers';
 import Image from 'next/image';
 import Link from 'next/link';
 
-function SignIn() {
+type Props = {
+  setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function SignIn({ setShowSignIn }: Props) {
   const [activeSignInBtn, setActiveSignInBtn] = useState<boolean>(false);
   const emailInput = useInput('email');
   const passwordInput = useInput('password');
@@ -113,15 +117,15 @@ function SignIn() {
       >
         Login
       </button>
-      <Link href="/login/signUp">
-        <button
-          type="button"
-          className="cursor-pointer  text-gray-300 underline hover:text-black"
-        >
-          회원가입
-        </button>
-      </Link>
-
+      <button
+        type="button"
+        className="cursor-pointer  text-gray-300 underline hover:text-black"
+        onClick={() => {
+          setShowSignIn(false);
+        }}
+      >
+        회원가입
+      </button>
       {/* Another Sign up */}
       <div className="my-8 w-[20rem] border-2" />
       <div className="flex w-[15rem] items-center justify-evenly">
@@ -147,5 +151,3 @@ function SignIn() {
     </form>
   );
 }
-
-export default SignIn;

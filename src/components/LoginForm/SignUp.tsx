@@ -12,12 +12,15 @@ import {
   useLazyCheckEmailQuery,
   useSignUpMutation,
 } from '@/store/auth/authApi.slice';
-import Link from 'next/link';
 
 const labelClass = 'mb-1 font-semibold text-gray-600';
 const inputClass = 'mb-4 border-b-2 py-2';
 
-function SignUp() {
+type Props = {
+  setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function SignUp({ setShowSignIn }: Props) {
   const [activeSignUpBtn, setActiveSignUpBtn] = useState<boolean>(false);
   const [emailDoubleCheck, setEmailDoubleCheck] = useState<boolean>(false);
   const [emailErrorMsg, setEmailErrorMsg] = useState<string>('');
@@ -91,14 +94,14 @@ function SignUp() {
         <span className="mx-2 text-blue-500 ">weShare,</span>
         함께 나눠봐요
       </p>
-      <Link href="/login/signIn">
-        <button
-          type="button"
-          className=" mb-6 mt-8  w-[10rem] rounded-3xl bg-blue-200 py-3 font-semibold leading-8 text-white transition duration-500 ease-in-out hover:bg-blue-500"
-        >
-          로그인하러 가기
-        </button>
-      </Link>
+
+      <button
+        type="button"
+        className=" mb-6 mt-8  w-[10rem] rounded-3xl bg-blue-200 py-3 font-semibold leading-8 text-white transition duration-500 ease-in-out hover:bg-blue-500"
+        onClick={() => setShowSignIn(true)}
+      >
+        로그인하러 가기
+      </button>
     </div>
   ) : (
     <form
@@ -191,5 +194,3 @@ function SignUp() {
     </form>
   );
 }
-
-export default SignUp;
