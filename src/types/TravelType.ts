@@ -65,6 +65,23 @@ interface TravelPostType {
   userName: string;
 }
 
+interface TravelPostDetailDayDetailType {
+  travelDate: string;
+  places: EditListItemType[];
+  totalDayPrice: number;
+}
+
+interface TravelPostDetailType {
+  id: number;
+  title: string;
+  destination: string;
+  userName: string;
+  startDate: string;
+  endDate: string;
+  createdDate: string;
+  dayDetail: TravelPostDetailDayDetailType[];
+}
+
 export type {
   SelectedPlaceType,
   EditListItemType,
@@ -73,4 +90,6 @@ export type {
   TravelDateRangeType,
   TravelPostResponseType,
   TravelPostType,
+  TravelPostDetailType,
+  TravelPostDetailDayDetailType,
 };

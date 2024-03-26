@@ -15,7 +15,6 @@ const makeMarker = (
     previewMarkerLocation.latitude,
     previewMarkerLocation.longitude,
   );
-
   const markerSize = new kakao.maps.Size(50, 50);
   const markerImage = new kakao.maps.MarkerImage(Svg.src, markerSize, {
     offset: new kakao.maps.Point(27, 69),
@@ -25,7 +24,6 @@ const makeMarker = (
     position: previewMarkerPosition,
     image: markerImage,
   });
-
   return previewMarker;
 };
 

@@ -5,7 +5,9 @@ import TravelEdit from '@/components/TravelEdit';
 export default function page() {
   return (
     <div className="flex gap-[5rem] p-12 h-[calc(100vh-4.5rem)]  ">
-      <TravelMap />
+      <div className="basis-1/2">
+        <TravelMap />
+      </div>
       <TravelEdit />
     </div>
   );

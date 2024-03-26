@@ -73,7 +73,8 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
       <TimePicker
         onChange={(newValue) => {
           if (newValue) {
-            const timeFormat = newValue.format('HH:mm A');
+            const timeFormat = newValue.format('hh:mm A');
+
             setTime(timeFormat);
           }
         }}

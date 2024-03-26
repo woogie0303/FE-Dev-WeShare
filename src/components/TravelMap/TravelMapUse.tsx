@@ -12,23 +12,21 @@ export default function TravelMapUse() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    kakao.maps.load(() => {
-      if (!mapRef.current) return;
+    if (!mapRef.current) return;
 
-      const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      };
-      // 직렬화로 데이터 바꾸기
-      const map = new kakao.maps.Map(mapRef.current, options);
+    const options = {
+      center: new kakao.maps.LatLng(33.450701, 126.570667),
+      level: 3,
+    };
+    // 직렬화로 데이터 바꾸기
+    const map = new kakao.maps.Map(mapRef.current, options);
 
-      dispatch(setTravelMap(map));
-    });
+    dispatch(setTravelMap(map));
   }, [dispatch]);
 
   return (
-    <div className="w-[50%]">
-      <div ref={mapRef} className="w-full h-full"></div>
+    <div className="h-full">
+      <div ref={mapRef} className="w-full h-full rounded-3xl"></div>
     </div>
   );
 }
