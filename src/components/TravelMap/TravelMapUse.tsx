@@ -3,7 +3,6 @@
 
 'use client';
 
-import { setTravelMap } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
 import React, { useEffect, useRef } from 'react';
 
@@ -19,9 +18,8 @@ export default function TravelMapUse() {
       level: 3,
     };
     // 직렬화로 데이터 바꾸기
-    const map = new kakao.maps.Map(mapRef.current, options);
-
-    dispatch(setTravelMap(map));
+    // eslint-disable-next-line no-new
+    new kakao.maps.Map(mapRef.current, options);
   }, [dispatch]);
 
   return (

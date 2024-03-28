@@ -52,5 +52,6 @@ const baseQueryWithReauth: BaseQueryFn = async (arg, api, extraOption) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['TravelComment'],
   endpoints: () => ({}),
 });

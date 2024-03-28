@@ -1,51 +1,30 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import {
-  EditListItemType,
-  MapMarkerType,
-  TravelPostDetailType,
-} from '@/types/TravelType';
-import { setMarkersLocation } from '@/store/travel/travelMap.slice';
-import { useAppDispatch } from '@/store/hook';
-import TravelPostDetailItem from './TravelPostDetailItem';
-import TravelPostDetailNav from './TravelPostDetailNav';
+import React, { useState } from 'react';
+
+import TravelPostDetailList from './TravelPostDetailList';
+import TravelMap from '../TravelMap';
+import TravelFeedback from '../TravelFeedback';
+import CommentList from '../TravelFeedback/CommentList';
 
 type Props = {
-  travelPostData: TravelPostDetailType;
+  travelPostData: any;
 };
 
 export default function TravelPostDetail({ travelPostData }: Props) {
-  const [activePostDetailItems, setActivePostDetailItems] = useState<
-    EditListItemType[]
-  >([]);
-  const dispatch = useAppDispatch();
+  const [commentIsOpen, setCommentIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (activePostDetailItems.length) {
-      const activePositionDetailMapMarker: MapMarkerType[] =
-        activePostDetailItems.map((item) => ({
-          longitude: item.longitude,
-          latitude: item.latitude,
-        }));
-
-      dispatch(setMarkersLocation(activePositionDetailMapMarker));
-    }
-  }, [activePostDetailItems, dispatch]);
   return (
-    <div className=" flex flex-col basis-1/2 h-full">
-      <TravelPostDetailNav
-        dayDetail={travelPostData.dayDetail}
-        setActivePostDetailItems={setActivePostDetailItems}
-      />
-      <div className="h-full overflow-scroll gap-2">
-        {activePostDetailItems.map((detailItem) => (
-          <TravelPostDetailItem
-            key={detailItem.expense}
-            detailItem={detailItem}
-          />
-        ))}
+    <>
+      <div className="flex flex-col basis-1/2">
+        <TravelMap />
+        <TravelFeedback setCommentIsOpen={setCommentIsOpen} />
       </div>
-    </div>
+      {commentIsOpen ? (
+        <CommentList scheduleId={travelPostData.id} />
+      ) : (
+        <TravelPostDetailList travelPostData={travelPostData} />
+      )}
+    </>
   );
 }

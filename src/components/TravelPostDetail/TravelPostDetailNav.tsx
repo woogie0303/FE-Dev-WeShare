@@ -31,7 +31,9 @@ export default function TravelPostDetailNav({
   } = useCurrentPageSection(dayDetail);
 
   useEffect(() => {
-    setActivePostDetailItems(dayDetail[currentPage - 1].places);
+    const dayDetailCurrentPage = currentPage - 1;
+
+    setActivePostDetailItems(dayDetail[dayDetailCurrentPage].places);
   }, [currentPage, dayDetail, setActivePostDetailItems]);
 
   return (
