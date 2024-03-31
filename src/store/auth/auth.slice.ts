@@ -17,10 +17,8 @@ const authSlice = createSlice({
       state.accessToken = accessToken;
     },
     logout: (state) => {
-      if (state.user && state.accessToken) {
-        state.user = undefined;
-        state.accessToken = undefined;
-      }
+      state.user = undefined;
+      state.accessToken = undefined;
     },
   },
 });
