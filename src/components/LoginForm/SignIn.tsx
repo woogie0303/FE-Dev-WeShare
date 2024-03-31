@@ -12,6 +12,7 @@ import { useAppDispatch } from '@/store/hook';
 import { isFetchBaseQueryError } from '@/Error/helpers';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ export default function SignIn({ setShowSignIn }: Props) {
   const passwordInput = useInput('password');
   const [signIn, { isError }] = useSignInMutation();
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
 
@@ -31,6 +33,10 @@ export default function SignIn({ setShowSignIn }: Props) {
         email: emailInput.inputValue,
         password: passwordInput.inputValue,
       }).unwrap();
+
+      if (res.accessToken) {
+        router.back();
+      }
 
       dispatch(
         setCredentials({ user: res.user, accessToken: res.accessToken }),
