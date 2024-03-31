@@ -3,7 +3,7 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
-import { ResponseLogin } from '@/types/LoginType';
+import { AuthStateType } from '@/types/LoginType';
 import type { RootState } from '../store';
 import { logout, setCredentials } from '../auth/auth.slice';
 
@@ -11,10 +11,10 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'https://uhanuu.site',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    const { token } = (getState() as RootState).auth;
+    const { accessToken } = (getState() as RootState).auth;
 
-    if (token) {
-      headers.set('authorization', `Bearer ${token}`);
+    if (accessToken) {
+      headers.set('authorization', `Bearer ${accessToken}`);
     }
 
     return headers;
@@ -33,9 +33,9 @@ const baseQueryWithReauth: BaseQueryFn = async (arg, api, extraOption) => {
 
     if (refreshResult.data) {
       const { user } = (api.getState() as RootState).auth;
-      const token = (refreshResult.data as ResponseLogin).accessToken;
+      const { accessToken } = refreshResult.data as AuthStateType;
 
-      api.dispatch(setCredentials({ token, user }));
+      api.dispatch(setCredentials({ accessToken, user }));
       result = await baseQuery(arg, api, extraOption);
     } else {
       await baseQuery(

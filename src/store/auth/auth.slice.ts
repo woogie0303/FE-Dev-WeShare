@@ -4,22 +4,22 @@ import type { RootState } from '../store';
 
 const initialState: AuthStateType = {
   user: undefined,
-  token: undefined,
+  accessToken: undefined,
 };
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setCredentials: (state, action: PayloadAction<AuthStateType>) => {
-      const { user, token } = action.payload;
+      const { user, accessToken } = action.payload;
 
       state.user = user;
-      state.token = token;
+      state.accessToken = accessToken;
     },
     logout: (state) => {
-      if (state.user && state.token) {
+      if (state.user && state.accessToken) {
         state.user = undefined;
-        state.token = undefined;
+        state.accessToken = undefined;
       }
     },
   },
@@ -27,6 +27,6 @@ const authSlice = createSlice({
 
 export const { setCredentials, logout } = authSlice.actions;
 export const selectUser = (state: RootState) => state.auth.user;
-export const selectToken = (state: RootState) => state.auth.token;
+export const selectToken = (state: RootState) => state.auth.accessToken;
 
 export default authSlice.reducer;

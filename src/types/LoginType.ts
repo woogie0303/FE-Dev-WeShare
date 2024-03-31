@@ -1,6 +1,6 @@
 interface AuthStateType {
   user: string | undefined;
-  token: string | undefined;
+  accessToken: string | undefined;
 }
 
 interface LoginFormType {
