@@ -6,11 +6,15 @@ import React from 'react';
 import TravelPreviewRenderMarker from './TravelPreviewRenderMarker';
 import TravelRenderMarkers from './TravelRenderMarkers';
 
-export default function TravelMarkerContainer() {
+type Props = {
+  kakaoMap: kakao.maps.Map;
+};
+
+export default function TravelMarkerContainer({ kakaoMap }: Props) {
   return (
     <>
-      <TravelPreviewRenderMarker />
-      <TravelRenderMarkers />
+      <TravelPreviewRenderMarker kakaoMap={kakaoMap} />
+      <TravelRenderMarkers kakaoMap={kakaoMap} />
     </>
   );
 }

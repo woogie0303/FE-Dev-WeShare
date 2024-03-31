@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import {
-  selectPreviewMarker,
-  selectTravelKakaoMap,
-} from '@/store/travel/travelMap.slice';
+import { selectPreviewMarker } from '@/store/travel/travelMap.slice';
 import { useAppSelector } from '@/store/hook';
 import React, { useEffect, useState } from 'react';
 import Svg from '@/assets/Mapmarker.svg';
 import { MapMarkerType } from '@/types/TravelType';
+
+type Props = {
+  kakaoMap: kakao.maps.Map;
+};
 
 const makePreviewMarker = (previewMarkerLocation: MapMarkerType) => {
   const previewMarkerPosition = new kakao.maps.LatLng(
@@ -27,29 +28,26 @@ const makePreviewMarker = (previewMarkerLocation: MapMarkerType) => {
   return previewMarker;
 };
 
-export default function TravelPreviewRenderMarker() {
+export default function TravelPreviewRenderMarker({ kakaoMap }: Props) {
   const previewMarkerLocation = useAppSelector(selectPreviewMarker);
 
-  const travelKakaoMap = useAppSelector(selectTravelKakaoMap);
   const [previousMarker, setPreviousMarker] = useState<kakao.maps.Marker>();
 
   useEffect(() => {
-    if (!travelKakaoMap) return;
-
     setPreviousMarker((pre) => {
       pre?.setMap(null);
 
       return previewMarkerLocation && makePreviewMarker(previewMarkerLocation);
     });
-  }, [previewMarkerLocation, travelKakaoMap]);
+  }, [previewMarkerLocation]);
 
   useEffect(() => {
-    if (travelKakaoMap && previousMarker) {
-      previousMarker.setMap(travelKakaoMap);
-      travelKakaoMap.setCenter(previousMarker.getPosition());
-      travelKakaoMap.setLevel(3);
+    if (kakaoMap && previousMarker) {
+      previousMarker.setMap(kakaoMap);
+      kakaoMap.setCenter(previousMarker.getPosition());
+      kakaoMap.setLevel(3);
     }
-  }, [previousMarker, travelKakaoMap]);
+  }, [previousMarker, kakaoMap]);
 
   return <></>;
 }

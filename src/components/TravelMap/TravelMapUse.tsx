@@ -6,7 +6,11 @@
 import { useAppDispatch } from '@/store/hook';
 import React, { useEffect, useRef } from 'react';
 
-export default function TravelMapUse() {
+type Props = {
+  setKakaoMap: React.Dispatch<React.SetStateAction<kakao.maps.Map | undefined>>;
+};
+
+export default function TravelMapUse({ setKakaoMap }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
@@ -17,10 +21,10 @@ export default function TravelMapUse() {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
     };
-    // 직렬화로 데이터 바꾸기
-    // eslint-disable-next-line no-new
-    new kakao.maps.Map(mapRef.current, options);
-  }, [dispatch]);
+
+    const map = new kakao.maps.Map(mapRef.current, options);
+    setKakaoMap(map);
+  }, [dispatch, setKakaoMap]);
 
   return (
     <div className="h-full">

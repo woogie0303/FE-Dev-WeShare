@@ -7,6 +7,7 @@ import TravelMarkerContainer from './TravelMarkerContainer';
 
 export default function TravelMap() {
   const [mapIsOpen, setMapIsOpen] = useState(false);
+  const [kakaoMap, setKakaoMap] = useState<kakao.maps.Map>();
 
   return (
     <>
@@ -19,14 +20,8 @@ export default function TravelMap() {
         }}
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_MAP_KEY}&autoload=false&libraries=services`}
       />
-      {mapIsOpen ? (
-        <>
-          <TravelMapUse />
-          <TravelMarkerContainer />
-        </>
-      ) : (
-        ''
-      )}
+      {mapIsOpen && <TravelMapUse setKakaoMap={setKakaoMap} />}
+      {kakaoMap && <TravelMarkerContainer kakaoMap={kakaoMap} />}
     </>
   );
 }
