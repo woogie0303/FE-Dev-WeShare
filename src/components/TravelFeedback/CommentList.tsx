@@ -15,7 +15,7 @@ export default function CommentList({ scheduleId }: Props) {
       <div className="h-full overflow-scroll">
         {data?.content.length ? (
           data.content.map((item) => (
-            <CommentItem key={item} commentItem={item} />
+            <CommentItem key={item.commentId} commentItem={item} />
           ))
         ) : (
           <div> 첫 댓글을 작성해 보세요</div>

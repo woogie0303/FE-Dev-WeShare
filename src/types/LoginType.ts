@@ -1,18 +1,9 @@
-interface ResponseLogin {
-  user: string;
-  accessToken: string;
+interface AuthStateType {
+  user: string | undefined;
+  token: string | undefined;
 }
 
-interface EmailInput {
-  emailInput: string;
-}
-
-interface AuthState {
-  user: string | null;
-  token: string | null;
-}
-
-interface LoginForm {
+interface LoginFormType {
   email: string;
   password: string;
   birthDate?: string;
@@ -23,4 +14,4 @@ interface OauthLogin {
   identityProvider: string;
 }
 
-export type { ResponseLogin, EmailInput, AuthState, LoginForm, OauthLogin };
+export type { AuthStateType, LoginFormType, OauthLogin };

@@ -13,6 +13,9 @@ import { setMarkersLocation } from '@/store/travel/travelMap.slice';
 import { EditListItemType, MapMarkerType } from '@/types/TravelType';
 import {
   selectTravelActiveSchedule,
+  selectTravelEditDateRange,
+  selectTravelEditDestination,
+  selectTravelEditTitle,
   selectTravelSchedules,
   setActiveTravelSchedule,
 } from '@/store/travel/travelEdit.slice';
@@ -26,6 +29,9 @@ type Props = {
 export default function TravelEditListContainer({ setShowEditForm }: Props) {
   const activeTravelSchedule = useAppSelector(selectTravelActiveSchedule);
   const travelSchedules = useAppSelector(selectTravelSchedules);
+  const travelEditTitle = useAppSelector(selectTravelEditTitle);
+  const travelEditDestination = useAppSelector(selectTravelEditDestination);
+  const travelEditDateRange = useAppSelector(selectTravelEditDateRange);
   const [editTravelPost] = useEditTravelPostMutation();
   const dispatch = useAppDispatch();
   const makeActiveMarkersArr = useCallback(
@@ -78,7 +84,12 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
           <PaperAirplaneIcon
             className="cursor-pointer"
             onClick={() => {
-              editTravelPost('POST').unwrap();
+              editTravelPost({
+                title: travelEditTitle,
+                destination: travelEditDestination,
+                visitDates: travelSchedules,
+                ...travelEditDateRange,
+              }).unwrap();
             }}
           />
         </div>

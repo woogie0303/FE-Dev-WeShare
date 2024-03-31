@@ -1,7 +1,10 @@
-import { TravelPostResponseType, TravelPostType } from '@/types/TravelType';
+import {
+  TravelEditPostType,
+  TravelPostResponseType,
+  TravelPostType,
+} from '@/types/TravelType';
 import { apiSlice } from '../api/apiSlice';
 import { addTravelPost } from './travelPost.slice';
-import type { RootState } from '../store';
 
 const travelApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,24 +31,12 @@ const travelApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
-    editTravelPost: builder.mutation({
-      queryFn: async (arg, api, extraOptions, baseQuery) => {
-        const state = api.getState() as RootState;
-        const travelEditState = state.travelEdit;
-
-        const data = await baseQuery({
-          url: '/api/v1/trip/schedules',
-          method: arg,
-          body: {
-            title: travelEditState.title,
-            destination: travelEditState.destination,
-            visitDates: travelEditState.travelSchedules,
-            ...travelEditState.travelDateRange,
-          },
-        });
-
-        return data;
-      },
+    editTravelPost: builder.mutation<void, TravelEditPostType>({
+      query: (editTravelPost) => ({
+        url: '/api/v1/trip/schedules',
+        method: 'POST',
+        body: { ...editTravelPost },
+      }),
     }),
   }),
 });

@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { setPreviewMarkerLocation } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
 import { SelectedPlaceType } from '@/types/TravelType';
@@ -12,7 +15,6 @@ type Props = {
 
 export default function TravelPlaceAutoItem({
   autoList,
-
   setSelectedPlace,
 }: Props) {
   const dispatch = useAppDispatch();
@@ -37,7 +39,6 @@ export default function TravelPlaceAutoItem({
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
     <li
       className="p-5 group cursor-pointer  hover:bg-[#6785ff] hover:text-white flex justify-between items-center"
       onMouseDown={(e) => {

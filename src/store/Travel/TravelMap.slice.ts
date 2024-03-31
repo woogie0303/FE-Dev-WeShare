@@ -3,13 +3,11 @@ import { MapMarkerType } from '@/types/TravelType';
 import type { RootState } from '../store';
 
 interface InitialStateType {
-  travelKakaoMap: kakao.maps.Map | undefined;
   mapMarkers: MapMarkerType[];
   previewMapMarker: MapMarkerType | undefined;
 }
 
 const initialState: InitialStateType = {
-  travelKakaoMap: undefined,
   mapMarkers: [],
   previewMapMarker: undefined,
 };
@@ -18,10 +16,6 @@ const travelMapSlice = createSlice({
   name: 'travelMap',
   initialState,
   reducers: {
-    setTravelMap: (state, action: PayloadAction<kakao.maps.Map>) => {
-      const travelMap = action.payload;
-      state.travelKakaoMap = travelMap;
-    },
     setMarkersLocation(state, action: PayloadAction<MapMarkerType[]>) {
       state.mapMarkers = action.payload;
     },
@@ -39,13 +33,10 @@ const travelMapSlice = createSlice({
 export const {
   resetMarkerLocation,
   setPreviewMarkerLocation,
-  setTravelMap,
   setMarkersLocation,
 } = travelMapSlice.actions;
 
 export const selectPreviewMarker = (state: RootState) =>
   state.travelMap.previewMapMarker;
-export const selectTravelKakaoMap = (state: RootState) =>
-  state.travelMap.travelKakaoMap;
 export const selectMapMarker = (state: RootState) => state.travelMap.mapMarkers;
 export default travelMapSlice.reducer;

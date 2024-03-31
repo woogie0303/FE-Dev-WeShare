@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {
   EditListItemType,
   MapMarkerType,
-  TravelPostDetailType,
+  TravelPostDetailDayDetailType,
 } from '@/types/TravelType';
 import { setMarkersLocation } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
@@ -12,10 +12,10 @@ import TravelPostDetailItem from './TravelPostDetailItem';
 import TravelPostDetailNav from './TravelPostDetailNav';
 
 type Props = {
-  travelPostData: TravelPostDetailType;
+  travelPostDayDetail: TravelPostDetailDayDetailType[];
 };
 
-export default function TravelPostDetailList({ travelPostData }: Props) {
+export default function TravelPostDetailList({ travelPostDayDetail }: Props) {
   const [activePostDetailItems, setActivePostDetailItems] = useState<
     EditListItemType[]
   >([]);
@@ -35,7 +35,7 @@ export default function TravelPostDetailList({ travelPostData }: Props) {
   return (
     <div className=" flex flex-col basis-1/2 h-full">
       <TravelPostDetailNav
-        dayDetail={travelPostData.dayDetail}
+        dayDetail={travelPostDayDetail}
         setActivePostDetailItems={setActivePostDetailItems}
       />
       <div className="h-full overflow-scroll gap-2">

@@ -4,13 +4,16 @@ interface SelectedPlaceType {
   latitude: number;
 }
 
-interface EditListItemType {
-  title: string;
+interface EditListItemType extends SelectedPlaceType {
   time: string;
   memo: string;
   expense: number;
-  latitude: number;
-  longitude: number;
+}
+
+interface TravelEditPostType extends TravelDateRangeType {
+  title: string;
+  destination: string;
+  visitDates: VisitDatesType<EditListItemType>[];
 }
 
 interface VisitDatesType<T> {
@@ -82,6 +85,28 @@ interface TravelPostDetailType {
   dayDetail: TravelPostDetailDayDetailType[];
 }
 
+interface TravelCommentResponseType<T> {
+  content: T[];
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  pageable: TravelPageableType;
+  size: number;
+  sort: TravelPostSort;
+  totalElements: number;
+  totalPages: number;
+}
+
+interface TravelCommentType {
+  commentId: number;
+  commenterName: string;
+  content: string;
+  createdDate: string;
+  scheduleId?: number;
+}
+
 export type {
   SelectedPlaceType,
   EditListItemType,
@@ -92,4 +117,7 @@ export type {
   TravelPostType,
   TravelPostDetailType,
   TravelPostDetailDayDetailType,
+  TravelEditPostType,
+  TravelCommentResponseType,
+  TravelCommentType,
 };

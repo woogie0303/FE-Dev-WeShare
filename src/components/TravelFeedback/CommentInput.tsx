@@ -51,9 +51,8 @@ export default function CommentInput({ scheduleId }: Props) {
             onClick={() => {
               postComment({
                 scheduleId,
-                comment: textAreaInput.current,
+                content: textAreaInput.current,
               });
-
               setCommentInputIsOpen(false);
             }}
           >

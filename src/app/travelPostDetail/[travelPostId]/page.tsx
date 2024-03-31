@@ -4,7 +4,7 @@ type Params = {
   params: { travelPostId: string };
 };
 
-const fetchShedulePost = async (scheduleId: string) => {
+const fetchSchedulePost = async (scheduleId: string) => {
   const travelPostData = await fetch(
     `https://www.uhanuu.site/api/v1/trip/schedules/${scheduleId}`,
     {
@@ -16,11 +16,11 @@ const fetchShedulePost = async (scheduleId: string) => {
 };
 
 export default async function page({ params }: Params) {
-  const travelPostData = await fetchShedulePost(params.travelPostId);
+  const travelPostDetailData = await fetchSchedulePost(params.travelPostId);
 
   return (
     <div className="flex h-full p-10 gap-10">
-      <TravelPostDetail travelPostData={travelPostData.data} />
+      <TravelPostDetail travelPostDetailData={travelPostDetailData.data} />
     </div>
   );
 }

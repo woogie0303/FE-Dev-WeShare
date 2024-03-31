@@ -32,9 +32,7 @@ export default function SignIn({ setShowSignIn }: Props) {
         password: passwordInput.inputValue,
       }).unwrap();
 
-      dispatch(
-        setCredentials({ user: emailInput.inputValue, token: res.accessToken }),
-      );
+      dispatch(setCredentials({ user: res.user, token: res.token }));
     } catch (err) {
       if (isFetchBaseQueryError(err)) {
         emailInput.setInputValue('');

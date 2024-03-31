@@ -39,7 +39,7 @@ export default function SignUp({ setShowSignIn }: Props) {
         return;
       }
 
-      await lazyCheckEmail({ emailInput: emailInput.inputValue });
+      await lazyCheckEmail({ email: emailInput.inputValue });
 
       setEmailDoubleCheck(true);
       setEmailErrorMsg('');
@@ -86,7 +86,7 @@ export default function SignUp({ setShowSignIn }: Props) {
   }, [emailInput.inputValue]);
 
   return isSuccess ? (
-    <div className="flex w-[25rem] h-[40rem] mx-auto flex-col items-center justify-evenly">
+    <div className="flex w-[25rem] bg-white h-[40rem] mx-auto flex-col items-center justify-evenly">
       <h2 className="text-center text-4xl font-bold text-blue-500">
         회원가입 완료
       </h2>

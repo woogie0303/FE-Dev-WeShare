@@ -1,8 +1,9 @@
+import { TravelCommentType } from '@/types/TravelType';
 import { UserIcon } from '@heroicons/react/24/solid';
 import React from 'react';
 
 type Props = {
-  commentItem: any;
+  commentItem: TravelCommentType;
 };
 
 export default function CommentItem({ commentItem }: Props) {
