@@ -8,8 +8,9 @@ import React from 'react';
 export default function Navbar() {
   const accessToken = useAppSelector(selectToken);
   const dispatch = useAppDispatch();
+
   return (
-    <nav className="w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav z-30">
+    <nav className="fixed w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav z-30">
       <Link href="/" className="text-3xl font-extrabold">
         weShare
       </Link>

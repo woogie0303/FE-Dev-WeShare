@@ -7,7 +7,7 @@ import withAuth from '@/components/LoginForm/withAuth';
 
 function Page() {
   return (
-    <div className="flex gap-[5rem] p-12 h-[calc(100vh-4.5rem)]  ">
+    <div className="flex gap-[5rem] pt-[8rem] p-12 h-full">
       <div className="basis-1/2">
         <TravelMap />
       </div>

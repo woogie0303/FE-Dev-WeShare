@@ -19,7 +19,7 @@ export default async function Page({ params }: Params) {
   const travelPostDetailData = await fetchSchedulePost(params.travelPostId);
 
   return (
-    <div className="flex h-full p-10 gap-10">
+    <div className="flex h-full p-10 gap-10 pt-[8rem]">
       <TravelPostDetail travelPostDetailData={travelPostDetailData.data} />
     </div>
   );

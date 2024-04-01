@@ -21,7 +21,7 @@ export default function RootLayout({
         <body>
           <Navbar />
           {/* Layout UI */}
-          <main className={`${noto.className} h-[90vh]`}>{children}</main>
+          <main className={`${noto.className} h-[100vh]`}>{children}</main>
           {modal}
         </body>
       </html>
