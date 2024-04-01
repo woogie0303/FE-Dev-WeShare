@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
@@ -6,10 +8,10 @@ type Props = {
 };
 
 export default function ModalForm({ children }: Props) {
-  const height = window.scrollY;
   const router = useRouter();
-
   useEffect(() => {
+    const height = window.scrollY;
+
     document.body.style.cssText = `
       position: fixed;
       top: -${height}px;
@@ -21,7 +23,7 @@ export default function ModalForm({ children }: Props) {
       document.body.style.cssText = '';
       window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     };
-  }, [height]);
+  }, []);
 
   return (
     <div className=" fixed flex justify-center items-center w-full  h-full top-0 left-0 z-30">
@@ -29,7 +31,9 @@ export default function ModalForm({ children }: Props) {
       <div
         role="presentation"
         className=" absolute w-full h-full bg-gray-400 opacity-[0.7] -z-10 "
-        onClick={router.back}
+        onClick={() => {
+          router.back();
+        }}
       />
       {children}
     </div>

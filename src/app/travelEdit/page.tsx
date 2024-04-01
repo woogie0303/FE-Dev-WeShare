@@ -1,12 +1,19 @@
-import TravelEdit from '@/components/TravelEdit';
+'use client';
+
 import TravelMap from '@/components/TravelMap';
 import React from 'react';
+import TravelEdit from '@/components/TravelEdit';
+import withAuth from '@/components/LoginForm/withAuth';
 
-export default function page() {
+function Page() {
   return (
-    <div className="flex gap-[5rem] p-12 h-[calc(100vh-4.5rem)]  ">
-      <TravelMap />
+    <div className="flex gap-[5rem] pt-[8rem] p-12 h-full">
+      <div className="basis-1/2">
+        <TravelMap />
+      </div>
       <TravelEdit />
     </div>
   );
 }
+
+export default withAuth(Page);

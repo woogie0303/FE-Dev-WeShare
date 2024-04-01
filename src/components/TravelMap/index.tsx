@@ -1,32 +1,27 @@
-/* eslint-disable react/self-closing-comp */
-
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+import React, { useState } from 'react';
+import Script from 'next/script';
+import TravelMapUse from './TravelMapUse';
+import TravelMarkerContainer from './TravelMarkerContainer';
 
 export default function TravelMap() {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const [mapIsOpen, setMapIsOpen] = useState(false);
+  const [kakaoMap, setKakaoMap] = useState<kakao.maps.Map>();
 
-  useEffect(() => {
-    window.kakao.maps.load(() => {
-      const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      };
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const map = new window.kakao.maps.Map(mapRef.current, options);
-    });
-  }, []);
   return (
-    <div className="w-[50%] p-[5rem] relative">
-      <div ref={mapRef} className="top-0 left-0 absolute w-full h-full"></div>
-    </div>
+    <>
+      <Script
+        type="text/javascript"
+        onReady={() => {
+          kakao.maps.load(() => {
+            setMapIsOpen(true);
+          });
+        }}
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_MAP_KEY}&autoload=false&libraries=services`}
+      />
+      {mapIsOpen && <TravelMapUse setKakaoMap={setKakaoMap} />}
+      {kakaoMap && <TravelMarkerContainer kakaoMap={kakaoMap} />}
+    </>
   );
 }

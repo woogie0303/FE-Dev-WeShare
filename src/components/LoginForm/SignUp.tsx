@@ -8,30 +8,28 @@ import {
   useState,
 } from 'react';
 import ErrorMessage from '@/Error/ErrorMessage';
-import { isFetchBaseQueryError } from '@/Error/helpers';
 import {
-  useCheckEmailMutation,
+  useLazyCheckEmailQuery,
   useSignUpMutation,
 } from '@/store/auth/authApi.slice';
-
-interface Props {
-  setShowSignUp: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const labelClass = 'mb-1 font-semibold text-gray-600';
 const inputClass = 'mb-4 border-b-2 py-2';
 
-function SignUp({ setShowSignUp }: Props) {
+type Props = {
+  setShowSignIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function SignUp({ setShowSignIn }: Props) {
   const [activeSignUpBtn, setActiveSignUpBtn] = useState<boolean>(false);
   const [emailDoubleCheck, setEmailDoubleCheck] = useState<boolean>(false);
   const [emailErrorMsg, setEmailErrorMsg] = useState<string>('');
-
+  const [lazyCheckEmail] = useLazyCheckEmailQuery();
   const emailInput = useInput('email');
   const passwordInput = useInput('password');
   const birthInput = useInput('birth');
 
   const [signUp, { isSuccess }] = useSignUpMutation();
-  const [checkEmail] = useCheckEmailMutation();
 
   const handleDuplicateBtn: MouseEventHandler = async () => {
     try {
@@ -41,15 +39,13 @@ function SignUp({ setShowSignUp }: Props) {
         return;
       }
 
-      await checkEmail({ emailInput: emailInput.inputValue }).unwrap();
+      await lazyCheckEmail({ email: emailInput.inputValue });
 
       setEmailDoubleCheck(true);
       setEmailErrorMsg('');
     } catch (err) {
-      if (isFetchBaseQueryError(err)) {
-        setEmailDoubleCheck(false);
-        setEmailErrorMsg('중복된 이메일 입니다.');
-      }
+      setEmailDoubleCheck(false);
+      setEmailErrorMsg('중복된 이메일 입니다.');
     }
   };
 
@@ -60,10 +56,10 @@ function SignUp({ setShowSignUp }: Props) {
       await signUp({
         email: emailInput.inputValue,
         password: passwordInput.inputValue,
-        birth: birthInput.inputValue,
+        birthDate: birthInput.inputValue,
       });
     } catch (err) {
-      throw new Error('lksdjf');
+      throw new Error('다시 시도해주세요');
     }
   };
 
@@ -83,14 +79,14 @@ function SignUp({ setShowSignUp }: Props) {
   }, [emailInput, passwordInput, birthInput, emailDoubleCheck]);
 
   useEffect(() => {
-    if (emailDoubleCheck) {
+    if (emailInput.inputValue.length) {
       setEmailDoubleCheck(false);
-      setEmailErrorMsg('다시 중복 확인 해주세요');
+      setEmailErrorMsg('중복 확인 해주세요');
     }
-  }, [emailDoubleCheck, emailInput.inputValue]);
+  }, [emailInput.inputValue]);
 
   return isSuccess ? (
-    <div className="flex w-[25rem] mx-auto flex-col items-center justify-evenly">
+    <div className="flex w-[25rem] bg-white h-[40rem] mx-auto flex-col items-center justify-evenly">
       <h2 className="text-center text-4xl font-bold text-blue-500">
         회원가입 완료
       </h2>
@@ -98,10 +94,11 @@ function SignUp({ setShowSignUp }: Props) {
         <span className="mx-2 text-blue-500 ">weShare,</span>
         함께 나눠봐요
       </p>
+
       <button
         type="button"
         className=" mb-6 mt-8  w-[10rem] rounded-3xl bg-blue-200 py-3 font-semibold leading-8 text-white transition duration-500 ease-in-out hover:bg-blue-500"
-        onClick={() => setShowSignUp(false)}
+        onClick={() => setShowSignIn(true)}
       >
         로그인하러 가기
       </button>
@@ -109,7 +106,7 @@ function SignUp({ setShowSignUp }: Props) {
   ) : (
     <form
       onSubmit={handleSubmit}
-      className="text-s flex h-[40rem] w-[25rem] flex-col items-center justify-between rounded-[4rem] border-2 border-solid px-10 py-10"
+      className="bg-white flex h-[40rem] w-[25rem] flex-col items-center justify-between rounded-[4rem] border-2 border-solid px-10 py-10"
     >
       <h1 className="mb-6 text-2xl font-bold ">회원가입</h1>
       <h2 className="text-1xl mb-8 font-semibold text-gray-400">
@@ -197,5 +194,3 @@ function SignUp({ setShowSignUp }: Props) {
     </form>
   );
 }
-
-export default SignUp;

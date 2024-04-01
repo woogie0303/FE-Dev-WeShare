@@ -3,18 +3,20 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
+import { AuthStateType } from '@/types/LoginType';
 import type { RootState } from '../store';
 import { logout, setCredentials } from '../auth/auth.slice';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: ' http://localhost:5174',
+  baseUrl: 'https://uhanuu.site',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    const { token } = (getState() as RootState).auth;
+    const { accessToken } = (getState() as RootState).auth;
 
-    if (token) {
-      headers.set('authorization', `Bearer ${token}`);
+    if (accessToken) {
+      headers.set('authorization', `Bearer ${accessToken}`);
     }
+
     return headers;
   },
 });
@@ -24,16 +26,16 @@ const baseQueryWithReauth: BaseQueryFn = async (arg, api, extraOption) => {
 
   if (result?.error && result?.error?.status === 403) {
     const refreshResult = await baseQuery(
-      '/auth/reissue-token',
+      '/api/v1/auth/reissue-token',
       api,
       extraOption,
     );
 
     if (refreshResult.data) {
       const { user } = (api.getState() as RootState).auth;
-      const token = (refreshResult.data as ResponseLogin).accessToken;
+      const { accessToken } = refreshResult.data as AuthStateType;
 
-      api.dispatch(setCredentials({ token, user }));
+      api.dispatch(setCredentials({ accessToken, user }));
       result = await baseQuery(arg, api, extraOption);
     } else {
       await baseQuery(
@@ -50,5 +52,6 @@ const baseQueryWithReauth: BaseQueryFn = async (arg, api, extraOption) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['TravelComment'],
   endpoints: () => ({}),
 });
