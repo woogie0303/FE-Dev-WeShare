@@ -15,7 +15,7 @@ const fetchSchedulePost = async (scheduleId: string) => {
   return travelPostData.json();
 };
 
-export default async function page({ params }: Params) {
+export default async function Page({ params }: Params) {
   const travelPostDetailData = await fetchSchedulePost(params.travelPostId);
 
   return (
