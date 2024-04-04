@@ -13,7 +13,6 @@ import React from 'react';
 export default function TravelEditCalendar() {
   const { startDate, endDate } = useAppSelector(selectTravelEditDateRange);
   const dispatch = useAppDispatch();
-
   const handleDateRange = (values: DateRangeType) => {
     const startDateToString = values[0]!.format('YYYY-MM-DD');
     const endDateToString = values[1]!.format('YYYY-MM-DD');

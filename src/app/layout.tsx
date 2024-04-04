@@ -2,6 +2,7 @@ import ReduxWrapper from '@/store/ReduxWrapper';
 import './globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import Navbar from '@/components/Navbar';
+import ModalProvider from '@/components/Modal/ModalProvider';
 
 const noto = Noto_Sans_KR({
   weight: ['400', '500', '700'],
@@ -21,7 +22,11 @@ export default function RootLayout({
         <body>
           <Navbar />
           {/* Layout UI */}
-          <main className={`${noto.className} h-[100vh]`}>{children}</main>
+          <ModalProvider>
+            <main className={`${noto.className} min-h-[788px] h-screen`}>
+              {children}
+            </main>
+          </ModalProvider>
           {modal}
         </body>
       </html>

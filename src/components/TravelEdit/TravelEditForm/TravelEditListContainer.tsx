@@ -13,13 +13,11 @@ import { setMarkersLocation } from '@/store/travel/travelMap.slice';
 import { EditListItemType, MapMarkerType } from '@/types/TravelType';
 import {
   selectTravelActiveSchedule,
-  selectTravelEditDateRange,
-  selectTravelEditDestination,
-  selectTravelEditTitle,
   selectTravelSchedules,
   setActiveTravelSchedule,
 } from '@/store/travel/travelEdit.slice';
-import { useEditTravelPostMutation } from '@/store/travel/travelApi.slice';
+
+import { useModal } from '@/hooks/useModal';
 import TravelEditListItem from './TravelEditListItem';
 
 type Props = {
@@ -27,13 +25,10 @@ type Props = {
 };
 
 export default function TravelEditListContainer({ setShowEditForm }: Props) {
+  const dispatch = useAppDispatch();
   const activeTravelSchedule = useAppSelector(selectTravelActiveSchedule);
   const travelSchedules = useAppSelector(selectTravelSchedules);
-  const travelEditTitle = useAppSelector(selectTravelEditTitle);
-  const travelEditDestination = useAppSelector(selectTravelEditDestination);
-  const travelEditDateRange = useAppSelector(selectTravelEditDateRange);
-  const [editTravelPost] = useEditTravelPostMutation();
-  const dispatch = useAppDispatch();
+  const { onOpen: onOpenSendModal } = useModal('TravelEditFormModal');
   const makeActiveMarkersArr = useCallback(
     (activeVisitPlacesArr: EditListItemType[]) => {
       const activeMarkers: MapMarkerType[] = activeVisitPlacesArr.map(
@@ -83,14 +78,7 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
           <BookmarkSquareIcon className="cursor-pointer" />
           <PaperAirplaneIcon
             className="cursor-pointer"
-            onClick={() => {
-              editTravelPost({
-                title: travelEditTitle,
-                destination: travelEditDestination,
-                visitDates: travelSchedules,
-                ...travelEditDateRange,
-              }).unwrap();
-            }}
+            onClick={onOpenSendModal}
           />
         </div>
       </div>
