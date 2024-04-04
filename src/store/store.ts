@@ -4,11 +4,13 @@ import authReducer from './auth/auth.slice';
 import travelMapReducer from './travel/travelMap.slice';
 import travelEditReducer from './travel/travelEdit.slice';
 import travelPostReducer from './travel/travelPost.slice';
+import modalReducer from './modal/modal.slice';
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
+    modal: modalReducer,
     travelMap: travelMapReducer,
     travelEdit: travelEditReducer,
     travelPost: travelPostReducer,
