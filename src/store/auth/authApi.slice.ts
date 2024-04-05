@@ -38,6 +38,12 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credential },
       }),
     }),
+    withdrawUser: builder.mutation({
+      query: () => ({
+        url: '/api/v1/me',
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
@@ -47,4 +53,5 @@ export const {
   useLazyCheckEmailQuery,
   useLazyReissueTokenQuery,
   useChangePasswordMutation,
+  useWithdrawUserMutation,
 } = authApiSlice;

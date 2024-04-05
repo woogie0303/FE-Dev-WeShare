@@ -9,7 +9,7 @@ export default function UserInfo() {
       <p className="my-3 cursor-default font-bold text-3xl text-primary">
         강동욱
       </p>
-      <Link href="./myPage/setting">
+      <Link href="./myPage/setting" scroll={false}>
         <button
           type="button"
           className="bg-secondary text-white p-2 rounded-lg"

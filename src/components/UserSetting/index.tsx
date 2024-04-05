@@ -2,10 +2,12 @@
 
 import { UserIcon } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
+import { useModal } from '@/hooks/useModal';
 import PasswordForm from './PasswordForm';
 
 export default function UserSetting() {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const { onOpen: openWithdrawModal } = useModal('WithdrawModal');
 
   return (
     <div className="bg-white w-[20rem] h-[30rem] px-8 rounded-xl border-2">
@@ -40,6 +42,13 @@ export default function UserSetting() {
                 변경
               </button>
             </div>
+            <button
+              type="button"
+              className="bg-red-300 mt-10 w-full rounded-xl p-2 text-white font-bold"
+              onClick={openWithdrawModal}
+            >
+              탈퇴하기
+            </button>
           </div>
         </div>
       )}
