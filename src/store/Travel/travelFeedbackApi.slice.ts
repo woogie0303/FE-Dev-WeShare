@@ -1,13 +1,10 @@
-import {
-  TravelCommentType,
-  TravelCommentResponseType,
-} from '@/types/TravelType';
+import { TravelCommentType, PageableResponseType } from '@/types/TravelType';
 import { apiSlice } from '../api/apiSlice';
 
 const travelFeedbackApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTravelComment: builder.query<
-      TravelCommentResponseType<TravelCommentType>,
+      PageableResponseType<TravelCommentType>,
       number
     >({
       providesTags: ['TravelComment'],

@@ -10,7 +10,7 @@ import {
 import React, { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { setMarkersLocation } from '@/store/travel/travelMap.slice';
-import { EditListItemType, MapMarkerType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import {
   selectTravelActiveSchedule,
   selectTravelSchedules,
@@ -30,13 +30,12 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
   const travelSchedules = useAppSelector(selectTravelSchedules);
   const { onOpen: onOpenSendModal } = useModal('TravelEditFormModal');
   const makeActiveMarkersArr = useCallback(
-    (activeVisitPlacesArr: EditListItemType[]) => {
-      const activeMarkers: MapMarkerType[] = activeVisitPlacesArr.map(
-        (activeVisitPlace) => ({
+    (activeVisitPlacesArr: PlaceItemType[]) => {
+      const activeMarkers: Pick<PlaceItemType, 'latitude' | 'longitude'>[] =
+        activeVisitPlacesArr.map((activeVisitPlace) => ({
           latitude: activeVisitPlace.latitude,
           longitude: activeVisitPlace.longitude,
-        }),
-      );
+        }));
 
       return activeMarkers;
     },
@@ -47,9 +46,7 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
   };
 
   useEffect(() => {
-    const activeMarkers = makeActiveMarkersArr(
-      activeTravelSchedule.visitPlaces,
-    );
+    const activeMarkers = makeActiveMarkersArr(activeTravelSchedule.places);
 
     dispatch(setMarkersLocation(activeMarkers));
   }, [activeTravelSchedule, dispatch, makeActiveMarkersArr]);
@@ -84,14 +81,13 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
       </div>
       {/* Day Travel Edit ListItem */}
       <div className="h-[25rem] overflow-scroll">
-        {activeTravelSchedule.visitPlaces &&
-          activeTravelSchedule.visitPlaces.map((visitPlace) => (
-            <TravelEditListItem
-              key={visitPlace.title}
-              visitPlace={visitPlace}
-              setShowEditForm={setShowEditForm}
-            />
-          ))}
+        {activeTravelSchedule.places.map((visitPlace) => (
+          <TravelEditListItem
+            key={visitPlace.title}
+            visitPlace={visitPlace}
+            setShowEditForm={setShowEditForm}
+          />
+        ))}
       </div>
     </div>
   ) : (

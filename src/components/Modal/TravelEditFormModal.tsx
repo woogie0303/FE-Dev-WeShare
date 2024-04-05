@@ -27,7 +27,7 @@ export default function TravelEditFormModal({ onClose }: Props) {
     editTravelPost({
       title: travelEditTitle,
       destination: travelEditDestination,
-      visitDates: travelSchedules,
+      dayDetail: travelSchedules,
       ...travelEditDateRange,
     });
 

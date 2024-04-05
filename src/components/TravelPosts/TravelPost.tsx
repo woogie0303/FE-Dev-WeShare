@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React, { forwardRef } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   UserIcon,
   HeartIcon,

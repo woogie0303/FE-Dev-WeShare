@@ -1,21 +1,26 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-  EditListItemType,
-  TravelDateRangeType,
-  VisitDatesType,
+  DayDetailType,
+  PlaceItemType,
+  SchedulesType,
 } from '@/types/TravelType';
 import { DateRangeType } from '@/utils/dayjs';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import type { RootState } from '../store';
 
+type TravelDateRangeType = Pick<
+  SchedulesType<DayDetailType<PlaceItemType>>,
+  'startDate' | 'endDate'
+>;
+
 type TravelEditSliceState = {
   title: string;
   destination: string;
   travelDateRange: TravelDateRangeType;
-  travelSchedules: VisitDatesType<EditListItemType>[];
-  activeTravelSchedule: VisitDatesType<EditListItemType>;
-  editListItem: EditListItemType | undefined;
+  travelSchedules: DayDetailType<PlaceItemType>[];
+  activeTravelSchedule: DayDetailType<PlaceItemType>;
+  editListItem: PlaceItemType | undefined;
 };
 
 const initialState: TravelEditSliceState = {
@@ -23,7 +28,7 @@ const initialState: TravelEditSliceState = {
   destination: '',
   travelDateRange: { startDate: '', endDate: '' },
   travelSchedules: [],
-  activeTravelSchedule: { travelDate: '', visitPlaces: [] },
+  activeTravelSchedule: { travelDate: '', places: [] },
   editListItem: undefined,
 };
 
@@ -40,12 +45,12 @@ const travelEditSlice = createSlice({
       const numDays = endDate!.diff(startDate, 'day') + 1;
       const dateRange = Array.from({
         length: numDays,
-      }).reduce((acc: VisitDatesType<EditListItemType>[], _, index) => {
+      }).reduce((acc: DayDetailType<PlaceItemType>[], _, index) => {
         const travelDate = startDate!
           .clone()
           .add(index, 'day')
           .format('YYYY-MM-DD');
-        acc.push({ travelDate, visitPlaces: [] });
+        acc.push({ travelDate, places: [] });
         return acc;
       }, []);
 
@@ -53,7 +58,7 @@ const travelEditSlice = createSlice({
     },
     resetTravelSchedules: (state) => {
       state.travelSchedules = [];
-      state.activeTravelSchedule = { travelDate: '', visitPlaces: [] };
+      state.activeTravelSchedule = { travelDate: '', places: [] };
       state.travelDateRange = { startDate: '', endDate: '' };
     },
     setActiveTravelSchedule: (state, action: PayloadAction<string>) => {
@@ -64,30 +69,26 @@ const travelEditSlice = createSlice({
         state.activeTravelSchedule = travelSchedule;
       }
     },
-    removeActiveTravelItem: (
-      state,
-      action: PayloadAction<EditListItemType>,
-    ) => {
+    removeActiveTravelItem: (state, action: PayloadAction<PlaceItemType>) => {
       const findActiveScheduleIndex = state.travelSchedules.findIndex(
         (travelSchedule) =>
           travelSchedule.travelDate === state.activeTravelSchedule.travelDate,
       );
-      const removeActiveSchedule =
-        state.activeTravelSchedule.visitPlaces.filter(
-          (visitPlace) => !isEqual(visitPlace, action.payload),
-        );
+      const removeActiveSchedule = state.activeTravelSchedule.places.filter(
+        (visitPlace) => !isEqual(visitPlace, action.payload),
+      );
 
-      state.activeTravelSchedule.visitPlaces = removeActiveSchedule;
-      state.travelSchedules[findActiveScheduleIndex].visitPlaces =
+      state.activeTravelSchedule.places = removeActiveSchedule;
+      state.travelSchedules[findActiveScheduleIndex].places =
         removeActiveSchedule;
     },
-    addActiveTravelItem: (state, action: PayloadAction<EditListItemType>) => {
+    addActiveTravelItem: (state, action: PayloadAction<PlaceItemType>) => {
       const findActiveScheduleIndex = state.travelSchedules.findIndex(
         (travelSchedule) =>
           travelSchedule.travelDate === state.activeTravelSchedule.travelDate,
       );
-      state.activeTravelSchedule.visitPlaces.push(action.payload);
-      state.activeTravelSchedule.visitPlaces.sort((a, b) => {
+      state.activeTravelSchedule.places.push(action.payload);
+      state.activeTravelSchedule.places.sort((a, b) => {
         const timeRegex = /(\d+):(\d+)\s*(AM|PM)/;
         const preMatch = a.time.match(timeRegex);
         const curMatch = b.time.match(timeRegex);
@@ -111,7 +112,7 @@ const travelEditSlice = createSlice({
     },
     changeEditListItem: (
       state,
-      action: PayloadAction<EditListItemType | undefined>,
+      action: PayloadAction<PlaceItemType | undefined>,
     ) => {
       state.editListItem = action.payload;
     },

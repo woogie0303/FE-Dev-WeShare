@@ -4,12 +4,12 @@ import {
   removeActiveTravelItem,
 } from '@/store/travel/travelEdit.slice';
 import { useAppDispatch } from '@/store/hook';
-import { EditListItemType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import Image from 'next/image';
 import React from 'react';
 
 type Props = {
-  visitPlace: EditListItemType;
+  visitPlace: PlaceItemType;
   setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

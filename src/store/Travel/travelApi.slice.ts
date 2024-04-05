@@ -1,6 +1,8 @@
 import {
-  TravelEditPostType,
-  TravelPostResponseType,
+  DayDetailType,
+  PageableResponseType,
+  PlaceItemType,
+  SchedulesType,
   TravelPostType,
 } from '@/types/TravelType';
 import { apiSlice } from '../api/apiSlice';
@@ -10,7 +12,7 @@ const travelApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTravelPost: builder.query<
       Pick<
-        TravelPostResponseType<TravelPostType>,
+        PageableResponseType<TravelPostType>,
         'content' | 'last' | 'pageable' | 'totalPages'
       >,
       number
@@ -18,7 +20,7 @@ const travelApiSlice = apiSlice.injectEndpoints({
       query: (page) => ({
         url: `/api/v1/trip/schedules?page=${page}&size=12`,
       }),
-      transformResponse: (data: TravelPostResponseType<TravelPostType>) => {
+      transformResponse: (data: PageableResponseType<TravelPostType>) => {
         const { content, last, pageable, totalPages } = data;
 
         return { content, last, pageable, totalPages };
@@ -31,7 +33,10 @@ const travelApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
-    editTravelPost: builder.mutation<void, TravelEditPostType>({
+    editTravelPost: builder.mutation<
+      void,
+      SchedulesType<DayDetailType<PlaceItemType>>
+    >({
       query: (editTravelPost) => ({
         url: '/api/v1/trip/schedules',
         method: 'POST',

@@ -21,6 +21,7 @@ export const useTravelInfinitePost = () => {
   const fetchNextPage = () => {
     if (
       data &&
+      data.totalPages &&
       currentPage <= data.totalPages &&
       data.pageable.pageNumber === currentPage
     ) {

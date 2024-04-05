@@ -1,62 +1,55 @@
-interface SelectedPlaceType {
+interface PlaceItemType {
   title: string;
   longitude: number;
   latitude: number;
-}
-
-interface EditListItemType extends SelectedPlaceType {
   time: string;
   memo: string;
   expense: number;
 }
 
-interface TravelEditPostType extends TravelDateRangeType {
+interface SchedulesType<T> {
   title: string;
   destination: string;
-  visitDates: VisitDatesType<EditListItemType>[];
+  dayDetail: T[];
+  id?: number;
+  startDate?: string;
+  endDate?: string;
+  createdDate?: string;
+  userName?: string;
 }
 
-interface VisitDatesType<T> {
+interface DayDetailType<T> {
   travelDate: string;
-  visitPlaces: T[];
+  places: T[];
+  totalDayPrice?: number;
 }
 
-interface MapMarkerType {
-  latitude: number;
-  longitude: number;
-}
-
-interface TravelDateRangeType {
-  startDate: string;
-  endDate: string;
-}
-
-interface TravelPostSort {
+interface PageableSortType {
   empty: boolean;
   sorted: boolean;
   unsorted: boolean;
 }
 
-interface TravelPageableType {
+interface PageableType {
   offset: number;
   pageNumber: number;
   pageSize: number;
   paged: boolean;
-  sort: TravelPostSort;
+  sort: PageableSortType;
 }
 
-interface TravelPostResponseType<T> {
+interface PageableResponseType<T> {
+  totalPages?: number;
+  totalElements?: number;
+  size: number;
   content: T[];
-  empty: boolean;
+  number: number;
+  sort: PageableSortType;
+  numberOfElements: number;
+  pageable: PageableType;
   first: boolean;
   last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: TravelPageableType;
-  size: number;
-  sort: TravelPostSort;
-  totalElements: number;
-  totalPages: number;
+  empty: boolean;
 }
 
 interface TravelPostType {
@@ -68,37 +61,6 @@ interface TravelPostType {
   userName: string;
 }
 
-interface TravelPostDetailDayDetailType {
-  travelDate: string;
-  places: EditListItemType[];
-  totalDayPrice: number;
-}
-
-interface TravelPostDetailType {
-  id: number;
-  title: string;
-  destination: string;
-  userName: string;
-  startDate: string;
-  endDate: string;
-  createdDate: string;
-  dayDetail: TravelPostDetailDayDetailType[];
-}
-
-interface TravelCommentResponseType<T> {
-  content: T[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: TravelPageableType;
-  size: number;
-  sort: TravelPostSort;
-  totalElements: number;
-  totalPages: number;
-}
-
 interface TravelCommentType {
   commentId: number;
   commenterName: string;
@@ -108,16 +70,10 @@ interface TravelCommentType {
 }
 
 export type {
-  SelectedPlaceType,
-  EditListItemType,
-  VisitDatesType,
-  MapMarkerType,
-  TravelDateRangeType,
-  TravelPostResponseType,
+  PlaceItemType,
+  SchedulesType,
+  DayDetailType,
+  PageableResponseType,
   TravelPostType,
-  TravelPostDetailType,
-  TravelPostDetailDayDetailType,
-  TravelEditPostType,
-  TravelCommentResponseType,
   TravelCommentType,
 };

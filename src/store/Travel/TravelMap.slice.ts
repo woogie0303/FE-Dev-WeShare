@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { MapMarkerType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import type { RootState } from '../store';
+
+type MapMarkerType = Pick<PlaceItemType, 'latitude' | 'longitude'>;
 
 interface InitialStateType {
   mapMarkers: MapMarkerType[];

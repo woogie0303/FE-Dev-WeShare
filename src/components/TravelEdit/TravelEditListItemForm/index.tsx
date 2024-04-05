@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { TimePicker } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { resetMarkerLocation } from '@/store/travel/travelMap.slice';
-import { EditListItemType, SelectedPlaceType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import {
   addActiveTravelItem,
   changeEditListItem,
@@ -22,7 +22,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
   const editListItem = useAppSelector(selectEditListItem);
   const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
-    SelectedPlaceType | undefined
+    Pick<PlaceItemType, 'title' | 'latitude' | 'longitude'> | undefined
   >();
 
   const [expense, setExpense] = useState<number>(0);
@@ -30,7 +30,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
   const dispatch = useAppDispatch();
   const sendTravelEditListItem = () => {
     if (selectedPlace && time && expense && memo) {
-      const editItem: EditListItemType = {
+      const editItem: PlaceItemType = {
         title: selectedPlace.title,
         latitude: selectedPlace.latitude,
         longitude: selectedPlace.longitude,

@@ -24,7 +24,7 @@ export default function TravelEditCalendar() {
     );
   };
 
-  return startDate.length && endDate.length ? (
+  return startDate?.length && endDate?.length ? (
     <div className="flex text-[#508AFF] font-bold items-center justify-center bg-third w-max gap-2  px-4 py-1 rounded-xl cursor-default ">
       <p>{startDate}</p>
       <p className="">~</p>
