@@ -1,4 +1,8 @@
-import { LoginFormType, AuthStateType } from '@/types/LoginType';
+import {
+  LoginFormType,
+  AuthStateType,
+  ChangePasswordType,
+} from '@/types/LoginType';
 import { apiSlice } from '../api/apiSlice';
 
 const authApiSlice = apiSlice.injectEndpoints({
@@ -27,6 +31,13 @@ const authApiSlice = apiSlice.injectEndpoints({
         url: '/api/v1/auth/reissue-token',
       }),
     }),
+    changePassword: builder.mutation<void, ChangePasswordType>({
+      query: (credential) => ({
+        url: '/api/v1/me/password',
+        method: 'PATCH',
+        body: { ...credential },
+      }),
+    }),
   }),
 });
 
@@ -35,4 +46,5 @@ export const {
   useSignUpMutation,
   useLazyCheckEmailQuery,
   useLazyReissueTokenQuery,
+  useChangePasswordMutation,
 } = authApiSlice;

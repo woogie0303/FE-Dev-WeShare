@@ -14,4 +14,10 @@ interface OauthLogin {
   identityProvider: string;
 }
 
-export type { AuthStateType, LoginFormType, OauthLogin };
+interface ChangePasswordType {
+  oldPassword: string;
+  newPassword: string;
+  verifyPassword: string;
+}
+
+export type { AuthStateType, LoginFormType, OauthLogin, ChangePasswordType };
