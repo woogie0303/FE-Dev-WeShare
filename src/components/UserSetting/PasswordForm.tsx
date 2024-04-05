@@ -1,8 +1,9 @@
+import { isFetchBaseQueryError } from '@/Error/helpers';
 import { logout } from '@/store/auth/auth.slice';
 import { useChangePasswordMutation } from '@/store/auth/authApi.slice';
 import { useAppDispatch } from '@/store/hook';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type Props = {
   setShowPasswordForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +13,7 @@ export default function PasswordForm({ setShowPasswordForm }: Props) {
   const dispatch = useAppDispatch();
   const passwordRef = useRef<HTMLInputElement[] | null[]>([]);
   const [passwordErr, setPasswordErr] = useState('');
-  const [changePassword, { isSuccess }] = useChangePasswordMutation();
+  const [changePassword, { isSuccess, error }] = useChangePasswordMutation();
   const passwordSubmitHandler = () => {
     const [oldPassword, newPassword, verifyPassword] = passwordRef.current;
 
@@ -36,12 +37,18 @@ export default function PasswordForm({ setShowPasswordForm }: Props) {
     dispatch(logout());
   };
 
+  useEffect(() => {
+    if (isFetchBaseQueryError(error) && error.status === 400) {
+      setPasswordErr('사용자 비밀번호가 틀렸습니다.');
+    }
+  }, [error]);
+
   return (
     <div className="flex flex-col justify-evenly h-full">
       {isSuccess ? (
         <>
           <h2 className="text-2xl font-bold text-center">변경 완료</h2>
-          <Link href="/">
+          <Link href="/" className="self-center">
             <button
               type="button"
               className="bg-secondary text-white font-bold text-lg p-2 rounded-x mr-2 rounded-xl"
@@ -65,6 +72,9 @@ export default function PasswordForm({ setShowPasswordForm }: Props) {
                 placeholder="현재 비밀번호"
                 className="border-2 p-2 rounded-md"
               />
+              {isFetchBaseQueryError(error) && error.status === 400 && (
+                <p className="font-bold text-red-300 text-sm">{passwordErr}</p>
+              )}
               <input
                 ref={(el) => {
                   passwordRef.current[1] = el;
@@ -73,7 +83,7 @@ export default function PasswordForm({ setShowPasswordForm }: Props) {
                 placeholder="새 비밀번호"
                 className="border-2 p-2 rounded-md"
               />
-              {passwordErr && (
+              {passwordErr && !isFetchBaseQueryError(error) && (
                 <p className="font-bold text-red-300 text-sm">{passwordErr}</p>
               )}
               <input
