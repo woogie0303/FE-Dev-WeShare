@@ -1,10 +1,13 @@
+'use client';
+
+import withAuth from '../LoginForm/withAuth';
 import MyPageNav from './MyPageNav';
 import MyPagePost from './MyPagePost';
 import UserInfo from './UserInfo';
 
 const DUMMY_DATA = [1, 2, 3, 4, 5, 6];
 
-export default function MyPageContainer() {
+function MyPage() {
   return (
     <>
       <UserInfo />
@@ -17,3 +20,5 @@ export default function MyPageContainer() {
     </>
   );
 }
+
+export default withAuth(MyPage);

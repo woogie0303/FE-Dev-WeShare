@@ -14,9 +14,12 @@ export default function Navbar() {
       <Link href="/" className="text-3xl font-extrabold">
         weShare
       </Link>
-      <div className="flex items-center text font-bold [&>*:first-child]:mr-8 ">
+      <div className="flex items-center text font-bold gap-6">
         <Link href="/travelEdit" className="">
           여행 쓰기
+        </Link>
+        <Link href="/myPage" className="">
+          마이페이지
         </Link>
         {accessToken ? (
           <button
