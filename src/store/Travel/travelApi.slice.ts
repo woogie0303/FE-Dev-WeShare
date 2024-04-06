@@ -43,8 +43,22 @@ const travelApiSlice = apiSlice.injectEndpoints({
         body: { ...editTravelPost },
       }),
     }),
+    getMyTravelPost: builder.query<
+      Pick<TravelPostType, 'title' | 'scheduleId' | 'createdAt'>[],
+      string
+    >({
+      query: (myScheduleArg) => ({ url: `/api/v1/me/${myScheduleArg}` }),
+      transformResponse: (res: any) => {
+        const { content } = res.data;
+
+        return content;
+      },
+    }),
   }),
 });
 
-export const { useGetTravelPostQuery, useEditTravelPostMutation } =
-  travelApiSlice;
+export const {
+  useGetTravelPostQuery,
+  useEditTravelPostMutation,
+  useGetMyTravelPostQuery,
+} = travelApiSlice;

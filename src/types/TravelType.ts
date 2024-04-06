@@ -53,6 +53,8 @@ interface PageableResponseType<T> {
 }
 
 interface TravelPostType {
+  title?: string;
+  createdAt?: string;
   likesCount: number;
   commentsCount: number;
   createdDate: string;
