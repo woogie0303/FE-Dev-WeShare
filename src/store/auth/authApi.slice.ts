@@ -5,6 +5,11 @@ import {
 } from '@/types/LoginType';
 import { apiSlice } from '../api/apiSlice';
 
+type DoubleCheck = {
+  type: string;
+  inputValue: string;
+};
+
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation<AuthStateType, LoginFormType>({
@@ -21,9 +26,9 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credential },
       }),
     }),
-    checkEmail: builder.query<void, Pick<LoginFormType, 'email'>>({
+    checkEmail: builder.query<void, DoubleCheck>({
       query: (credential) => ({
-        url: `/api/v1/auth/signup/duplicate-email?email=${credential.email}`,
+        url: `/api/v1/auth/signup/duplicate-${credential.type}?${credential.type}=${credential.inputValue}`,
       }),
     }),
     reissueToken: builder.query<string, void>({

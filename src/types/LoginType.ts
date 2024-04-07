@@ -1,5 +1,5 @@
 interface AuthStateType {
-  user: string | undefined;
+  userName: string | undefined;
   accessToken: string | undefined;
 }
 
@@ -7,6 +7,7 @@ interface LoginFormType {
   email: string;
   password: string;
   birthDate?: string;
+  name?: string;
 }
 
 interface OauthLogin {

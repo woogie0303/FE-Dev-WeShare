@@ -39,7 +39,10 @@ export default function SignIn({ setShowSignIn }: Props) {
       }
 
       dispatch(
-        setCredentials({ user: res.user, accessToken: res.accessToken }),
+        setCredentials({
+          userName: res.userName,
+          accessToken: res.accessToken,
+        }),
       );
     } catch (err) {
       if (isFetchBaseQueryError(err)) {
