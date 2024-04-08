@@ -28,7 +28,12 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     checkEmail: builder.query<void, DoubleCheck>({
       query: (credential) => ({
-        url: `/api/v1/auth/signup/duplicate-${credential.type}?${credential.type}=${credential.inputValue}`,
+        url: `/api/v1/auth/signup/duplicate-email?${credential.type}=${credential.inputValue}`,
+      }),
+    }),
+    checkUserName: builder.query<void, DoubleCheck>({
+      query: (credential) => ({
+        url: `/api/v1/auth/signup/duplicate-name?${credential.type}=${credential.inputValue}`,
       }),
     }),
     reissueToken: builder.query<string, void>({
@@ -43,10 +48,11 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credential },
       }),
     }),
-    withdrawUser: builder.mutation({
-      query: () => ({
+    withdrawUser: builder.mutation<void, Pick<LoginFormType, 'password'>>({
+      query: (credential) => ({
         url: '/api/v1/me',
         method: 'DELETE',
+        body: { ...credential },
       }),
     }),
   }),
@@ -58,5 +64,6 @@ export const {
   useLazyCheckEmailQuery,
   useLazyReissueTokenQuery,
   useChangePasswordMutation,
+  useLazyCheckUserNameQuery,
   useWithdrawUserMutation,
 } = authApiSlice;

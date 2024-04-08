@@ -14,14 +14,10 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal: (
-      state,
-      action: PayloadAction<Pick<ModalType, 'id' | 'meta'>>,
-    ) => {
+    openModal: (state, action: PayloadAction<Pick<ModalType, 'id'>>) => {
       state.modals[action.payload.id] = {
         id: action.payload.id,
         open: true,
-        meta: action.payload.meta,
       };
     },
     closeModal: (state, action: PayloadAction<Pick<ModalType, 'id'>>) => {
@@ -33,7 +29,12 @@ const modalSlice = createSlice({
 export const { openModal, closeModal } = modalSlice.actions;
 const getModals = (state: RootState): ModalMapType => state.modal.modals;
 
+export const isModalOpen: (state: RootState, id: string) => boolean = (
+  state,
+  id,
+) => state.modal.modals[id]?.open ?? false;
+
 export const getOpenModals = createSelector(getModals, (modals) =>
-  Object.keys(modals).filter((modalName) => modals[modalName]),
+  Object.keys(modals).filter((modalName) => modals[modalName].open),
 );
 export default modalSlice.reducer;

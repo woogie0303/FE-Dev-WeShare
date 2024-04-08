@@ -11,6 +11,7 @@ import {
 import ErrorMessage from '@/Error/ErrorMessage';
 import {
   useLazyCheckEmailQuery,
+  useLazyCheckUserNameQuery,
   useSignUpMutation,
 } from '@/store/auth/authApi.slice';
 
@@ -46,6 +47,7 @@ export default function SignUp({ setShowSignIn }: Props) {
   const [userNameDoubleCheckErrMsg, setUserNameDoubleCheckErrMsg] =
     useState<string>('');
   const [lazyCheckEmail] = useLazyCheckEmailQuery();
+  const [lazyCheckUserName] = useLazyCheckUserNameQuery();
   const emailInput = useInput('email');
   const userNameInput = useInput('userName');
   const passwordInput = useInput('password');
@@ -75,8 +77,8 @@ export default function SignUp({ setShowSignIn }: Props) {
       }
 
       if (doubleCheckInput.type === 'userName') {
-        const res = await lazyCheckEmail({
-          type: 'name',
+        const res = await lazyCheckUserName({
+          type: 'userName',
           inputValue: doubleCheckInput.inputValue,
         });
         if (res.error) {
@@ -125,7 +127,7 @@ export default function SignUp({ setShowSignIn }: Props) {
         email: emailInput.inputValue,
         password: passwordInput.inputValue,
         birthDate: birthInput.inputValue,
-        name: userNameInput.inputValue,
+        userName: userNameInput.inputValue,
       });
     } catch (err) {
       throw new Error('다시 시도해주세요');

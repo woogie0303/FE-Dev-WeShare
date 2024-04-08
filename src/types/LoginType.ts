@@ -7,7 +7,7 @@ interface LoginFormType {
   email: string;
   password: string;
   birthDate?: string;
-  name?: string;
+  userName?: string;
 }
 
 interface OauthLogin {
