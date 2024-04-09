@@ -3,45 +3,59 @@
 import { logout, selectToken } from '@/store/auth/auth.slice';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
+import Category from '../Category';
 
 export default function Navbar() {
   const accessToken = useAppSelector(selectToken);
   const dispatch = useAppDispatch();
+  const [openFilter, setOpenFilter] = useState(true);
 
   return (
-    <nav className="fixed w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav z-30">
-      <Link href="/" className="text-3xl font-extrabold">
-        weShare
-      </Link>
-      <div className="flex items-center text font-bold gap-6">
-        <Link href="/travelEdit" className="">
-          여행 쓰기
+    <div className="fixed w-full z-30">
+      <nav className="w-full bg-white flex items-center justify-between px-6 py-4 text-blue-600 shadow-nav ">
+        <Link href="/" className="text-3xl font-extrabold">
+          weShare
         </Link>
-        <Link href="/myPage" className="">
-          마이페이지
-        </Link>
-        {accessToken ? (
+        <div className="flex items-center text font-bold gap-6">
           <button
             type="button"
             className="bg-blue-100 px-4  py-2  rounded align-bottom"
             onClick={() => {
-              dispatch(logout());
+              setOpenFilter((pre) => !pre);
             }}
           >
-            로그아웃
+            필터
           </button>
-        ) : (
-          <Link href="/login" scroll={false}>
+          <Link href="/travelEdit" className="">
+            여행 쓰기
+          </Link>
+          <Link href="/myPage" className="">
+            마이페이지
+          </Link>
+          {accessToken ? (
             <button
               type="button"
               className="bg-blue-100 px-4  py-2  rounded align-bottom"
+              onClick={() => {
+                dispatch(logout());
+              }}
             >
-              로그인
+              로그아웃
             </button>
-          </Link>
-        )}
-      </div>
-    </nav>
+          ) : (
+            <Link href="/login" scroll={false}>
+              <button
+                type="button"
+                className="bg-blue-100 px-4  py-2  rounded align-bottom"
+              >
+                로그인
+              </button>
+            </Link>
+          )}
+        </div>
+      </nav>
+      {openFilter && <Category />}
+    </div>
   );
 }
