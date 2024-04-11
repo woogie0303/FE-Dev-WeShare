@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-
-type Props = {};
+type Props = {
+  activeLocal: string | undefined;
+  setIsActiveLocal: React.Dispatch<React.SetStateAction<string>>;
+};
 
 const metroPolitanNames = [
   '서울',
@@ -12,9 +13,10 @@ const metroPolitanNames = [
   '제주도',
 ];
 
-export default function CategoryDestination({}: Props) {
-  const [activeLocal, setIsActiveLocal] = useState('');
-
+export default function CategoryDestination({
+  activeLocal,
+  setIsActiveLocal,
+}: Props) {
   return (
     <div>
       <p className="mb-2 text-xl font-bold">지역</p>

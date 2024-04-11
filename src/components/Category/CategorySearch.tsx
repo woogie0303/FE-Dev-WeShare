@@ -1,9 +1,7 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import React from 'react';
 
-type Props = {};
-
-export default function CategorySearch({}: Props) {
+export default function CategorySearch() {
   return (
     <div className="mb-5 text-xl font-bold">
       <label htmlFor="searchTitle">제목 검색</label>

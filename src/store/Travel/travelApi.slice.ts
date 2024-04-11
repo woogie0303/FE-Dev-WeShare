@@ -6,7 +6,12 @@ import {
   TravelPostType,
 } from '@/types/TravelType';
 import { apiSlice } from '../api/apiSlice';
-import { addTravelPost } from './travelPost.slice';
+
+type TravelPostParams = {
+  destination?: string;
+  priceRange?: { startPrice: string; endPrice: string };
+  currentPageNum: number;
+};
 
 const travelApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,22 +20,15 @@ const travelApiSlice = apiSlice.injectEndpoints({
         PageableResponseType<TravelPostType>,
         'content' | 'last' | 'pageable' | 'totalPages'
       >,
-      number
+      TravelPostParams
     >({
-      query: (page) => ({
-        url: `/api/v1/trip/schedules?page=${page}&size=12`,
+      query: (travelPost) => ({
+        url: `/api/v1/trip/schedules?page=${travelPost.currentPageNum}&size=12${travelPost.destination?.length ? `&destination=${travelPost.destination}` : ''} ${travelPost.priceRange?.startPrice.length || travelPost.priceRange?.endPrice?.length ? `&expense=${travelPost.priceRange.startPrice}~${travelPost.priceRange.endPrice}` : ''}`,
       }),
       transformResponse: (data: PageableResponseType<TravelPostType>) => {
         const { content, last, pageable, totalPages } = data;
 
         return { content, last, pageable, totalPages };
-      },
-      async onQueryStarted(page, { queryFulfilled, dispatch }) {
-        const data = await queryFulfilled;
-
-        if (data && page === 0) {
-          dispatch(addTravelPost(data.data.content));
-        }
       },
     }),
     editTravelPost: builder.mutation<

@@ -17,11 +17,11 @@ export default forwardRef<HTMLDivElement, Props>(function TravelPost(
   ref,
 ) {
   return (
-    <Link href={`/travelPostDetail/${post.scheduleId}`}>
-      <div
-        ref={ref}
-        className="justify-self-center w-[80%] flex flex-col justify-between py-[1rem]"
-      >
+    <Link
+      href={`/travelPostDetail/${post.scheduleId}`}
+      className="flex justify-center"
+    >
+      <div ref={ref} className=" w-[80%] flex flex-col  py-[1rem]">
         <div className="h-[15rem] cursor-pointer rounded-[10rem] mb-4 relative ">
           <Image
             src="https://media.istockphoto.com/id/1137568153/photo/cherry-blossoms-in-spring-seoul-in-korea.jpg?s=612x612&w=0&k=20&c=SP8py_0WQrn4mMFdrd0bvk7-MfRWxJl6C3AsHxJq8ck="
