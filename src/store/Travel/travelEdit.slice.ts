@@ -15,21 +15,25 @@ type TravelDateRangeType = Pick<
 >;
 
 type TravelEditSliceState = {
+  scheduleId: number | undefined;
   title: string;
   destination: string;
   travelDateRange: TravelDateRangeType;
-  travelSchedules: DayDetailType<PlaceItemType>[];
+  dayDetail: DayDetailType<PlaceItemType>[];
   activeTravelSchedule: DayDetailType<PlaceItemType>;
   editListItem: PlaceItemType | undefined;
+  compareDayDetail: DayDetailType<PlaceItemType>[];
 };
 
 const initialState: TravelEditSliceState = {
+  scheduleId: undefined,
   title: '',
   destination: '',
   travelDateRange: { startDate: '', endDate: '' },
-  travelSchedules: [],
+  dayDetail: [],
   activeTravelSchedule: { travelDate: '', places: [] },
   editListItem: undefined,
+  compareDayDetail: [],
 };
 
 const travelEditSlice = createSlice({
@@ -54,15 +58,15 @@ const travelEditSlice = createSlice({
         return acc;
       }, []);
 
-      state.travelSchedules = dateRange;
+      state.dayDetail = dateRange;
     },
     resetTravelSchedules: (state) => {
-      state.travelSchedules = [];
+      state.dayDetail = [];
       state.activeTravelSchedule = { travelDate: '', places: [] };
       state.travelDateRange = { startDate: '', endDate: '' };
     },
     setActiveTravelSchedule: (state, action: PayloadAction<string>) => {
-      const travelSchedule = state.travelSchedules.find(
+      const travelSchedule = state.dayDetail.find(
         (visitDates) => visitDates.travelDate === action.payload,
       );
       if (travelSchedule) {
@@ -70,7 +74,7 @@ const travelEditSlice = createSlice({
       }
     },
     removeActiveTravelItem: (state, action: PayloadAction<PlaceItemType>) => {
-      const findActiveScheduleIndex = state.travelSchedules.findIndex(
+      const findActiveScheduleIndex = state.dayDetail.findIndex(
         (travelSchedule) =>
           travelSchedule.travelDate === state.activeTravelSchedule.travelDate,
       );
@@ -79,11 +83,10 @@ const travelEditSlice = createSlice({
       );
 
       state.activeTravelSchedule.places = removeActiveSchedule;
-      state.travelSchedules[findActiveScheduleIndex].places =
-        removeActiveSchedule;
+      state.dayDetail[findActiveScheduleIndex].places = removeActiveSchedule;
     },
     addActiveTravelItem: (state, action: PayloadAction<PlaceItemType>) => {
-      const findActiveScheduleIndex = state.travelSchedules.findIndex(
+      const findActiveScheduleIndex = state.dayDetail.findIndex(
         (travelSchedule) =>
           travelSchedule.travelDate === state.activeTravelSchedule.travelDate,
       );
@@ -101,8 +104,7 @@ const travelEditSlice = createSlice({
 
         return totalPreMin - totalCurMin;
       });
-      state.travelSchedules[findActiveScheduleIndex] =
-        state.activeTravelSchedule;
+      state.dayDetail[findActiveScheduleIndex] = state.activeTravelSchedule;
     },
     setTravelTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
@@ -115,6 +117,26 @@ const travelEditSlice = createSlice({
       action: PayloadAction<PlaceItemType | undefined>,
     ) => {
       state.editListItem = action.payload;
+    },
+    setEditAllItem: (
+      state,
+      action: PayloadAction<SchedulesType<DayDetailType<PlaceItemType>>>,
+    ) => {
+      state.scheduleId = action.payload.scheduleId;
+      state.title = action.payload.title;
+      state.destination = action.payload.destination;
+      state.travelDateRange = {
+        startDate: action.payload.startDate,
+        endDate: action.payload.endDate,
+      };
+      state.dayDetail = action.payload.dayDetail;
+      state.activeTravelSchedule = { ...action.payload.dayDetail[0] };
+    },
+    setCompareDayDetail: (
+      state,
+      action: PayloadAction<DayDetailType<PlaceItemType>[]>,
+    ) => {
+      state.compareDayDetail = action.payload;
     },
   },
 });
@@ -129,11 +151,12 @@ export const {
   setTravelTitle,
   setTravelDestination,
   changeEditListItem,
+  setEditAllItem,
+  setCompareDayDetail,
 } = travelEditSlice.actions;
 export const selectTravelActiveSchedule = (state: RootState) =>
   state.travelEdit.activeTravelSchedule;
-export const selectTravelSchedules = (state: RootState) =>
-  state.travelEdit.travelSchedules;
+export const selectDayDetail = (state: RootState) => state.travelEdit.dayDetail;
 export const selectTravelEditDateRange = (state: RootState) =>
   state.travelEdit.travelDateRange;
 export const selectTravelEditTitle = (state: RootState) =>
@@ -142,5 +165,9 @@ export const selectTravelEditDestination = (state: RootState) =>
   state.travelEdit.destination;
 export const selectEditListItem = (state: RootState) =>
   state.travelEdit.editListItem;
+export const selectCompareDayDetail = (state: RootState) =>
+  state.travelEdit.compareDayDetail;
+export const selectTravelScheduleId = (state: RootState) =>
+  state.travelEdit.scheduleId;
 
 export default travelEditSlice.reducer;

@@ -11,7 +11,7 @@ interface SchedulesType<T> {
   title: string;
   destination: string;
   dayDetail: T[];
-  id?: number;
+  scheduleId?: number;
   startDate?: string;
   endDate?: string;
   createdDate?: string;
@@ -22,6 +22,7 @@ interface DayDetailType<T> {
   travelDate: string;
   places: T[];
   totalDayPrice?: number;
+  travelDateId?: number;
 }
 
 interface PageableSortType {

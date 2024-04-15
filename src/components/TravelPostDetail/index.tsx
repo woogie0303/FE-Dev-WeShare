@@ -25,8 +25,8 @@ export default function TravelPostDetail({ travelPostDetailData }: Props) {
         <TravelMap />
         <TravelFeedback setCommentIsOpen={setCommentIsOpen} />
       </div>
-      {commentIsOpen && travelPostDetailData.id ? (
-        <CommentList scheduleId={travelPostDetailData.id} />
+      {commentIsOpen && travelPostDetailData.scheduleId ? (
+        <CommentList scheduleId={travelPostDetailData.scheduleId} />
       ) : (
         <TravelPostDetailList
           travelPostDayDetail={travelPostDetailData.dayDetail}

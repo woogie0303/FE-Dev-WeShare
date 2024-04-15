@@ -1,14 +1,21 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 
 import { useAppSelector } from '@/store/hook';
-import { useEditTravelPostMutation } from '@/store/travel/travelApi.slice';
 import {
+  useEditTravelPostMutation,
+  useUpDateTravelPostMutation,
+} from '@/store/travel/travelApi.slice';
+import {
+  selectCompareDayDetail,
   selectTravelEditDateRange,
   selectTravelEditDestination,
   selectTravelEditTitle,
-  selectTravelSchedules,
+  selectDayDetail,
+  selectTravelScheduleId,
 } from '@/store/travel/travelEdit.slice';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { isEqual } from 'lodash';
 import BaseModal from './BaseModal';
 
 type Props = {
@@ -19,18 +26,47 @@ export default function TravelEditFormModal({ onClose }: Props) {
   const travelEditTitle = useAppSelector(selectTravelEditTitle);
   const travelEditDestination = useAppSelector(selectTravelEditDestination);
   const travelEditDateRange = useAppSelector(selectTravelEditDateRange);
-  const travelSchedules = useAppSelector(selectTravelSchedules);
+  const travelScheduleId = useAppSelector(selectTravelScheduleId);
+  const dayDetail = useAppSelector(selectDayDetail);
+  const compareDayDetail = useAppSelector(selectCompareDayDetail);
   const [editTravelPost] = useEditTravelPostMutation();
   const router = useRouter();
+  const params: { travelEditId: string } = useParams();
+  const [updateTravelPost] = useUpDateTravelPostMutation();
 
   const onSubmitHandler = async () => {
-    editTravelPost({
-      title: travelEditTitle,
-      destination: travelEditDestination,
-      dayDetail: travelSchedules,
-      ...travelEditDateRange,
-    });
+    if (params.travelEditId === 'edit') {
+      editTravelPost({
+        title: travelEditTitle,
+        destination: travelEditDestination,
+        dayDetail,
+        ...travelEditDateRange,
+      });
+    } else {
+      const updateDayDetail = dayDetail
+        .filter(
+          (detailItem, index) => !isEqual(detailItem, compareDayDetail[index]),
+        )
+        .map((detailItem) => {
+          const { totalDayPrice, ...others } = detailItem;
+          return { ...others };
+        });
+      updateTravelPost({
+        scheduleId: travelScheduleId,
+        title: travelEditTitle,
+        destination: travelEditDestination,
+        dayDetail: updateDayDetail,
+        ...travelEditDateRange,
+      });
 
+      console.log({
+        scheduleId: travelScheduleId,
+        title: travelEditTitle,
+        destination: travelEditDestination,
+        dayDetail: updateDayDetail,
+        ...travelEditDateRange,
+      });
+    }
     onClose();
     router.push('/');
   };

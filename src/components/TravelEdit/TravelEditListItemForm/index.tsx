@@ -15,10 +15,12 @@ import { timeDefault } from '@/utils/dayjs';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
 type Props = {
-  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowEditListItemForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function TravelEditListItemForm({ setShowEditForm }: Props) {
+export default function TravelEditListItemForm({
+  setShowEditListItemForm,
+}: Props) {
   const editListItem = useAppSelector(selectEditListItem);
   const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
@@ -40,7 +42,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
       };
 
       dispatch(addActiveTravelItem(editItem));
-      setShowEditForm(false);
+      setShowEditListItemForm(false);
       dispatch(resetMarkerLocation());
     }
 
@@ -120,7 +122,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
         </button>
         <button
           onClick={() => {
-            setShowEditForm(false);
+            setShowEditListItemForm(false);
             dispatch(resetMarkerLocation());
             if (editListItem) {
               dispatch(changeEditListItem(undefined));

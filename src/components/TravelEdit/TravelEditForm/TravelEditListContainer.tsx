@@ -12,8 +12,8 @@ import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { setMarkersLocation } from '@/store/travel/travelMap.slice';
 import { PlaceItemType } from '@/types/TravelType';
 import {
+  selectDayDetail,
   selectTravelActiveSchedule,
-  selectTravelSchedules,
   setActiveTravelSchedule,
 } from '@/store/travel/travelEdit.slice';
 
@@ -21,13 +21,15 @@ import { useModal } from '@/hooks/useModal';
 import TravelEditListItem from './TravelEditListItem';
 
 type Props = {
-  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowEditListItemForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function TravelEditListContainer({ setShowEditForm }: Props) {
+export default function TravelEditListContainer({
+  setShowEditListItemForm,
+}: Props) {
   const dispatch = useAppDispatch();
   const activeTravelSchedule = useAppSelector(selectTravelActiveSchedule);
-  const travelSchedules = useAppSelector(selectTravelSchedules);
+  const dayDetail = useAppSelector(selectDayDetail);
   const { onOpen: onOpenSendModal } = useModal('TravelEditFormModal');
   const makeActiveMarkersArr = useCallback(
     (activeVisitPlacesArr: PlaceItemType[]) => {
@@ -51,12 +53,12 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
     dispatch(setMarkersLocation(activeMarkers));
   }, [activeTravelSchedule, dispatch, makeActiveMarkersArr]);
 
-  return travelSchedules.length ? (
+  return dayDetail.length ? (
     <div className="border-third border-2 mt-4 px-2 py-4  h-full">
       {/* Day Nav */}
       <div className="flex justify-between items-center px-2 text-lg mb-8 font-bold">
         <ul className=" w-[20rem] flex text-center space-x-4 whitespace-nowrap overflow-x-auto  scrollbar-hide">
-          {travelSchedules.map((visitDate, i) => (
+          {dayDetail.map((visitDate, i) => (
             <li
               key={visitDate.travelDate}
               className={`${activeTravelSchedule.travelDate === visitDate.travelDate ? 'text-[#508AFF] border-b-[6px]  border-[#508AFF]' : 'text-third'} cursor-pointer py-1`}
@@ -68,7 +70,7 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
         </ul>
         <div className="flex gap-2 text-primary">
           <PlusIcon
-            onClick={() => setShowEditForm(true)}
+            onClick={() => setShowEditListItemForm(true)}
             className="w-24 cursor-pointer"
           />
           <TrashIcon className="cursor-pointer" />
@@ -85,7 +87,7 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
           <TravelEditListItem
             key={visitPlace.title}
             visitPlace={visitPlace}
-            setShowEditForm={setShowEditForm}
+            setShowEditListItemForm={setShowEditListItemForm}
           />
         ))}
       </div>

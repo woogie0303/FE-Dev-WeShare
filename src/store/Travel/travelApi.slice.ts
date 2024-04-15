@@ -52,6 +52,16 @@ const travelApiSlice = apiSlice.injectEndpoints({
         return content;
       },
     }),
+    upDateTravelPost: builder.mutation<
+      void,
+      SchedulesType<DayDetailType<PlaceItemType>>
+    >({
+      query: (editTravelPost) => ({
+        url: '/api/v1/trip/schedules',
+        method: 'PATCH',
+        body: { ...editTravelPost },
+      }),
+    }),
   }),
 });
 
@@ -59,4 +69,5 @@ export const {
   useGetTravelPostQuery,
   useEditTravelPostMutation,
   useGetMyTravelPostQuery,
+  useUpDateTravelPostMutation,
 } = travelApiSlice;

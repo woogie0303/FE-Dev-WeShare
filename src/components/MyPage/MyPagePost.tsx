@@ -37,12 +37,18 @@ export default function MyPagePost({ myPost }: Props) {
         />
         {showOption && (
           <div className="bg-white text-center rounded-md font-medium ">
-            <p className="py-2 hover:bg-secondary hover:text-white rounded-t-md">
+            <Link
+              href={`/travelEdit/${myPost.scheduleId}`}
+              className="py-2 w-full hover:bg-secondary hover:text-white rounded-t-md"
+            >
               수정
-            </p>
-            <p className="py-2 hover:bg-secondary hover:text-white rounded-b-md">
+            </Link>
+            <button
+              type="button"
+              className="py-2 w-full hover:bg-secondary hover:text-white rounded-b-md"
+            >
               삭제
-            </p>
+            </button>
           </div>
         )}
       </div>

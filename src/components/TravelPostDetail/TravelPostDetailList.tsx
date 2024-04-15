@@ -38,10 +38,7 @@ export default function TravelPostDetailList({ travelPostDayDetail }: Props) {
       />
       <div className="h-full overflow-scroll gap-2">
         {activePostDetailItems.map((detailItem) => (
-          <TravelPostDetailItem
-            key={detailItem.expense}
-            detailItem={detailItem}
-          />
+          <TravelPostDetailItem key={detailItem.time} detailItem={detailItem} />
         ))}
       </div>
     </div>

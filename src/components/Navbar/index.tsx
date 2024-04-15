@@ -27,7 +27,7 @@ export default function Navbar() {
           >
             필터
           </button>
-          <Link href="/travelEdit" className="">
+          <Link href="/travelEdit/edit" className="">
             여행 쓰기
           </Link>
           <Link href="/myPage" className="">
