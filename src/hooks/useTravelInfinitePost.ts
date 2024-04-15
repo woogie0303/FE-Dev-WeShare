@@ -34,6 +34,7 @@ export const useTravelInfinitePost = (
     }
   }, [currentPage, data]);
 
+  // 고쳐야 할 부분
   useEffect(() => {
     if (selectedCategory) {
       setCombinedData([]);

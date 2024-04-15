@@ -58,14 +58,6 @@ export default function TravelEditFormModal({ onClose }: Props) {
         dayDetail: updateDayDetail,
         ...travelEditDateRange,
       });
-
-      console.log({
-        scheduleId: travelScheduleId,
-        title: travelEditTitle,
-        destination: travelEditDestination,
-        dayDetail: updateDayDetail,
-        ...travelEditDateRange,
-      });
     }
     onClose();
     router.push('/');

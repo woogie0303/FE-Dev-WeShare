@@ -9,7 +9,7 @@ import Category from '../Category';
 export default function Navbar() {
   const accessToken = useAppSelector(selectToken);
   const dispatch = useAppDispatch();
-  const [openFilter, setOpenFilter] = useState(true);
+  const [openFilter, setOpenFilter] = useState(false);
 
   return (
     <div className="fixed w-full z-30">
@@ -55,7 +55,7 @@ export default function Navbar() {
           )}
         </div>
       </nav>
-      {openFilter && <Category />}
+      {openFilter && <Category setOpenFilter={setOpenFilter} />}
     </div>
   );
 }

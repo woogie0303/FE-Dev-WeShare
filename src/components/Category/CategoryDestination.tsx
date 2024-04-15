@@ -1,6 +1,6 @@
 type Props = {
   activeLocal: string | undefined;
-  setIsActiveLocal: React.Dispatch<React.SetStateAction<string>>;
+  setIsActiveLocal: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 const metroPolitanNames = [
@@ -26,7 +26,11 @@ export default function CategoryDestination({
           className={`${activeLocal === name ? 'bg-primary' : 'bg-secondary'} p-2 text-white mr-2 rounded-xl`}
           key={name}
           onClick={() => {
-            setIsActiveLocal(name);
+            if (activeLocal === name) {
+              setIsActiveLocal(undefined);
+            } else {
+              setIsActiveLocal(name);
+            }
           }}
         >
           {name}

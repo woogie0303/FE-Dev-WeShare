@@ -4,14 +4,18 @@ import { useCategoryContext } from '@/contexts/CategoryProvider';
 import CategoryDestination from './CategoryDestination';
 import CategoryPrice from './CategoryPrice';
 
-export default function Category() {
+type Props = {
+  setOpenFilter: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Category({ setOpenFilter }: Props) {
   const [priceRange, setPriceRange] = useState<
     Pick<SelectedCategoryType, 'priceRange'>
   >({
     priceRange: { startPrice: '', endPrice: '' },
   });
   const { setSelectedCategory } = useCategoryContext();
-  const [activeLocal, setIsActiveLocal] = useState<string>('');
+  const [activeLocal, setIsActiveLocal] = useState<string>();
 
   const categorySubmitHandler = () => {
     setSelectedCategory({
@@ -26,6 +30,7 @@ export default function Category() {
       onSubmit={(e) => {
         e.preventDefault();
         categorySubmitHandler();
+        setOpenFilter(false);
       }}
     >
       <CategoryDestination
@@ -43,6 +48,9 @@ export default function Category() {
         <button
           type="button"
           className="p-2 bg-secondary text-white rounded-md"
+          onClick={() => {
+            setOpenFilter(false);
+          }}
         >
           취소
         </button>
