@@ -2,7 +2,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthStateType } from '@/types/LoginType';
 import type { RootState } from '../store';
 
-const initialState: AuthStateType = {
+type InitialType = {
+  userName: string | undefined;
+  accessToken: string | undefined;
+};
+
+const initialState: InitialType = {
   userName: undefined,
   accessToken: undefined,
 };
