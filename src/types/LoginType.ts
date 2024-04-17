@@ -2,6 +2,10 @@ interface AuthStateType {
   userName: string;
   accessToken: string;
 }
+type DoubleCheckInput = {
+  type: 'email' | 'userName';
+  inputValue: string;
+};
 
 interface LoginFormType {
   email: string;
@@ -21,4 +25,10 @@ interface ChangePasswordType {
   verifyPassword: string;
 }
 
-export type { AuthStateType, LoginFormType, OauthLogin, ChangePasswordType };
+export type {
+  AuthStateType,
+  LoginFormType,
+  OauthLogin,
+  ChangePasswordType,
+  DoubleCheckInput,
+};

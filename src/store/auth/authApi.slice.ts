@@ -2,13 +2,9 @@ import {
   LoginFormType,
   AuthStateType,
   ChangePasswordType,
+  DoubleCheckInput,
 } from '@/types/LoginType';
 import { apiSlice } from '../api/apiSlice';
-
-type DoubleCheck = {
-  type: string;
-  inputValue: string;
-};
 
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -26,14 +22,9 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { ...credential },
       }),
     }),
-    checkEmail: builder.query<void, DoubleCheck>({
+    doubleCheckInput: builder.query<void, DoubleCheckInput>({
       query: (credential) => ({
-        url: `/api/v1/auth/signup/duplicate-email?${credential.type}=${credential.inputValue}`,
-      }),
-    }),
-    checkUserName: builder.query<void, DoubleCheck>({
-      query: (credential) => ({
-        url: `/api/v1/auth/signup/duplicate-name?${credential.type}=${credential.inputValue}`,
+        url: `/api/v1/auth/signup/${credential.type === 'email' ? 'duplicate-email' : 'duplicate-name'}?${credential.type}=${credential.inputValue}`,
       }),
     }),
     reissueToken: builder.query<string, void>({
@@ -61,9 +52,8 @@ const authApiSlice = apiSlice.injectEndpoints({
 export const {
   useSignInMutation,
   useSignUpMutation,
-  useLazyCheckEmailQuery,
   useLazyReissueTokenQuery,
   useChangePasswordMutation,
-  useLazyCheckUserNameQuery,
+  useLazyDoubleCheckInputQuery,
   useWithdrawUserMutation,
 } = authApiSlice;

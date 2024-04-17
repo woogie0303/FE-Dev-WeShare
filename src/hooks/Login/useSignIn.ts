@@ -23,7 +23,7 @@ const useSignIn = () => {
     [dispatch, router],
   );
 
-  const handleSubmit = async (email: string, password: string) => {
+  const handleSignIn = async (email: string, password: string) => {
     const res = await signIn({
       email,
       password,
@@ -33,7 +33,7 @@ const useSignIn = () => {
   };
 
   return {
-    handleSubmit,
+    handleSignIn,
     isError,
   };
 };

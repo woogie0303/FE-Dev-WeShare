@@ -9,7 +9,7 @@ export default forwardRef<HTMLInputElement, Props>(function SignInInput(
   { title, isError },
   ref,
 ) {
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
   const labelClass =
