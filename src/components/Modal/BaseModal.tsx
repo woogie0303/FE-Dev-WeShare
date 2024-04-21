@@ -1,10 +1,9 @@
 import { ReactNode } from 'react';
-import { createPortal } from 'react-dom';
 
 type Props = {
   title: string;
-  onClose?: () => void;
-  onCheck?: () => void;
+  onClose: () => void;
+  onCheck: () => void;
   children: string | ReactNode;
 };
 
@@ -24,7 +23,7 @@ export default function BaseModal({
       onCheck();
     }
   };
-  return createPortal(
+  return (
     <div className="fixed top-2 left-1/2 z-50 translate-x-[-50%] p-5 rounded-xl flex flex-col gap-4 items-center bg-secondary text-white">
       <div className="text-2xl">
         <h1 className="">{title}</h1>
@@ -46,7 +45,6 @@ export default function BaseModal({
           취소
         </button>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
 }
