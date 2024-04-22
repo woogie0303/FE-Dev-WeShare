@@ -1,11 +1,13 @@
 import React from 'react';
-import { SelectedPlaceType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import TravelPlaceAutoItem from './TravelPlaceAutoItem';
 
 type Props = {
   autoCompleteLists: kakao.maps.services.PlacesSearchResult;
   setSelectedPlace: React.Dispatch<
-    React.SetStateAction<SelectedPlaceType | undefined>
+    React.SetStateAction<
+      Pick<PlaceItemType, 'longitude' | 'latitude' | 'title'> | undefined
+    >
   >;
 };
 

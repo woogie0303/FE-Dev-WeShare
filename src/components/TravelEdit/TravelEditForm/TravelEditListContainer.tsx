@@ -10,38 +10,34 @@ import {
 import React, { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { setMarkersLocation } from '@/store/travel/travelMap.slice';
-import { EditListItemType, MapMarkerType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import {
+  selectDayDetail,
   selectTravelActiveSchedule,
-  selectTravelEditDateRange,
-  selectTravelEditDestination,
-  selectTravelEditTitle,
-  selectTravelSchedules,
   setActiveTravelSchedule,
 } from '@/store/travel/travelEdit.slice';
-import { useEditTravelPostMutation } from '@/store/travel/travelApi.slice';
+
+import { useModal } from '@/hooks/useModal';
 import TravelEditListItem from './TravelEditListItem';
 
 type Props = {
-  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowEditListItemForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function TravelEditListContainer({ setShowEditForm }: Props) {
-  const activeTravelSchedule = useAppSelector(selectTravelActiveSchedule);
-  const travelSchedules = useAppSelector(selectTravelSchedules);
-  const travelEditTitle = useAppSelector(selectTravelEditTitle);
-  const travelEditDestination = useAppSelector(selectTravelEditDestination);
-  const travelEditDateRange = useAppSelector(selectTravelEditDateRange);
-  const [editTravelPost] = useEditTravelPostMutation();
+export default function TravelEditListContainer({
+  setShowEditListItemForm,
+}: Props) {
   const dispatch = useAppDispatch();
+  const activeTravelSchedule = useAppSelector(selectTravelActiveSchedule);
+  const dayDetail = useAppSelector(selectDayDetail);
+  const { onOpen: onOpenSendModal } = useModal('TravelEditFormModal');
   const makeActiveMarkersArr = useCallback(
-    (activeVisitPlacesArr: EditListItemType[]) => {
-      const activeMarkers: MapMarkerType[] = activeVisitPlacesArr.map(
-        (activeVisitPlace) => ({
+    (activeVisitPlacesArr: PlaceItemType[]) => {
+      const activeMarkers: Pick<PlaceItemType, 'latitude' | 'longitude'>[] =
+        activeVisitPlacesArr.map((activeVisitPlace) => ({
           latitude: activeVisitPlace.latitude,
           longitude: activeVisitPlace.longitude,
-        }),
-      );
+        }));
 
       return activeMarkers;
     },
@@ -52,19 +48,17 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
   };
 
   useEffect(() => {
-    const activeMarkers = makeActiveMarkersArr(
-      activeTravelSchedule.visitPlaces,
-    );
+    const activeMarkers = makeActiveMarkersArr(activeTravelSchedule.places);
 
     dispatch(setMarkersLocation(activeMarkers));
   }, [activeTravelSchedule, dispatch, makeActiveMarkersArr]);
 
-  return travelSchedules.length ? (
+  return dayDetail.length ? (
     <div className="border-third border-2 mt-4 px-2 py-4  h-full">
       {/* Day Nav */}
       <div className="flex justify-between items-center px-2 text-lg mb-8 font-bold">
         <ul className=" w-[20rem] flex text-center space-x-4 whitespace-nowrap overflow-x-auto  scrollbar-hide">
-          {travelSchedules.map((visitDate, i) => (
+          {dayDetail.map((visitDate, i) => (
             <li
               key={visitDate.travelDate}
               className={`${activeTravelSchedule.travelDate === visitDate.travelDate ? 'text-[#508AFF] border-b-[6px]  border-[#508AFF]' : 'text-third'} cursor-pointer py-1`}
@@ -76,34 +70,26 @@ export default function TravelEditListContainer({ setShowEditForm }: Props) {
         </ul>
         <div className="flex gap-2 text-primary">
           <PlusIcon
-            onClick={() => setShowEditForm(true)}
+            onClick={() => setShowEditListItemForm(true)}
             className="w-24 cursor-pointer"
           />
           <TrashIcon className="cursor-pointer" />
           <BookmarkSquareIcon className="cursor-pointer" />
           <PaperAirplaneIcon
             className="cursor-pointer"
-            onClick={() => {
-              editTravelPost({
-                title: travelEditTitle,
-                destination: travelEditDestination,
-                visitDates: travelSchedules,
-                ...travelEditDateRange,
-              }).unwrap();
-            }}
+            onClick={onOpenSendModal}
           />
         </div>
       </div>
       {/* Day Travel Edit ListItem */}
       <div className="h-[25rem] overflow-scroll">
-        {activeTravelSchedule.visitPlaces &&
-          activeTravelSchedule.visitPlaces.map((visitPlace) => (
-            <TravelEditListItem
-              key={visitPlace.title}
-              visitPlace={visitPlace}
-              setShowEditForm={setShowEditForm}
-            />
-          ))}
+        {activeTravelSchedule.places.map((visitPlace) => (
+          <TravelEditListItem
+            key={visitPlace.title}
+            visitPlace={visitPlace}
+            setShowEditListItemForm={setShowEditListItemForm}
+          />
+        ))}
       </div>
     </div>
   ) : (

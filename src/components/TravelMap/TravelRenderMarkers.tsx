@@ -3,14 +3,14 @@ import { selectMapMarker } from '@/store/travel/travelMap.slice';
 import { useAppSelector } from '@/store/hook';
 import Svg from '@/assets/Mapmarker.svg';
 import React, { useEffect, useState } from 'react';
-import { MapMarkerType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 
 type Props = {
   kakaoMap: kakao.maps.Map;
 };
 
 const makeMarker = (
-  previewMarkerLocation: MapMarkerType,
+  previewMarkerLocation: Pick<PlaceItemType, 'latitude' | 'longitude'>,
 ): kakao.maps.Marker => {
   const previewMarkerPosition = new kakao.maps.LatLng(
     previewMarkerLocation.latitude,

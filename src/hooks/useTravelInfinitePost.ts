@@ -1,10 +1,5 @@
-import { useAppDispatch } from '@/store/hook';
-import { store } from '@/store/store';
 import { useGetTravelPostQuery } from '@/store/travel/travelApi.slice';
-import {
-  addTravelPost,
-  travelPostSelector,
-} from '@/store/travel/travelPost.slice';
+import { SelectedCategoryType } from '@/types/CategoryType';
 import { TravelPostType } from '@/types/TravelType';
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,28 +7,40 @@ const isNoEmptyArray = (array: TravelPostType[]) => {
   return !!(array && array.length && array.length > 0);
 };
 
-export const useTravelInfinitePost = () => {
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const dispatch = useAppDispatch();
-  const { data } = useGetTravelPostQuery(currentPage);
-  const travelPostData = travelPostSelector.selectAll(store.getState());
-  const observerElement = useRef<HTMLDivElement>(null);
+export const useTravelInfinitePost = (
+  selectedCategory: SelectedCategoryType | undefined,
+) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [combinedData, setCombinedData] = useState<TravelPostType[]>([]);
+  const { data } = useGetTravelPostQuery({
+    currentPageNum: currentPage,
+    ...selectedCategory,
+  });
   const fetchNextPage = () => {
-    if (
-      data &&
-      currentPage <= data.totalPages &&
-      data.pageable.pageNumber === currentPage
-    ) {
+    if (!data?.last && currentPage === data?.pageable.pageNumber) {
       setCurrentPage((pre) => pre + 1);
     }
   };
 
+  const observerElement = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    if (!data) return;
-    if (isNoEmptyArray(data.content)) {
-      dispatch(addTravelPost(data.content));
+    if (data && isNoEmptyArray(data.content)) {
+      if (data.pageable.pageNumber === 0) {
+        setCombinedData(data.content);
+      } else if (currentPage === data.pageable.pageNumber) {
+        setCombinedData((pre) => [...pre, ...data.content]);
+      }
     }
-  }, [data, dispatch]);
+  }, [currentPage, data]);
+
+  // 고쳐야 할 부분
+  useEffect(() => {
+    if (selectedCategory) {
+      setCombinedData([]);
+      setCurrentPage(0);
+    }
+  }, [selectedCategory]);
 
   useEffect(() => {
     const handleObserver: IntersectionObserverCallback = (entires) => {
@@ -57,5 +64,5 @@ export const useTravelInfinitePost = () => {
     };
   });
 
-  return { travelPostData, observerElement };
+  return { combinedData, observerElement };
 };

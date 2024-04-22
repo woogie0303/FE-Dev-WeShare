@@ -4,18 +4,18 @@ import {
   removeActiveTravelItem,
 } from '@/store/travel/travelEdit.slice';
 import { useAppDispatch } from '@/store/hook';
-import { EditListItemType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import Image from 'next/image';
 import React from 'react';
 
 type Props = {
-  visitPlace: EditListItemType;
-  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+  visitPlace: PlaceItemType;
+  setShowEditListItemForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function TravelEditListItem({
   visitPlace,
-  setShowEditForm,
+  setShowEditListItemForm,
 }: Props) {
   const dispatch = useAppDispatch();
   const handleRemoveTravelEditItem = () => {
@@ -47,7 +47,7 @@ export default function TravelEditListItem({
               className="px-2 py-1 bg-gray-300 rounded-md mr-2"
               onClick={() => {
                 dispatch(changeEditListItem(visitPlace));
-                setShowEditForm(true);
+                setShowEditListItemForm(true);
               }}
             >
               수정

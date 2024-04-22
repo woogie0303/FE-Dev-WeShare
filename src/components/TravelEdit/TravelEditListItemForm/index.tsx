@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { TimePicker } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
 import { resetMarkerLocation } from '@/store/travel/travelMap.slice';
-import { EditListItemType, SelectedPlaceType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import {
   addActiveTravelItem,
   changeEditListItem,
@@ -15,14 +15,16 @@ import { timeDefault } from '@/utils/dayjs';
 import TravelPlaceSearch from './TravelPlaceSearch';
 
 type Props = {
-  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowEditListItemForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function TravelEditListItemForm({ setShowEditForm }: Props) {
+export default function TravelEditListItemForm({
+  setShowEditListItemForm,
+}: Props) {
   const editListItem = useAppSelector(selectEditListItem);
   const [time, setTime] = useState<string>();
   const [selectedPlace, setSelectedPlace] = useState<
-    SelectedPlaceType | undefined
+    Pick<PlaceItemType, 'title' | 'latitude' | 'longitude'> | undefined
   >();
 
   const [expense, setExpense] = useState<number>(0);
@@ -30,7 +32,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
   const dispatch = useAppDispatch();
   const sendTravelEditListItem = () => {
     if (selectedPlace && time && expense && memo) {
-      const editItem: EditListItemType = {
+      const editItem: PlaceItemType = {
         title: selectedPlace.title,
         latitude: selectedPlace.latitude,
         longitude: selectedPlace.longitude,
@@ -40,7 +42,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
       };
 
       dispatch(addActiveTravelItem(editItem));
-      setShowEditForm(false);
+      setShowEditListItemForm(false);
       dispatch(resetMarkerLocation());
     }
 
@@ -120,7 +122,7 @@ export default function TravelEditListItemForm({ setShowEditForm }: Props) {
         </button>
         <button
           onClick={() => {
-            setShowEditForm(false);
+            setShowEditListItemForm(false);
             dispatch(resetMarkerLocation());
             if (editListItem) {
               dispatch(changeEditListItem(undefined));

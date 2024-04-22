@@ -1,11 +1,11 @@
 'use client';
 
-import { EditListItemType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import Image from 'next/image';
 import React from 'react';
 
 type Props = {
-  detailItem: EditListItemType;
+  detailItem: PlaceItemType;
 };
 
 export default function TravelPostDetailItem({ detailItem }: Props) {

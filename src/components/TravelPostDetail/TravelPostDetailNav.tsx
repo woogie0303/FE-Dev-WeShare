@@ -4,17 +4,14 @@
 'use client';
 
 import { useCurrentPageSection } from '@/hooks/useCurrentPageSection';
-import {
-  EditListItemType,
-  TravelPostDetailDayDetailType,
-} from '@/types/TravelType';
+import { PlaceItemType, DayDetailType } from '@/types/TravelType';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { useEffect } from 'react';
 
 type Props = {
-  dayDetail: TravelPostDetailDayDetailType[];
+  dayDetail: DayDetailType<PlaceItemType>[];
   setActivePostDetailItems: React.Dispatch<
-    React.SetStateAction<EditListItemType[]>
+    React.SetStateAction<PlaceItemType[]>
   >;
 };
 
@@ -54,7 +51,7 @@ export default function TravelPostDetailNav({
             >
               <p className="">{currentDay.numDate}일 차</p>
               <p className="text-xs">
-                {currentDay.totalDayPrice.toLocaleString()} 원
+                {currentDay.totalDayPrice?.toLocaleString()} 원
               </p>
             </li>
           );

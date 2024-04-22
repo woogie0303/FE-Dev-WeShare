@@ -1,10 +1,10 @@
-import { TravelPostDetailDayDetailType } from '@/types/TravelType';
+import { DayDetailType, PlaceItemType } from '@/types/TravelType';
 import { useMemo, useState } from 'react';
 
 const MAX_PAGE = 3;
 
 export const useCurrentPageSection = (
-  pageDataArr: TravelPostDetailDayDetailType[],
+  pageDataArr: DayDetailType<PlaceItemType>[],
 ) => {
   const newDayDetail = useMemo(
     () => pageDataArr.map((data, index) => ({ ...data, numDate: index + 1 })),

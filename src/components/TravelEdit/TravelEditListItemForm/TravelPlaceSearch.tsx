@@ -5,13 +5,17 @@ import React, { useEffect, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { resetMarkerLocation } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
-import { SelectedPlaceType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import TravelPlaceAutoList from './TravelPlaceAutoList';
 
 type Props = {
-  selectedPlace: SelectedPlaceType | undefined;
+  selectedPlace:
+    | Pick<PlaceItemType, 'title' | 'latitude' | 'longitude'>
+    | undefined;
   setSelectedPlace: React.Dispatch<
-    React.SetStateAction<SelectedPlaceType | undefined>
+    React.SetStateAction<
+      Pick<PlaceItemType, 'title' | 'latitude' | 'longitude'> | undefined
+    >
   >;
 };
 

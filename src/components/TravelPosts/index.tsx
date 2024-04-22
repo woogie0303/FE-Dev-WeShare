@@ -2,19 +2,23 @@
 
 import React from 'react';
 import { useTravelInfinitePost } from '@/hooks/useTravelInfinitePost';
+import { useCategoryContext } from '@/contexts/CategoryProvider';
 import TravelPost from './TravelPost';
 
 export default function TravelPosts() {
-  const { travelPostData, observerElement } = useTravelInfinitePost();
+  const { selectedCategory } = useCategoryContext();
+
+  const { combinedData, observerElement } =
+    useTravelInfinitePost(selectedCategory);
 
   return (
-    <div className="px-20 flex flex-col justify-center items-center">
+    <div className="px-20 flex flex-col justify-center">
       <div className="grid grid-cols-4 gap-y-4  w-full  mt-[5rem]">
-        {travelPostData.map((post, index) => (
+        {combinedData.map((post, index) => (
           <TravelPost
             key={post.scheduleId}
             post={post}
-            ref={travelPostData.length - 1 === index ? observerElement : null}
+            ref={combinedData.length - 1 === index ? observerElement : null}
           />
         ))}
       </div>

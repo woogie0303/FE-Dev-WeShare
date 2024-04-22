@@ -1,4 +1,4 @@
-import LoginForm from '@/components/LoginForm/LoginForm';
+import LoginForm from '@/components/LoginForm';
 import ModalForm from '@/components/Modal/ModalForm';
 import React from 'react';
 

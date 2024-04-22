@@ -1,20 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import TravelEditHeader from './TravelEditHeader';
 import TravelEditCalendar from './TravelEditCalendar';
 import TravelEditListContainer from './TravelEditListContainer';
+import TravelEditListItemForm from '../TravelEditListItemForm';
 
-type Props = {
-  setShowEditForm: React.Dispatch<React.SetStateAction<boolean>>;
-};
+export default function TravelEditForm() {
+  const [showEditListItemForm, setShowEditListItemForm] = useState(false);
 
-export default function TravelEditForm({ setShowEditForm }: Props) {
-  return (
+  return showEditListItemForm ? (
+    <TravelEditListItemForm setShowEditListItemForm={setShowEditListItemForm} />
+  ) : (
     <form className="basis-1/2 flex flex-col h-full ">
       <TravelEditHeader />
       <TravelEditCalendar />
-      <TravelEditListContainer setShowEditForm={setShowEditForm} />
+      <TravelEditListContainer
+        setShowEditListItemForm={setShowEditListItemForm}
+      />
     </form>
   );
 }

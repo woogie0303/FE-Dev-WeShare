@@ -3,13 +3,15 @@
 
 import { setPreviewMarkerLocation } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
-import { SelectedPlaceType } from '@/types/TravelType';
+import { PlaceItemType } from '@/types/TravelType';
 import React from 'react';
 
 type Props = {
   autoList: kakao.maps.services.PlacesSearchResultItem;
   setSelectedPlace: React.Dispatch<
-    React.SetStateAction<SelectedPlaceType | undefined>
+    React.SetStateAction<
+      Pick<PlaceItemType, 'title' | 'latitude' | 'longitude'> | undefined
+    >
   >;
 };
 

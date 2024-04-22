@@ -13,7 +13,6 @@ import React from 'react';
 export default function TravelEditCalendar() {
   const { startDate, endDate } = useAppSelector(selectTravelEditDateRange);
   const dispatch = useAppDispatch();
-
   const handleDateRange = (values: DateRangeType) => {
     const startDateToString = values[0]!.format('YYYY-MM-DD');
     const endDateToString = values[1]!.format('YYYY-MM-DD');
@@ -25,7 +24,7 @@ export default function TravelEditCalendar() {
     );
   };
 
-  return startDate.length && endDate.length ? (
+  return startDate?.length && endDate?.length ? (
     <div className="flex text-[#508AFF] font-bold items-center justify-center bg-third w-max gap-2  px-4 py-1 rounded-xl cursor-default ">
       <p>{startDate}</p>
       <p className="">~</p>
@@ -43,7 +42,9 @@ export default function TravelEditCalendar() {
       size="middle"
       className="w-[20rem]"
       onChange={(values) => {
-        handleDateRange(values);
+        if (values) {
+          handleDateRange(values);
+        }
       }}
     />
   );

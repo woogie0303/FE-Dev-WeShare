@@ -2,6 +2,8 @@ import ReduxWrapper from '@/store/ReduxWrapper';
 import './globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import Navbar from '@/components/Navbar';
+import ModalProvider from '@/components/Modal/ModalProvider';
+import CategoryContextProvider from '@/contexts/CategoryProvider';
 
 const noto = Noto_Sans_KR({
   weight: ['400', '500', '700'],
@@ -19,10 +21,16 @@ export default function RootLayout({
     <ReduxWrapper>
       <html lang="en">
         <body>
-          <Navbar />
-          {/* Layout UI */}
-          <main className={`${noto.className} h-[100vh]`}>{children}</main>
-          {modal}
+          <CategoryContextProvider>
+            <Navbar />
+            {/* Layout UI */}
+            <ModalProvider>
+              <main className={`${noto.className} min-h-[788px] h-screen`}>
+                {children}
+              </main>
+            </ModalProvider>
+            {modal}
+          </CategoryContextProvider>
         </body>
       </html>
     </ReduxWrapper>

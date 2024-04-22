@@ -6,6 +6,8 @@ import React, {
   useRef,
 } from 'react';
 
+type InputType = 'email' | 'password' | 'birth' | 'userName';
+
 interface Input {
   inputValue: string;
   labelClass: string;
@@ -16,13 +18,13 @@ interface Input {
   handleChange: ChangeEventHandler;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   inputRef: React.RefObject<HTMLInputElement>;
+  type: InputType;
 }
-
-type InputType = 'email' | 'password' | 'birth';
 
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 const passwordRegex = /^.{8,12}$/;
 const birthRegex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-([0-2][1-9]|10|20|3[01])$/;
+const userNameRegex = /^.{1,20}$/;
 
 const useInput = (type: InputType): Input => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -65,6 +67,9 @@ const useInput = (type: InputType): Input => {
       case 'birth':
         regexType = birthRegex;
         break;
+      case 'userName':
+        regexType = userNameRegex;
+        break;
       default:
         throw new Error('input 타입을 잘못 설정했습니다');
     }
@@ -91,6 +96,7 @@ const useInput = (type: InputType): Input => {
     handleChange,
     setInputValue,
     inputRef,
+    type,
   };
 };
 
