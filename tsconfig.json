@@ -23,7 +23,7 @@
       "@/*": ["*"]
     },
 
-    "types": ["jest", "node", "kakao.maps.d.ts"]
+    "types": ["node", "kakao.maps.d.ts"]
   },
   "include": [
     "new-types.d.ts",
