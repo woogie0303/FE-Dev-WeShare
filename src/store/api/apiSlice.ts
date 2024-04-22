@@ -35,7 +35,9 @@ const baseQueryWithReauth: BaseQueryFn = async (arg, api, extraOption) => {
       const { userName } = (api.getState() as RootState).auth;
       const { accessToken } = refreshResult.data as AuthStateType;
 
-      api.dispatch(setCredentials({ accessToken, userName }));
+      if (userName) {
+        api.dispatch(setCredentials({ accessToken, userName }));
+      }
       result = await baseQuery(arg, api, extraOption);
     } else {
       await baseQuery(

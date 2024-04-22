@@ -42,7 +42,9 @@ export default function TravelEditCalendar() {
       size="middle"
       className="w-[20rem]"
       onChange={(values) => {
-        handleDateRange(values);
+        if (values) {
+          handleDateRange(values);
+        }
       }}
     />
   );
