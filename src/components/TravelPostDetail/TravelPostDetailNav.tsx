@@ -3,36 +3,26 @@
 
 'use client';
 
-import { useCurrentPageSection } from '@/hooks/useCurrentPageSection';
 import { PlaceItemType, DayDetailType } from '@/types/TravelType';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
-import { useEffect } from 'react';
+
+const MAX_PAGE = 3;
 
 type Props = {
-  dayDetail: DayDetailType<PlaceItemType>[];
-  setActivePostDetailItems: React.Dispatch<
-    React.SetStateAction<PlaceItemType[]>
-  >;
+  currentPageArr: DayDetailType<PlaceItemType>[];
+  currentPage: number;
+  handlePrevPagination: () => void;
+  handleNextPagination: () => void;
+  handleOnClickPagination: (index: number) => void;
 };
 
 export default function TravelPostDetailNav({
-  dayDetail,
-  setActivePostDetailItems,
+  handlePrevPagination,
+  currentPageArr,
+  currentPage,
+  handleNextPagination,
+  handleOnClickPagination,
 }: Props) {
-  const {
-    handleNextPagination,
-    handlePrevPagination,
-    currentPage,
-    currentPageArr,
-    setCurrentPage,
-  } = useCurrentPageSection(dayDetail);
-
-  useEffect(() => {
-    const dayDetailCurrentPage = currentPage - 1;
-
-    setActivePostDetailItems(dayDetail[dayDetailCurrentPage].places);
-  }, [currentPage, dayDetail, setActivePostDetailItems]);
-
   return (
     <div className="flex justify-center items-center mb-6 gap-2 ">
       <ChevronLeftIcon
@@ -40,16 +30,18 @@ export default function TravelPostDetailNav({
         onClick={handlePrevPagination}
       />
       <ul className="flex">
-        {currentPageArr.map((currentDay) => {
+        {currentPageArr.map((currentDay, index) => {
+          const dayNum =
+            Math.floor(currentPage / MAX_PAGE) * MAX_PAGE + index + 1;
           return (
             <li
-              className={`font-bold cursor-pointer py-1 text-center border-b-4 ${currentPage === currentDay.numDate ? 'border-b-[#508AFF] text-[#508AFF]' : 'text-third border-gray-200'} px-3`}
+              className={`font-bold cursor-pointer py-1 text-center border-b-4 ${currentPage === dayNum - 1 ? 'border-b-[#508AFF] text-[#508AFF]' : 'text-third border-gray-200'} px-3`}
               key={`${currentDay.travelDate}`}
               onClick={() => {
-                setCurrentPage(currentDay.numDate);
+                handleOnClickPagination(index);
               }}
             >
-              <p className="">{currentDay.numDate}일 차</p>
+              <p className="">{dayNum}일 차</p>
               <p className="text-xs">
                 {currentDay.totalDayPrice?.toLocaleString()} 원
               </p>

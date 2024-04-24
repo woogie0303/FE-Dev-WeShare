@@ -11,7 +11,7 @@ interface SchedulesType<T> {
   title: string;
   destination: string;
   dayDetail: T[];
-  scheduleId?: number;
+  scheduleId: number;
   startDate?: string;
   endDate?: string;
   createdDate?: string;

@@ -33,7 +33,7 @@ const travelApiSlice = apiSlice.injectEndpoints({
     }),
     editTravelPost: builder.mutation<
       void,
-      SchedulesType<DayDetailType<PlaceItemType>>
+      Omit<SchedulesType<DayDetailType<PlaceItemType>>, 'scheduleId'>
     >({
       query: (editTravelPost) => ({
         url: '/api/v1/trip/schedules',

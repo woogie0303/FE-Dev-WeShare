@@ -1,3 +1,4 @@
+import TravelMap from '@/components/TravelMap';
 import TravelPostDetail from '@/components/TravelPostDetail';
 
 type Params = {
@@ -20,7 +21,13 @@ export default async function Page({ params }: Params) {
 
   return (
     <div className="flex h-full p-10 gap-10 pt-[8rem]">
-      <TravelPostDetail travelPostDetailData={travelPostDetailData.data} />
+      <div className="flex flex-col basis-1/2">
+        <TravelMap />
+      </div>
+      <TravelPostDetail
+        dayDetail={travelPostDetailData.data.dayDetail}
+        scheduleId={travelPostDetailData.data.scheduleId}
+      />
     </div>
   );
 }

@@ -13,7 +13,7 @@ type Props = {
 
 export default function TravelFeedback({ setCommentIsOpen }: Props) {
   return (
-    <div className="flex justify-between items-center font-bold  text-primary mt-5">
+    <div className="flex justify-between items-center font-bold text-primary mt-5">
       <div className="flex">
         <UserIcon className="w-6" />
         <p>강동욱</p>

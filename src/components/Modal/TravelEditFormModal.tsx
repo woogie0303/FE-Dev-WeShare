@@ -14,7 +14,7 @@ import {
   selectDayDetail,
   selectTravelScheduleId,
 } from '@/store/travel/travelEdit.slice';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { isEqual } from 'lodash';
 import BaseModal from './BaseModal';
 
@@ -31,11 +31,11 @@ export default function TravelEditFormModal({ onClose }: Props) {
   const compareDayDetail = useAppSelector(selectCompareDayDetail);
   const [editTravelPost] = useEditTravelPostMutation();
   const router = useRouter();
-  const params: { travelEditId: string } = useParams();
+
   const [updateTravelPost] = useUpDateTravelPostMutation();
 
   const onSubmitHandler = async () => {
-    if (params.travelEditId === 'edit') {
+    if (!travelScheduleId) {
       editTravelPost({
         title: travelEditTitle,
         destination: travelEditDestination,

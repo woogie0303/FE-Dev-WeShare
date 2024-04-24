@@ -8,7 +8,7 @@ type Props = {
 
 export default function CommentItem({ commentItem }: Props) {
   return (
-    <div className="flex items-start bg-white mb-6 p-3 rounded-3xl text-secondary">
+    <div className="flex items-start bg-third mb-6 p-3 rounded-3xl text-secondary">
       <div className="">
         <UserIcon className="w-10 text-primary" />
       </div>

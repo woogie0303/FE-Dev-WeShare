@@ -1,49 +1,49 @@
-import { DayDetailType, PlaceItemType } from '@/types/TravelType';
-import { useMemo, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { isEqual } from 'lodash';
+import { useState } from 'react';
 
 const MAX_PAGE = 3;
 
-export const useCurrentPageSection = (
-  pageDataArr: DayDetailType<PlaceItemType>[],
-) => {
-  const newDayDetail = useMemo(
-    () => pageDataArr.map((data, index) => ({ ...data, numDate: index + 1 })),
-    [pageDataArr],
-  );
-  const [currentPage, setCurrentPage] = useState(1);
+export const useCurrentPageSection = <T>(pageDataArr: T[]) => {
+  const [currentPage, setCurrentPage] = useState(0);
   const [currentPageArr, setCurrentPageArr] = useState(() =>
-    newDayDetail.slice(0, MAX_PAGE),
+    pageDataArr.slice(0, MAX_PAGE),
   );
 
   const handleNextPagination = () => {
-    if (currentPage > pageDataArr.length - 1) return;
+    if (currentPage >= pageDataArr.length - 1) return;
 
     setCurrentPage((pre) => pre + 1);
 
-    if (currentPage % MAX_PAGE === 0) {
+    if (currentPage % MAX_PAGE === MAX_PAGE - 1) {
       setCurrentPageArr(
-        newDayDetail.slice(currentPage, currentPage + MAX_PAGE),
+        pageDataArr.slice(currentPage + 1, currentPage + MAX_PAGE + 1),
       );
     }
   };
 
   const handlePrevPagination = () => {
-    if (currentPage <= 1) return;
+    if (currentPage <= 0) return;
 
     setCurrentPage((pre) => pre - 1);
 
-    if (currentPage % MAX_PAGE === 1) {
-      setCurrentPageArr(
-        newDayDetail.slice(currentPage - MAX_PAGE - 1, currentPage - 1),
-      );
+    if (currentPage % MAX_PAGE === 0) {
+      setCurrentPageArr(pageDataArr.slice(currentPage - MAX_PAGE, currentPage));
     }
+  };
+
+  const handleOnClickPagination = (index: number) => {
+    const activePageNum = pageDataArr.findIndex((data) =>
+      isEqual(data, currentPageArr[index]),
+    );
+    setCurrentPage(activePageNum);
   };
 
   return {
     handleNextPagination,
     handlePrevPagination,
+    handleOnClickPagination,
     currentPage,
     currentPageArr,
-    setCurrentPage,
   };
 };
