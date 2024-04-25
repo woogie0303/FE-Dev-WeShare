@@ -2,8 +2,9 @@ import {
   DayDetailType,
   PageableResponseType,
   PlaceItemType,
-  SchedulesType,
+  PostScheduleType,
   TravelPostType,
+  UpdateScheduleType,
 } from '@/types/TravelType';
 import { apiSlice } from '../api/apiSlice';
 
@@ -33,7 +34,7 @@ const travelApiSlice = apiSlice.injectEndpoints({
     }),
     editTravelPost: builder.mutation<
       void,
-      Omit<SchedulesType<DayDetailType<PlaceItemType>>, 'scheduleId'>
+      PostScheduleType<DayDetailType<PlaceItemType>>
     >({
       query: (editTravelPost) => ({
         url: '/api/v1/trip/schedules',
@@ -54,7 +55,7 @@ const travelApiSlice = apiSlice.injectEndpoints({
     }),
     upDateTravelPost: builder.mutation<
       void,
-      SchedulesType<DayDetailType<PlaceItemType>>
+      UpdateScheduleType<DayDetailType<PlaceItemType>>
     >({
       query: (editTravelPost) => ({
         url: '/api/v1/trip/schedules',

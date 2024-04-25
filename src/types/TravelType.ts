@@ -7,24 +7,30 @@ interface PlaceItemType {
   expense: number;
 }
 
-interface SchedulesType<T> {
-  title: string;
-  destination: string;
-  dayDetail: T[];
+interface SchedulesType<T> extends PostScheduleType<T> {
   scheduleId: number;
-  startDate: string;
-  endDate: string;
   createdDate: string;
   userName: string;
   commentCount: number;
   likeCount: number;
 }
 
+interface PostScheduleType<T> {
+  title: string;
+  destination: string;
+  dayDetail: T[];
+  startDate: string;
+  endDate: string;
+}
+interface UpdateScheduleType<T> extends PostScheduleType<T> {
+  scheduleId: number;
+}
+
 interface DayDetailType<T> {
   travelDate: string;
   places: T[];
-  totalDayPrice: number;
-  travelDateId: number;
+  totalDayPrice?: number;
+  travelDateId?: number;
 }
 
 interface PageableSortType {
@@ -88,4 +94,6 @@ export type {
   TravelPostType,
   TravelCommentType,
   UserActivityType,
+  PostScheduleType,
+  UpdateScheduleType,
 };

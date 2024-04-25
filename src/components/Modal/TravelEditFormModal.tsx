@@ -51,6 +51,7 @@ export default function TravelEditFormModal({ onClose }: Props) {
           const { totalDayPrice, ...others } = detailItem;
           return { ...others };
         });
+
       updateTravelPost({
         scheduleId: travelScheduleId,
         title: travelEditTitle,
