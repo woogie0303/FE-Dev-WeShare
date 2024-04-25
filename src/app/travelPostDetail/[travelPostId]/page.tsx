@@ -1,5 +1,6 @@
 import TravelMap from '@/components/TravelMap';
 import TravelPostDetail from '@/components/TravelPostDetail';
+import { Schedule } from '@/service/api/Schedule';
 
 type Params = {
   params: { travelPostId: string };
@@ -12,8 +13,9 @@ const fetchSchedulePost = async (scheduleId: string) => {
       cache: 'no-store',
     },
   );
+  const data = await travelPostData.json();
 
-  return travelPostData.json();
+  return new Schedule(data);
 };
 
 export default async function Page({ params }: Params) {
@@ -25,8 +27,9 @@ export default async function Page({ params }: Params) {
         <TravelMap />
       </div>
       <TravelPostDetail
-        dayDetail={travelPostDetailData.data.dayDetail}
-        scheduleId={travelPostDetailData.data.scheduleId}
+        dayDetail={travelPostDetailData.DayDetail}
+        scheduleId={travelPostDetailData.ScheduleId}
+        userActivity={travelPostDetailData.UserActivity}
       />
     </div>
   );

@@ -3,7 +3,7 @@
 
 'use client';
 
-import { PlaceItemType, DayDetailType } from '@/types/TravelType';
+import { DayDetailType, PlaceItemType } from '@/types/TravelType';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 
 const MAX_PAGE = 3;
@@ -43,7 +43,7 @@ export default function TravelPostDetailNav({
             >
               <p className="">{dayNum}일 차</p>
               <p className="text-xs">
-                {currentDay.totalDayPrice?.toLocaleString()} 원
+                {currentDay.totalDayPrice.toLocaleString()} 원
               </p>
             </li>
           );

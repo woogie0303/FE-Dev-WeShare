@@ -1,7 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { DayDetailType, PlaceItemType } from '@/types/TravelType';
+
+import {
+  DayDetailType,
+  PlaceItemType,
+  UserActivityType,
+} from '@/types/TravelType';
 import CommentList from '../TravelFeedback/CommentList';
 import TravelPostDetailList from './TravelPostDetailList';
 import TravelFeedback from '../TravelFeedback';
@@ -9,9 +14,14 @@ import TravelFeedback from '../TravelFeedback';
 type Props = {
   scheduleId: number;
   dayDetail: DayDetailType<PlaceItemType>[];
+  userActivity: UserActivityType;
 };
 
-export default function TravelPostDetail({ dayDetail, scheduleId }: Props) {
+export default function TravelPostDetail({
+  dayDetail,
+  scheduleId,
+  userActivity,
+}: Props) {
   const [commentIsOpen, setCommentIsOpen] = useState(false);
 
   return (
@@ -21,7 +31,10 @@ export default function TravelPostDetail({ dayDetail, scheduleId }: Props) {
       ) : (
         <TravelPostDetailList travelPostDayDetail={dayDetail} />
       )}
-      <TravelFeedback setCommentIsOpen={setCommentIsOpen} />
+      <TravelFeedback
+        userActivity={userActivity}
+        setCommentIsOpen={setCommentIsOpen}
+      />
     </div>
   );
 }

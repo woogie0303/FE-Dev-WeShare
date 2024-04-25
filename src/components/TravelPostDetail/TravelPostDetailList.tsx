@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { PlaceItemType, DayDetailType } from '@/types/TravelType';
+import { DayDetailType, PlaceItemType } from '@/types/TravelType';
 import { setMarkersLocation } from '@/store/travel/travelMap.slice';
 import { useAppDispatch } from '@/store/hook';
 import { useCurrentPageSection } from '@/hooks/useCurrentPageSection';

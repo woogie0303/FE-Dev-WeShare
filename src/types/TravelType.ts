@@ -12,17 +12,19 @@ interface SchedulesType<T> {
   destination: string;
   dayDetail: T[];
   scheduleId: number;
-  startDate?: string;
-  endDate?: string;
-  createdDate?: string;
-  userName?: string;
+  startDate: string;
+  endDate: string;
+  createdDate: string;
+  userName: string;
+  commentCount: number;
+  likeCount: number;
 }
 
 interface DayDetailType<T> {
   travelDate: string;
   places: T[];
-  totalDayPrice?: number;
-  travelDateId?: number;
+  totalDayPrice: number;
+  travelDateId: number;
 }
 
 interface PageableSortType {
@@ -72,6 +74,12 @@ interface TravelCommentType {
   scheduleId?: number;
 }
 
+interface UserActivityType {
+  likeCount: number;
+  commentCount: number;
+  userName: string;
+}
+
 export type {
   PlaceItemType,
   SchedulesType,
@@ -79,4 +87,5 @@ export type {
   PageableResponseType,
   TravelPostType,
   TravelCommentType,
+  UserActivityType,
 };
